@@ -1,0 +1,71 @@
+<div class="container-fluid">
+<div class="row align-items-center py-3 px-xl-5">
+    <div class="col-lg-3 d-none d-lg-block">
+        <a href="" class="text-decoration-none">
+            <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Book</h1>
+        </a>
+    </div>
+    <div class="col-lg-6 col-6 text-left">
+        <form action="">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for products">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-transparent text-primary">
+                        <fa-icon [icon]="faSearch"></fa-icon>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-3 col-6 text-right">
+        <a href="" class="btn border">
+            <fa-icon [icon]="faShoppingCart" class="text-primary"></fa-icon>
+            <span class="badge">0</span>
+        </a>
+    </div>
+</div>
+</div>
+
+<div class="container-fluid mb-5 " style="max-height: 65px;">
+    <div class="row border-top px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" (click)="showNavBarVertical()" style="height: 65px; margin-top: -1px; padding: 0 30px;">
+                <div class="flex">
+                    <fa-icon [icon]="faBars" class="text-dark"></fa-icon>
+                <h6 class="m-0">Categories</h6>
+                </div>
+                <fa-icon [icon]="faAngleDown" class="text-dark"></fa-icon>
+            </a>
+            <nav class="collapse  navbar navbar-vertical navbar-light align-items-start p-0 border border-categories border-top-0 border-bottom-0" #navbarVertical>
+                <div class="navbar-nav w-100 overflow-hidden" style="height: 205px">
+                    <a href="" class="nav-item nav-link dropdown-category-item">Science & Technology</a>
+                    <a href="" class="nav-item nav-link dropdown-category-item">Fantasy & Adventure</a>
+                    <a href="" class="nav-item nav-link dropdown-category-item">Biographies & Memoirs</a>
+                    <a href="" class="nav-item nav-link dropdown-category-item">Self-Help</a>
+                    <a href="" class="nav-item nav-link dropdown-category-item">Romance</a>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-9">
+            <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                <a href="" class="text-decoration-none d-block d-lg-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                </a>
+                <button type="button" class="navbar-toggler" (click)="showNavBarCollapse()">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" #navbarCollapse>
+                    <div class="navbar-nav mr-auto py-0">
+                        <a  routerLinkActive="active" class="nav-item nav-link ">Home</a>
+                        <a  routerLinkActive="active" class="nav-item nav-link">Products</a>
+                        <a  routerLink="/contact" routerLinkActive="active" class="nav-item nav-link">Contact</a>
+                        <a  routerLink="/about-us" routerLinkActive="active" class="nav-item nav-link">About</a>
+                    </div>
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="" class="nav-item nav-link login"><fa-icon [icon]="faUser" class="text-primary "></fa-icon>Login</a>
+                        <a href="" class="nav-item nav-link login"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
+                    </div>
+                </div>
+            </nav>
+    </div>
+</div>
