@@ -1,5 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { faUser,faUserPlus,faShoppingCart,faSearch,faAngleDown ,faBars} from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-menu',
@@ -22,7 +24,9 @@ export class MenuComponent {
   navbarCollapse!:ElementRef;
   
 
-  constructor(private renderer2:Renderer2){}
+  constructor(private renderer2:Renderer2,
+    private modalService:NgbModal
+  ){}
 
   showNavBarVertical(){
     let element = this.navBarVertical.nativeElement;
@@ -39,5 +43,12 @@ export class MenuComponent {
       else
         this.renderer2.addClass(element,'show');
   }
-
+  login() {
+    let modalRef = this.modalService.open(LoginComponent, {
+      scrollable: true,
+      centered: true,
+      animation: true,
+      size: 'sm',
+    });
+  }
 }

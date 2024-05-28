@@ -1,14 +1,4 @@
-.inner_page_head{
-    background: var(--secondary);
-    text-align: center;
-    color: #fff;
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
-.inner_page_head h3 {
-    font-size: 42px;
-    font-weight: 800;
-}
+
 .about{
     padding: 50px;
 }

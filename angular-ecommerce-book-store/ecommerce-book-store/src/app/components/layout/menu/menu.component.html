@@ -10,7 +10,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search for products">
                 <div class="input-group-append">
-                    <span class="input-group-text bg-transparent text-primary">
+                    <span class="input-group-text bg-transparent text-primary search">
                         <fa-icon [icon]="faSearch"></fa-icon>
                     </span>
                 </div>
@@ -56,14 +56,14 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" #navbarCollapse>
                     <div class="navbar-nav mr-auto py-0">
-                        <a  routerLinkActive="active" class="nav-item nav-link ">Home</a>
+                        <a  routerLink="/home" routerLinkActive="active" class="nav-item nav-link ">Home</a>
                         <a  routerLinkActive="active" class="nav-item nav-link">Products</a>
                         <a  routerLink="/contact" routerLinkActive="active" class="nav-item nav-link">Contact</a>
                         <a  routerLink="/about-us" routerLinkActive="active" class="nav-item nav-link">About</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="" class="nav-item nav-link login"><fa-icon [icon]="faUser" class="text-primary "></fa-icon>Login</a>
-                        <a href="" class="nav-item nav-link login"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
+                        <a class="nav-item nav-link login" (click)="login()"><fa-icon [icon]="faUser" class="text-primary"></fa-icon>Login</a>
+                        <a class="nav-item nav-link login" routerLink="/register"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
                     </div>
                 </div>
             </nav>

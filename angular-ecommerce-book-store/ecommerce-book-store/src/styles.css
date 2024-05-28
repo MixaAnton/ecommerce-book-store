@@ -5474,15 +5474,16 @@
     pointer-events: auto;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--primary);
     outline: 0;
+    border-radius: 0 !important;
   }
   
   .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1040;
+    z-index: 1 !important;
     width: 100vw;
     height: 100vh;
     background-color: #000;
@@ -9596,4 +9597,16 @@
       transform: translateY(-15px);
     }
   }
+
+.inner_page_head{
+    background: var(--secondary);
+    text-align: center;
+    color: #fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.inner_page_head h3 {
+    font-size: 42px;
+    font-weight: 800;
+}
   

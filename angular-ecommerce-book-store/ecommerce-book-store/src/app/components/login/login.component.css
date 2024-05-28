@@ -1,0 +1,14 @@
+.login-title{
+    text-align: center;
+    padding: 15px;
+    background-color: var(--secondary);
+}
+label{
+    margin-bottom: 0 !important;
+    font-size: 14px !important;
+    color: var(--primary);
+}
+a{
+    color: var(--primary) !important;
+    cursor: pointer !important;
+}
