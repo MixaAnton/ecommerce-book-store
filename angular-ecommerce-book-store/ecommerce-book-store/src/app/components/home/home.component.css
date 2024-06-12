@@ -1,14 +1,87 @@
 img{
     width: 100%;
-    height: 700px;
+    height: 450px;
 }
 ngb-carousel{
-    padding: 50px;
+    padding: 0 50px;
+}
+
+.carousel-caption{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    gap: 20px;
+    font-weight: 600;
+}
+button{
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    border: none !important;
+}
+p{
+    padding: 0 70px;
+}
+h5{
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+.d-flex{
+    gap: 15px;
+}
+fa-icon{
+    font-size: 2.5rem !important;
+}
+.container-fluid{
+    padding: 50px !important
+}
+.d-flex-row{
+    display: flex;
+    gap: 20px;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #6F6F6F;
+    text-align: center;
+    vertical-align: middle;
+    padding:0.75rem 1rem !important;
+    background-color: var(--light);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.btn:hover{
+ background-color: var(--secondary);
 }
 
 @media (max-width:600px) {
 
     img{
-        height: 300px;
+        height: 350px;
+    }
+
+    .carousel-caption{
+        font-size: 1.5rem;
+        gap: 20px;
+        font-weight: 600;
+    }
+    button{
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        border: none !important;
+    }
+    p{
+        padding: 0 20px;
+    }
+    h5{
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    fa-icon{
+        font-size: 2rem !important;
     }
 }

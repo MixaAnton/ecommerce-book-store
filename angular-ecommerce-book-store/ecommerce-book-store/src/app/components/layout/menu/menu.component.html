@@ -1,6 +1,6 @@
 <div class="container-fluid">
 <div class="row align-items-center py-3 px-xl-5">
-    <div class="col-lg-3 d-none d-lg-block">
+    <div class="col-lg-3 d-none d-lg-block" style="padding-left: 0 !important;">
         <a href="" class="text-decoration-none">
             <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Book</h1>
         </a>
@@ -17,7 +17,7 @@
             </div>
         </form>
     </div>
-    <div class="col-lg-3 col-6 text-right">
+    <div class="col-lg-3 col-6 text-right" style="padding-right: 0 !important;">
         <a href="" class="btn border">
             <fa-icon [icon]="faShoppingCart" class="text-primary"></fa-icon>
             <span class="badge">0</span>
@@ -28,7 +28,7 @@
 
 <div class="container-fluid mb-5 " style="max-height: 65px;">
     <div class="row border-top px-xl-5">
-        <div class="col-lg-3 d-none d-lg-block">
+        <div class="col-lg-3 d-none d-lg-block" style="padding-left: 0 !important; z-index: 25;">
             <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" (click)="showNavBarVertical()" style="height: 65px; margin-top: -1px; padding: 0 30px;">
                 <div class="flex">
                     <fa-icon [icon]="faBars" class="text-dark"></fa-icon>
@@ -54,16 +54,16 @@
                 <button type="button" class="navbar-toggler" (click)="showNavBarCollapse()">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-between" #navbarCollapse>
+                <div class="collapse navbar-collapse justify-content-between" #navbarCollapse style="padding-right: 0 !important;">
                     <div class="navbar-nav mr-auto py-0">
                         <a  routerLink="/home" routerLinkActive="active" class="nav-item nav-link ">Home</a>
-                        <a  routerLinkActive="active" class="nav-item nav-link">Products</a>
+                        <a  routerLink="/products" routerLinkActive="active" class="nav-item nav-link">Products</a>
                         <a  routerLink="/contact" routerLinkActive="active" class="nav-item nav-link">Contact</a>
                         <a  routerLink="/about-us" routerLinkActive="active" class="nav-item nav-link">About</a>
                     </div>
-                    <div class="navbar-nav ml-auto py-0">
+                    <div class="navbar-nav ml-auto py-0" >
                         <a class="nav-item nav-link login" (click)="login()"><fa-icon [icon]="faUser" class="text-primary"></fa-icon>Login</a>
-                        <a class="nav-item nav-link login" routerLink="/register"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
+                        <a class="nav-item nav-link login" routerLink="/register" style="padding-right: 0 !important;"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
                     </div>
                 </div>
             </nav>

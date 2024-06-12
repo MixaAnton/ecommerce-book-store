@@ -9609,4 +9609,13 @@
     font-size: 42px;
     font-weight: 800;
 }
-  
+
+.gray-text{
+  color:var(--gray) !important;
+}
+.modal{
+  z-index: 1000 !important;
+}
+.modal-backdrop{
+  z-index: 1000 !important;
+}

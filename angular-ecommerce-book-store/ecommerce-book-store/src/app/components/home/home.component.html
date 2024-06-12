@@ -2,32 +2,70 @@
     <ngb-carousel>
 		<ng-template ngbSlide>
 			<div class="picsum-img-wrapper">
-				<img src="../../../assets/images/book-home-1.jpg" />
+				<img src="../../../assets/images/book-home-1.jpg"  />
 			</div>
 			<div class="carousel-caption">
-				<h3>First slide label</h3>
-				<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+				<p>Dive into the world of books and discover stories that inspire, captivate, and leave you breathless.</p>
+				<button routerLink="/products" class="btn">Shop Now</button>
 			</div>
 		</ng-template>
 		<ng-template ngbSlide>
 			<div class="picsum-img-wrapper">
-				<img src="../../../assets/images/book-home-2.jpg"  />
+				<img src="../../../assets/images/book-home-2.jpg" />
 			</div>
 			<div class="carousel-caption">
-				<h3>Second slide label</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+				<p>Find the perfect read for any occasion – from timeless classics to contemporary bestsellers.</p>
+				<button routerLink="/products" class="btn">Shop Now</button>
 			</div>
 		</ng-template>
         <ng-template ngbSlide>
 			<div class="picsum-img-wrapper">
-				<img src="../../../assets/images/books-home-4.jpg" />
+				<img src="../../../assets/images/books-home-3.jpg" />
 			</div>
 			<div class="carousel-caption">
-				<h3>Second slide label</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+				<p>Experience the joy of reading and enrich your collection with books that will stay with you forever.</p>
+				<button routerLink="/products" class="btn">Shop Now</button>
 			</div>
 		</ng-template>
 	</ngb-carousel>
 </section>
-<p>Discover your next read</p>
-<p>Find the best book for a wide range of genres</p>
+<section>
+	<div class="container-fluid pt-5">
+        <div class="row" style="padding-bottom: 0 !important;">
+            <div class="col-lg-3 col-md-6 col-sm-12 ">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;" >
+					<div><fa-icon [icon]="faCheck" class="text-primary "></fa-icon></div>
+                    <h5 class="font-weight-semi-bold m-0">Quality Product</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+					<div><fa-icon [icon]="faTruck" class="text-primary "></fa-icon></div>
+					<h5 class="font-weight-semi-bold m-0">Free Shipping</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <div><fa-icon [icon]="faArrows" class="text-primary "></fa-icon></div>
+					<h5 class="font-weight-semi-bold m-0">14-Day Return</h5>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
+                    <div><fa-icon [icon]="faPhone" class="text-primary "></fa-icon></div>
+                    <h5 class="font-weight-semi-bold m-0">24/7 Support</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+	<div class="text-center mb-4">
+		<h2 class="section-title px-5"><span class="px-2">Last Products</span></h2>
+	</div>
+	<div class="row pb-3" style="padding: 50px !important;">
+		<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1"></app-product>
+		<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1"></app-product>
+		<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1"></app-product>
+	</div>
+</section>
