@@ -1,0 +1,109 @@
+.layout_padding{
+    padding: 25px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+form >div{
+    width: 100%;
+}
+form >div >input{
+    width: 100%;
+}
+textarea{
+    width: 100%;
+}
+button{
+    width: 25%;
+    height: 55px;
+}
+form textarea{
+background: #fff;
+border: solid #ccc 1px;
+padding: 15px 15px;
+width: 100%;
+min-height: 150px;
+font-size: 14px;
+margin-bottom: 20px;
+text-transform: capitalize;
+line-height: normal;}
+
+form input {
+    background: #fff;
+    border: solid #ccc 1px;
+    padding: 15px 15px;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    line-height: normal;
+}
+form button{
+    border: none;
+    padding: 20px 45px;
+    width: auto;
+    font-size: 16px;
+    text-transform: capitalize;
+    line-height: normal;
+    margin: 0 auto;
+    display: flex;
+    background-color: var(--primary);
+    font-weight: 600;
+}
+svg{
+    font-size: 24px;
+}
+fa-icon{
+    font-size: 24px !important;
+}
+input{
+    height: 55px !important;
+}
+button:hover{
+    color: var(--white);
+    background-color: #c5837c !important;
+    border-color: #c17a74 !important;
+}
+
+::ng-deep ngx-select {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+  }
+  
+  ::ng-deep ngx-select .ngx-select__toggle {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    min-height: 55px;
+    padding: 15px;
+  }
+  
+  ::ng-deep ngx-select .ngx-select__toggle .ngx-select__input {
+    flex-grow: 1;
+    padding: 15px;
+    /* Adjust padding as needed */
+    border: none;
+    outline: none;
+    font-size: 1rem;
+  }
+
+  .file-input{
+    border: none !important;
+    padding: 0 !important;
+    line-height: 40px !important;
+  }
+  label{
+    margin-bottom: 0 !important;
+    color: var(--primary);
+  }
+  

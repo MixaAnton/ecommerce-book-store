@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Product } from '../../../common/product';
 import { ProductService } from '../../../services/product.service';
+import { faSearch,faPlus} from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -9,9 +11,22 @@ import { ProductService } from '../../../services/product.service';
 })
 export class ProductListComponent {
 
-  products: Product[] = [];
+  faSearch = faSearch;
+  faPlus = faPlus;
 
-  constructor(private productService: ProductService) { }
+  products: Product[] = [];
+  isAdmin = true;
+
+  selectedOption=null;
+
+  sortOptions = [
+      { id: 1, name: 'Latest' },
+      { id: 2, name: 'Oldest' },
+      { id: 3, name: 'Lowest Price' },
+      { id: 4, name: 'Highest Price' },
+  ];
+
+  constructor(private productService: ProductService,private router:Router) { }
 
   ngOnInit(): void {
     this.listProducts();
@@ -24,5 +39,10 @@ export class ProductListComponent {
       }
     )
   }
+
+  goToCreateNew(){
+    this.router.navigate(['/product-create']);
+  }
+ 
   
 }

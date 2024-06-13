@@ -17,6 +17,9 @@ import { ProductComponent } from './components/products/product/product.componen
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { ProductEditComponent } from './components/products/product-edit/product-edit.component';
 import { ProductCreateComponent } from './components/products/product-create/product-create.component';
+import { FormsModule } from '@angular/forms';
+import { NgxSelectModule } from 'ngx-select-ex';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +42,9 @@ import { ProductCreateComponent } from './components/products/product-create/pro
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule,
+    NgxSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
