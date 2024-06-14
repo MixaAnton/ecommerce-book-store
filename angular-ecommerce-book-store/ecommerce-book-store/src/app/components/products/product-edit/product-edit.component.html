@@ -1,1 +1,81 @@
-<p>product-edit works!</p>
+<section>
+    <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Edit Product</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a routerLink="/home">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Edit Product</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="create_section layout_padding">
+    <div class="container">
+       <div class="row">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Edit Existing Product</span></h2>
+        </div>
+                <form >
+                     <div class="d-flex-c">
+                        <div>
+                            <label>Cover Image:</label>
+                            <div class="text-center">
+                                <img src="../../../../assets/images/about-us.jpg">
+                            </div>
+                            
+                        </div>
+                        <input class="file-input"
+                                type="file"
+                                accept=".jpg, .jpeg, .png"
+                                /> 
+                     </div>
+                     <div>
+                        <label>Title:</label>
+                        <input type="text" placeholder="Enter title" name="title" required>
+                     </div> 
+                      <div>
+                        <label>Author:</label>
+                        <input type="text" placeholder="Enter author name" name="author" required>
+                      </div>
+                     <div>
+                        <label>Price:</label>
+                        <input type="number" placeholder="Enter price" name="price" required>
+                     </div>
+                     <div>
+                        <label>ISBN:</label>
+                        <input type="text" placeholder="Enter ISBN" name="isbn" required>
+                     </div>
+                     <div>
+                        <label>Category:</label>
+                        <ngx-select [allowClear]="true"
+                                    [items]="categories"
+                                    optionValueField="id"
+                                    optionTextField="name"
+                                    placeholder="Choose category"
+                                     [(ngModel)]="selectedOption">
+                        </ngx-select>
+                     </div>
+                     <div>
+                        <label>Number of pages:</label>
+                        <input type="number" placeholder="Enter number of pages" name="pages" required>
+                     </div>
+                     <div>
+                        <label>Year of publication:</label>
+                        <input type="number" placeholder="Enter year of publication" name="year" required>
+                     </div>
+                     <div>
+                        <label>Language:</label>
+                        <input type="text" placeholder="Enter Language" name="language" required>
+                     </div>
+                     <div>
+                        <label>Description:</label>
+                        <textarea placeholder="Enter description" required></textarea>
+                     </div>
+                     <div>
+                        <button type="submit" >Edit Product</button>
+                     </div>
+                </form>
+       </div>
+    </div>
+ </section>

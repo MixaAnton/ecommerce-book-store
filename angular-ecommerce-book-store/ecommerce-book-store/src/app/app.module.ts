@@ -19,6 +19,15 @@ import { ProductEditComponent } from './components/products/product-edit/product
 import { ProductCreateComponent } from './components/products/product-create/product-create.component';
 import { FormsModule } from '@angular/forms';
 import { NgxSelectModule } from 'ngx-select-ex';
+import { UserInfoComponent } from './components/user/user-info/user-info.component';
+import { UserEditComponent } from './components/user/user-edit/user-edit.component';
+import { UserListComponent } from './components/user/user-list/user-list.component';
+import { OrderListComponent } from './components/orders/order-list/order-list.component';
+import { OrderItemComponent } from './components/orders/order-item/order-item.component';
+import { CartComponent } from './components/shoping-cart/cart/cart.component';
+import { CartItemComponent } from './components/shoping-cart/cart-item/cart-item.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { BillComponent } from './components/checkout/bill/bill.component';
 
 
 @NgModule({
@@ -35,7 +44,16 @@ import { NgxSelectModule } from 'ngx-select-ex';
     ProductComponent,
     ProductDetailsComponent,
     ProductEditComponent,
-    ProductCreateComponent
+    ProductCreateComponent,
+    UserInfoComponent,
+    UserEditComponent,
+    UserListComponent,
+    OrderListComponent,
+    OrderItemComponent,
+    CartComponent,
+    CartItemComponent,
+    CheckoutComponent,
+    BillComponent
   ],
   imports: [
     BrowserModule,
