@@ -1,1 +1,54 @@
-<p>user-edit works!</p>
+<div class="p-4" style="z-index: 150; overflow-y: auto;">
+    <h5 class="font-weight-bold text-dark mb-2 login-title text-right" style="cursor: pointer;"
+    (click)="closeModal($event)" >X</h5>
+    <h5 class="font-weight-bold text-dark mb-2 login-title text-center" style="font-size: 1.5rem !important;" >Edit User Info</h5>
+    <div class=" line mb-2"></div>
+    <div class="moda-body">
+    <form>
+        <div >
+            <label for="name">Name:</label>
+            <input type="text" placeholder="Enter your name" name="name" required>
+         </div>
+         <div >
+            <label for="lastname">Lastname:</label>
+            <input type="text" placeholder="Enter your lastname" name="lastname" required>
+        </div> 
+         <div >
+            <label for="address">Address:</label>
+            <input type="text" placeholder="Enter your address" name="address" required>
+         </div> 
+         <div >
+            <label for="postcode">Postcode:</label>
+            <input type="text" placeholder="Enter postcode" name="postcode" required>
+         </div> 
+         <div >
+            <label for="city">City:</label>
+            <input type="text" placeholder="Enter your city" name="city" required>
+         </div>
+         <div >
+            <label for="country">Country:</label>
+            <input type="text" placeholder="Enter your country" name="country" required>
+         </div>  
+          <div >
+            <label for="email">Email:</label>
+            <input type="email" placeholder="Enter your email address" name="email" required>
+          </div>
+          <div >
+            <label for="username">Username:</label>
+            <input type="text" placeholder="Enter your username" name="username" required>
+          </div>
+          <div >
+            <label for="password">Password:</label>
+            <input type="password" placeholder="Enter your password" name="password" required>
+         </div>
+         <div >
+            <label for="confirmpassword">Confirme password:</label>
+            <input type="password" placeholder="Confirme your password" name="confirmpassword" required>
+         </div>
+         <div class="line mb-2 mt-2"></div>  
+        <div>
+            <button class="btn btn-primary btn-block border-0 py-3" type="submit">Edit</button>
+        </div>
+    </form>
+    </div>
+</div>

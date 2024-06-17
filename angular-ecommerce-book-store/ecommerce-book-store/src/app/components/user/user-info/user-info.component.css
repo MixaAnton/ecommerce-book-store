@@ -1,0 +1,11 @@
+.d-flex-c{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.d-flex-c > div{
+    text-align: center;
+}

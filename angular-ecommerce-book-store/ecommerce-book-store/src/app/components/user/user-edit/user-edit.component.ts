@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-edit',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class UserEditComponent {
 
+
+  constructor(private activeModal:NgbActiveModal){
+
+  }
+
+  closeModal(e: any) {
+    e.preventDefault();
+    this.activeModal.close();
+  }
 }
