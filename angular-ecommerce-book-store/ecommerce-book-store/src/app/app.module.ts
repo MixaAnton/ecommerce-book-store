@@ -28,6 +28,7 @@ import { CartComponent } from './components/shoping-cart/cart/cart.component';
 import { CartItemComponent } from './components/shoping-cart/cart-item/cart-item.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { BillComponent } from './components/checkout/bill/bill.component';
+import { ProdcutCategoryFiltersComponent } from './components/products/prodcut-category-filters/prodcut-category-filters.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { BillComponent } from './components/checkout/bill/bill.component';
     CartComponent,
     CartItemComponent,
     CheckoutComponent,
-    BillComponent
+    BillComponent,
+    ProdcutCategoryFiltersComponent
   ],
   imports: [
     BrowserModule,

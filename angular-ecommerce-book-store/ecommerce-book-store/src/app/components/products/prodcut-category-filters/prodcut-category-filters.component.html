@@ -1,0 +1,14 @@
+<div class="border-bottom mb-4 pb-4">
+    <h5 class="font-weight-semi-bold mb-4">Filter by category</h5>
+    
+        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+            <input type="checkbox" class="custom-control-input" id="0" [checked]="allChecked" 
+            (change)="toggleAllCategories($event)">
+            <label class="custom-control-label" for="0">All Categories</label>
+       </div>
+       <div  *ngFor="let category of categories" class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+            <input type="checkbox" class="custom-control-input" [id]="category.id" [checked]="category.checked"  (change)="onCategoryChange($event,category.id)">
+            <label class="custom-control-label" [for]="category.id">{{category.categoryName}}</label>
+        </div>
+    
+</div>

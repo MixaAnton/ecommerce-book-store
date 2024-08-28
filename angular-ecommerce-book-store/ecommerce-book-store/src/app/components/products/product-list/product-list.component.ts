@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Product } from '../../../common/product';
 import { ProductService } from '../../../services/product.service';
 import { faSearch,faPlus} from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductCategory } from '../../../common/product-category';
 
 @Component({
   selector: 'app-product-list',
@@ -16,6 +17,7 @@ export class ProductListComponent {
 
   products: Product[] = [];
   isAdmin = true;
+  categoryId!:number;
 
   selectedOption=null;
 
@@ -26,16 +28,40 @@ export class ProductListComponent {
       { id: 4, name: 'Highest Price' },
   ];
 
-  constructor(private productService: ProductService,private router:Router) { }
+  constructor(private productService: ProductService,private router:Router,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.listProducts();
+  
+    this.route.queryParams.subscribe((params)=>{
+
+      const categoryIdsString = params['categoryIds'];
+      if (categoryIdsString) {
+        const categoryIds = categoryIdsString.split(',').map((id:any) => +id);
+        this.productService.getProductListByCategories(categoryIds).subscribe(response=>{
+          console.log(response);
+        })
+      } else {
+        this.productService.getProductList(0).subscribe(response=>{
+          console.log(response);
+        })
+      }
+    })
+    
   }
 
   listProducts() {
-    this.productService.getProductList().subscribe(
+
+    const hasCategoryId = this.route.snapshot.paramMap.has('id');
+
+    if(hasCategoryId)
+      this.categoryId = +this.route.snapshot.paramMap.get('id')!;
+    else
+      this.categoryId = 0;
+
+    this.productService.getProductList(this.categoryId).subscribe(
       data => {
         this.products = data;
+        console.log(data);
       }
     )
   }
@@ -43,6 +69,5 @@ export class ProductListComponent {
   goToCreateNew(){
     this.router.navigate(['/product-create']);
   }
- 
   
 }

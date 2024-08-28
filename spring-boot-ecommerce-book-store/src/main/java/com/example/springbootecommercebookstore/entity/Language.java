@@ -7,19 +7,22 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Table(name="product_category")
+@Table(name = "language")
 @Getter
 @Setter
-public class ProductCategory {
+public class Language {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
-    @Column(name = "category_name")
-    private String categoryName;
+    @Column(name = "name")
+    private String name;
 
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @Column(name = "designation",length = 3)
+    private String designation;
+
+   // @OneToMany(cascade = CascadeType.ALL, mappedBy = "language")
     //private Set<Product> products;
 }

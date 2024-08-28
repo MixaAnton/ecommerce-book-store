@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.util.Date;
 
 @Entity
@@ -23,8 +24,16 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory category;
 
-    @Column(name = "sku")
-    private String sku;
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id", nullable = false)
+    private Language language;
+
+    @Column(name = "isbn")
+    private String isbn;
 
     @Column(name = "name")
     private String name;
@@ -35,8 +44,9 @@ public class Product {
     @Column(name = "unit_price")
     private BigDecimal unitPrice;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Lob
+    @Column(name = "image")
+    private Blob image;
 
     @Column(name = "active")
     private boolean active;
@@ -51,4 +61,10 @@ public class Product {
     @Column(name = "last_updated")
     @UpdateTimestamp
     private Date lastUpdated;
+
+    @Column(name = "num_of_pages")
+    private int numOfPages;
+
+    @Column(name = "year_of_publication")
+    private int yearOfPublication;
 }

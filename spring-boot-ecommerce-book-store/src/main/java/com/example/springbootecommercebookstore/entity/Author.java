@@ -7,19 +7,21 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Table(name="product_category")
+@Table(name = "author")
 @Getter
 @Setter
-public class ProductCategory {
-
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
-    @Column(name = "category_name")
-    private String categoryName;
+    @Column(name = "first_name")
+    private String firstName;
 
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @Column(name = "last_name")
+    private String lastName;
+
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     //private Set<Product> products;
 }
