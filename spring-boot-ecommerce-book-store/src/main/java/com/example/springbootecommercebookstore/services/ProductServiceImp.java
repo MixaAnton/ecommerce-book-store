@@ -9,11 +9,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImp implements ProductService {
     @Autowired
     ProductRepository productRepository;
+
+    @Override
+    public Optional<Product> getProduct(Long id) {
+        return productRepository.findById(id);
+    }
 
     @Override
     public Page<Product> getAllProducts(Pageable pageable) {
@@ -37,5 +43,10 @@ public class ProductServiceImp implements ProductService {
 
             return productRepository.findByCategoryIdIn(categoryIds, pageable);
         }
+    }
+
+    @Override
+    public Page<Product> findProductsByName(String name, Pageable pageable) {
+        return productRepository.findByNameContainingIgnoreCase(name,pageable);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -18,8 +19,16 @@ public class ProductController {
 
     @GetMapping("/all")
     public Page<Product> getAllProducts(Pageable pageable){
+
         return productService.getAllProducts(pageable);
     }
+
+    @GetMapping("{id}")
+    public Optional<Product> getProduct(@RequestParam Long id)
+    {
+        return productService.getProduct(id);
+    }
+
     @GetMapping("/by-category")
     public Page<Product> getProductsByCategory(
             @RequestParam Long categoryId,
@@ -32,6 +41,11 @@ public class ProductController {
             @RequestParam List<Long> categoryIds,
             Pageable pageable) {
         return productService.getProductsByCategories(categoryIds, pageable);
+    }
+
+    @GetMapping("/find-by-name")
+    public Page<Product> getProductsByName(@RequestParam String name,Pageable pageable){
+        return productService.findProductsByName(name,pageable);
     }
 
 }

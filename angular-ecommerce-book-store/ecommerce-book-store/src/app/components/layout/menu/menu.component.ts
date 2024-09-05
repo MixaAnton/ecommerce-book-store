@@ -2,6 +2,8 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { faUser,faUserPlus,faShoppingCart,faSearch,faAngleDown ,faBars} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../../login/login.component';
+import { ProductCategory } from '../../../common/product-category';
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'app-menu',
@@ -12,10 +14,11 @@ export class MenuComponent {
 
   faUser=faUser;
   faUserPlus=faUserPlus;
-  faSearch = faSearch;
   faShoppingCart = faShoppingCart;
   faAngleDown = faAngleDown;
   faBars = faBars;
+
+  categories: ProductCategory[] = [];
 
   @ViewChild('navbarVertical') 
   navBarVertical!:ElementRef;
@@ -25,8 +28,14 @@ export class MenuComponent {
   
 
   constructor(private renderer2:Renderer2,
-    private modalService:NgbModal
+    private modalService:NgbModal,private productService:ProductService
   ){}
+
+  ngOnInit(){
+    this.productService.getProductCategories().subscribe((response)=>{
+      this.categories = response;
+    })
+  }
 
   showNavBarVertical(){
     let element = this.navBarVertical.nativeElement;

@@ -3,20 +3,30 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8080/api/products';
-  private categoryUrl = 'http://localhost:8080/api/product-category';
+  private baseUrl = environment.apiUrl;
+
+  private productUrl = `${this.baseUrl}/products`;
+  private categoryUrl = `${this.baseUrl}/product-category`;
 
   constructor(private httpClient: HttpClient) { }
 
-  getProductList(categoryId:number): Observable<Product[]> {
+  getProduct(productId: number): Observable<Product> {
 
-    const searchUrl = categoryId === 0? this.baseUrl+'/all' : `${this.baseUrl}/by-category?=categoryId=${categoryId}`
+    const productUrl = `${this.productUrl}/${productId}`;
+
+    return this.httpClient.get<Product>(productUrl);
+  }
+
+  getProductListByCategory(categoryId:number): Observable<Product[]> {
+
+    const searchUrl = categoryId === 0? this.productUrl+'/all' : `${this.productUrl}/by-category?=categoryId=${categoryId}`
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }
@@ -29,7 +39,14 @@ export class ProductService {
   getProductListByCategories(categories:Array<number>): Observable<Product[]> {
 
     
-    const searchUrl = `${this.baseUrl}/by-categories?categoryIds=${categories}`;
+    const searchUrl = `${this.productUrl}/by-categories?categoryIds=${categories}`;
+
+    return this.httpClient.get<any>(searchUrl).pipe();
+  }
+
+  searchProducts(keyword: string): Observable<Product[]> {
+
+    const searchUrl = `${this.productUrl}/find-by-name?name=${keyword}`;
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }

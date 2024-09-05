@@ -1,6 +1,8 @@
 export class Product {
 
-    constructor(public sku: string,
+    constructor(
+                public id: number,
+                public isbn: string,
                 public name: string,
                 public description: string,
                 public unitPrice: number,
@@ -8,7 +10,9 @@ export class Product {
                 public active: boolean,
                 public unitsInStock: number,
                 public dateCreated: Date,
-                public lastUpdated: Date
+                public lastUpdated: Date,
+                public numOfPages: number,
+                public yearOfPublication: number,
             ) {}
 
 }

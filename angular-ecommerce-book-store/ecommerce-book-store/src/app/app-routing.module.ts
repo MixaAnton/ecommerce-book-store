@@ -17,12 +17,13 @@ const routes: Routes = [
   { path: 'about-us', component:AboutComponent},
   { path: 'register', component:RegisterComponent},
   { path: 'products', component:ProductListComponent},
-  { path: 'product/:id', component:ProductDetailsComponent},
+  { path: 'products/:id', component:ProductDetailsComponent},
   { path: 'product-create', component:ProductCreateComponent},
   { path: 'product-edit/:id', component:ProductEditComponent},
   { path: 'user-info', component:UserInfoComponent},
   { path: 'category/:id',component: ProductListComponent},
   { path: 'category',component: ProductListComponent},
+  {path: 'search/:keyword', component: ProductListComponent},
   { path: '', redirectTo: '/products', pathMatch:'full'},
   { path: '**', redirectTo: '/products', pathMatch:'full'}
 

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { faCartShopping,faPlus,faMinus } from '@fortawesome/free-solid-svg-icons';
+import { Product } from '../../../common/product';
+import { ProductService } from '../../../services/product.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-details',
@@ -11,6 +14,26 @@ export class ProductDetailsComponent {
   faPlus = faPlus;
   faMinus = faMinus;
 
-  constructor(){}
+  product!: Product;
+
+  constructor(private productService: ProductService,
+              private route: ActivatedRoute) { }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(() => {
+      this.handleProductDetails();
+    })
+  }
+
+  handleProductDetails() {
+
+    const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
+
+    this.productService.getProduct(theProductId).subscribe(
+      data => {
+        this.product = data;
+      }
+    )
+  }
 
 }
