@@ -1,0 +1,15 @@
+.total{
+    color:var(--dark);
+    border:1px solid #0da8e4;
+    margin-top:7px;
+    padding-left:17px
+}
+
+.total span{
+    display:inline-block;
+    background:var(--white);
+    padding:0 13px;
+    color:var(--dark);
+    border-left: 1px solid #ccc;
+    margin-left:11px
+}

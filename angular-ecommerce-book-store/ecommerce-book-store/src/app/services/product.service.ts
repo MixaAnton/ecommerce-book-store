@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
 import { environment } from '../../environments/environment';
+import { Page } from '../common/page';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +45,10 @@ export class ProductService {
     return this.httpClient.get<any>(searchUrl).pipe();
   }
 
-  searchProducts(keyword: string): Observable<Product[]> {
+  searchProducts(page:number,pageSize:number,keyword: string): Observable<Page<Product>> {
 
-    const searchUrl = `${this.productUrl}/find-by-name?name=${keyword}`;
+    const searchUrl = `${this.productUrl}/find-by-name?name=${keyword}`
+                      +`&page=${page}&size=${pageSize}`;
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }

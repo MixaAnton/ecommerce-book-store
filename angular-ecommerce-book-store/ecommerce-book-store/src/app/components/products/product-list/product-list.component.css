@@ -30,3 +30,24 @@ button{
     justify-content: center;
     align-items: center;
 }
+.d-flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.select-page-size{
+    margin-right: 30px;
+    height: 54px;
+}
+.select-page-size>select{
+    height: 38px;
+    border-color: #ccc;
+}
+.select-page-size>select:focus-visible{
+    outline: none !important;
+}
+.input-group-text{
+    border-radius: 0 !important;
+    border-color: #ccc !important;
+}
+

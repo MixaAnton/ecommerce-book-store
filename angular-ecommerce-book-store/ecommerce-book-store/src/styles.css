@@ -1876,9 +1876,12 @@
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #EDF1FF;
+    border: 1px solid #ccc;
     border-radius: 0;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  .form-control:focus{
+    border-color: #ccc !important;
   }
   
   @media (prefers-reduced-motion: reduce) {
@@ -3426,7 +3429,8 @@
     text-align: center;
     white-space: nowrap;
     background-color: #e9ecef;
-    border: 1px solid #EDF1FF;
+    border: 1px solid #ccc;
+    border-radius: 0 !important;
   }
   
   .input-group-text input[type="radio"],
@@ -9618,4 +9622,8 @@
 }
 .modal-backdrop{
   z-index: 1000 !important;
+}
+.page-link{
+  border-radius: 0 !important;
+  border-color: #ccc !important;
 }

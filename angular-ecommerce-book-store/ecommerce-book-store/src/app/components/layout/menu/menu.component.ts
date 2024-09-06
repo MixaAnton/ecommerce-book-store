@@ -1,5 +1,5 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { faUser,faUserPlus,faShoppingCart,faSearch,faAngleDown ,faBars} from '@fortawesome/free-solid-svg-icons';
+import { faUser,faUserPlus,faAngleDown ,faBars} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../../login/login.component';
 import { ProductCategory } from '../../../common/product-category';
@@ -14,7 +14,7 @@ export class MenuComponent {
 
   faUser=faUser;
   faUserPlus=faUserPlus;
-  faShoppingCart = faShoppingCart;
+  
   faAngleDown = faAngleDown;
   faBars = faBars;
 

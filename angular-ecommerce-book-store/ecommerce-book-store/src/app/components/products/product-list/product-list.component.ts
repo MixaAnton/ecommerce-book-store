@@ -18,9 +18,18 @@ export class ProductListComponent {
   products: Product[] = [];
   isAdmin = true;
   categoryId!:number;
+  previousCategoryId: number = 1;
 
   selectedOption=null;
   searchMode = false;
+  previousKeyword: string = "";
+
+  pageNumber: number = 1;
+  pageSize: number = 9;
+  totalElements: number = 100;
+
+  startPrice!:number;
+  endPrice!:number;
 
   sortOptions = [
       { id: 1, name: 'Latest' },
@@ -70,9 +79,19 @@ export class ProductListComponent {
 
     const keyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    this.productService.searchProducts(keyword).subscribe(
+    if (this.previousKeyword != keyword) {
+      this.pageNumber = 1;
+    }
+
+    this.previousKeyword = keyword;
+
+    this.productService.searchProducts(this.pageNumber-1,this.pageSize,keyword).subscribe(
       data => {
-        this.products = data;
+        this.products = data.content;
+        this.pageNumber = data.number +1;
+        this.pageSize = data.size;
+        this.totalElements = data.totalElements;
+        
       }
     )
   }
@@ -84,6 +103,12 @@ export class ProductListComponent {
       this.categoryId = +this.route.snapshot.paramMap.get('id')!;
     else
       this.categoryId = 0;
+
+      if (this.previousCategoryId != this.categoryId) {
+        this.pageNumber = 1;
+      }
+  
+      this.previousCategoryId = this.categoryId;
 
     this.productService.getProductListByCategory(this.categoryId).subscribe(
       data => {
@@ -97,4 +122,12 @@ export class ProductListComponent {
     this.router.navigate(['/product-create']);
   }
   
+  updatePageSize(pageSize: string) {
+    this.pageSize = +pageSize;
+    this.pageNumber = 1;
+    this.listProducts();
+  }
+  filterByPrice(prices:any){ 
+    [this.startPrice,this.endPrice] = [...prices];
+  }
 }

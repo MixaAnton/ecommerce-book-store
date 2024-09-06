@@ -1,0 +1,8 @@
+<a href="" class="btn border total" style="display: flex; float: right;">
+    <!-- <fa-icon [icon]="faShoppingCart" class="text-primary"></fa-icon>
+    <span class="badge">0</span> -->
+    <div >{{ totalPrice | currency: 'USD' }}
+        <span>{{ totalQuantity }}</span> 
+    </div> 
+    <fa-icon [icon]="faShoppingCart" class="text-primary"></fa-icon>
+</a>
