@@ -16,9 +16,13 @@ public class ProductServiceImp implements ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    @Override
-    public Optional<Product> getProduct(Long id) {
-        return productRepository.findById(id);
+    public Product getProductById(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            return product.get();
+        } else {
+            throw new RuntimeException("Product not found with ID: " + id);
+        }
     }
 
     @Override

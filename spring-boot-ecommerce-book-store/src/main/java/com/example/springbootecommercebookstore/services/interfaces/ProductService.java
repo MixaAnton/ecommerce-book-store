@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-    
-    Optional<Product> getProduct(Long id);
+
+    Product getProductById(Long id);
     Page<Product> getAllProducts(Pageable pageable);
     Page<Product> getProductsByCategory(Long categoryId,Pageable pageable);
     Page<Product> getProductsByCategories(List<Long> categoryIds, Pageable pageable);

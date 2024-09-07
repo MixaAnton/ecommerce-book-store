@@ -21,9 +21,9 @@
             </div>
 
             <div class="col-lg-7 pb-5">
-                <h3 class="font-weight-semi-bold">Colorful Stylish Shirt</h3>
-                <h5 class="font-weight-semi-bold mb-4">Author: <span class="text-primary">Marck Twain</span></h5>
-                <h5 class="font-weight-semi-bold mb-4">Price: <span class="text-primary">$150.00</span></h5>
+                <h3 class="font-weight-semi-bold">{{product?.name}}</h3>
+                <h5 class="font-weight-semi-bold mb-4">Author: <span class="text-primary">{{product?.author?.firstName}} {{product?.author?.lastName}}</span></h5>
+                <h5 class="font-weight-semi-bold mb-4">Price: <span class="text-primary">{{product?.unitPrice}}</span></h5>
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
@@ -41,22 +41,22 @@
                     <button class="btn btn-primary px-3"><fa-icon [icon]="faCart" class=" mr-1"></fa-icon> Add To Cart</button>
                 </div>
                 <div class="mb-2">
-                    In stock: <span class="font-weight-semi-bold">8</span>
+                    In stock: <span class="font-weight-semi-bold">{{product?.unitsInStock}}</span>
                 </div>
                 <div class="mb-2">
-                    ISBN: <span class="font-weight-semi-bold">9129192912</span>
+                    ISBN: <span class="font-weight-semi-bold">{{product?.isbn}}</span>
                 </div>
                 <div class="mb-2">
-                    Category: <span class="font-weight-semi-bold">Romance</span>
+                    Category: <span class="font-weight-semi-bold">{{product?.category?.categoryName}}</span>
                 </div>
                 <div class="mb-2">
-                    Language: <span class="font-weight-semi-bold">English</span>
+                    Language: <span class="font-weight-semi-bold">{{product?.language?.name}}</span>
                 </div>
                 <div class="mb-2">
-                    Number of pages:<span class="font-weight-semi-bold">500</span>
+                    Number of pages:<span class="font-weight-semi-bold">{{product?.numOfPages}}</span>
                 </div>
                 <div class="mb-2">
-                    Year of publication: <span class="font-weight-semi-bold">2003</span>
+                    Year of publication: <span class="font-weight-semi-bold">{{product?.yearOfPublication}}</span>
                 </div>
             </div>
             
@@ -69,8 +69,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
                         <h4 class="mb-3">Product Description</h4>
-                        <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                        <p>Dolore magna est eirmod sanctus dolor, amet diam et eirmod et ipsum. Amet dolore tempor consetetur sed lorem dolor sit lorem tempor. Gubergren amet amet labore sadipscing clita clita diam clita. Sea amet et sed ipsum lorem elitr et, amet et labore voluptua sit rebum. Ea erat sed et diam takimata sed justo. Magna takimata justo et amet magna et.</p>
+                        <p>{{product?.description}}</p>
                     </div>
                 </div>
             </div>

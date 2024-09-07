@@ -20,14 +20,16 @@ export class ProductService {
 
   getProduct(productId: number): Observable<Product> {
 
-    const productUrl = `${this.productUrl}/${productId}`;
+    const productUrl = `${this.productUrl}/single?id=${productId}`;
 
     return this.httpClient.get<Product>(productUrl);
   }
 
-  getProductListByCategory(categoryId:number): Observable<Product[]> {
+  getProductListByCategory(page:number,pageSize:number,categoryId:number): Observable<Product[]> {
 
-    const searchUrl = categoryId === 0? this.productUrl+'/all' : `${this.productUrl}/by-category?=categoryId=${categoryId}`
+    const searchUrl = categoryId === 0? 
+    this.productUrl+`/all?&page=${page}&size=${pageSize}` 
+    : `${this.productUrl}/by-category?categoryId=${categoryId}&page=${page}&size=${pageSize}`
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }
@@ -37,10 +39,10 @@ export class ProductService {
     return this.httpClient.get<any>(this.categoryUrl+'/all').pipe()
   }
 
-  getProductListByCategories(categories:Array<number>): Observable<Product[]> {
+  getProductListByCategories(page:number,pageSize:number,categories:Array<number>): Observable<Product[]> {
 
     
-    const searchUrl = `${this.productUrl}/by-categories?categoryIds=${categories}`;
+    const searchUrl = `${this.productUrl}/by-categories?categoryIds=${categories}&page=${page}&size=${pageSize}`;
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }

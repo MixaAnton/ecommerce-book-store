@@ -5,6 +5,7 @@ import com.example.springbootecommercebookstore.services.ProductServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +24,10 @@ public class ProductController {
         return productService.getAllProducts(pageable);
     }
 
-    @GetMapping("{id}")
-    public Optional<Product> getProduct(@RequestParam Long id)
+    @GetMapping("/single")
+    public ResponseEntity<Product> getProduct(@RequestParam Long id)
     {
-        return productService.getProduct(id);
+        return  ResponseEntity.ok(productService.getProductById(id));
     }
 
     @GetMapping("/by-category")

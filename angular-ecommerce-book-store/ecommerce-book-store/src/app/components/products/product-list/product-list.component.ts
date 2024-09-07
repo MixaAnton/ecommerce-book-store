@@ -19,14 +19,15 @@ export class ProductListComponent {
   isAdmin = true;
   categoryId!:number;
   previousCategoryId: number = 1;
-
+  previosCategoryIds:Array<number> = [];
+  singleCategory = false;
   selectedOption=null;
   searchMode = false;
   previousKeyword: string = "";
 
   pageNumber: number = 1;
   pageSize: number = 9;
-  totalElements: number = 100;
+  totalElements: number = 0;
 
   startPrice!:number;
   endPrice!:number;
@@ -45,33 +46,22 @@ export class ProductListComponent {
     this.route.paramMap.subscribe(() => {
       this.listProducts();
     });
-
-    this.route.queryParams.subscribe((params)=>{
-
-      const categoryIdsString = params['categoryIds'];
-      if (categoryIdsString) {
-        const categoryIds = categoryIdsString.split(',').map((id:any) => +id);
-        this.productService.getProductListByCategories(categoryIds).subscribe(response=>{
-          console.log(response);
-        })
-      } else {
-        this.productService.getProductListByCategory(0).subscribe(response=>{
-          console.log(response);
-        })
-      }
-    })
     
   }
 
   listProducts() {
 
      this.searchMode = this.route.snapshot.paramMap.has('keyword');
+     this.singleCategory = this.route.snapshot.paramMap.has('id');
 
     if (this.searchMode) {
       this.handleSearchProducts();
     }
-    else {
+    else if(this.singleCategory){
       this.handleListProducts();
+    }
+    else{
+      this.findByCategories();
     }
   }
 
@@ -87,11 +77,7 @@ export class ProductListComponent {
 
     this.productService.searchProducts(this.pageNumber-1,this.pageSize,keyword).subscribe(
       data => {
-        this.products = data.content;
-        this.pageNumber = data.number +1;
-        this.pageSize = data.size;
-        this.totalElements = data.totalElements;
-        
+        this.processResult(data);
       }
     )
   }
@@ -99,23 +85,24 @@ export class ProductListComponent {
   handleListProducts(){
     const hasCategoryId = this.route.snapshot.paramMap.has('id');
 
-    if(hasCategoryId)
+    if(hasCategoryId){
       this.categoryId = +this.route.snapshot.paramMap.get('id')!;
-    else
-      this.categoryId = 0;
-
       if (this.previousCategoryId != this.categoryId) {
         this.pageNumber = 1;
       }
-  
-      this.previousCategoryId = this.categoryId;
 
-    this.productService.getProductListByCategory(this.categoryId).subscribe(
-      data => {
-        this.products = data;
-        console.log(data);
-      }
-    )
+      this.productService.getProductListByCategory(this.pageNumber-1,this.pageSize,this.categoryId).subscribe(
+        data => {
+          this.processResult(data);
+        }
+      )
+     
+    }
+    else
+      this.categoryId = 0;
+
+      this.previousCategoryId = this.categoryId;
+      
   }
 
   goToCreateNew(){
@@ -127,7 +114,45 @@ export class ProductListComponent {
     this.pageNumber = 1;
     this.listProducts();
   }
+
   filterByPrice(prices:any){ 
     [this.startPrice,this.endPrice] = [...prices];
+  }
+
+  processResult(data:any) {
+      this.products = data.content;
+        this.pageNumber = data.number +1;
+        this.pageSize = data.size;
+        this.totalElements = data.totalElements;
+  }
+
+   areArraysEqual(arr1: number[], arr2: number[]): boolean {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+    return arr1.every(item => arr2.includes(item));
+  }
+  
+  findByCategories(){
+    this.route.queryParams.subscribe((params)=>{
+      
+      const categoryIdsString = params['categoryIds'];
+      if (categoryIdsString) {
+        const categoryIds = categoryIdsString.split(',').map((id:any) => +id);
+        if(!this.areArraysEqual(this.previosCategoryIds,categoryIds))
+        {
+          this.pageNumber = 1;
+        }
+        this.previosCategoryIds = [...categoryIds];
+        this.productService.getProductListByCategories(this.pageNumber-1,this.pageSize,categoryIds).subscribe(response=>{
+          this.processResult(response);
+        })
+      }
+      else{
+          this.productService.getProductListByCategory(this.pageNumber-1,this.pageSize,0).subscribe(response=>{
+            this.processResult(response);
+         });
+      }
+    })
   }
 }

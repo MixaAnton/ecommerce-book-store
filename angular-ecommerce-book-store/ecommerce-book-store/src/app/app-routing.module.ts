@@ -16,15 +16,15 @@ const routes: Routes = [
   { path: 'contact', component:ContactComponent},
   { path: 'about-us', component:AboutComponent},
   { path: 'register', component:RegisterComponent},
-  { path: 'products', component:ProductListComponent},
   { path: 'products/:id', component:ProductDetailsComponent},
   { path: 'product-create', component:ProductCreateComponent},
   { path: 'product-edit/:id', component:ProductEditComponent},
   { path: 'user-info', component:UserInfoComponent},
   { path: 'category/:id',component: ProductListComponent},
   { path: 'category',component: ProductListComponent},
+  { path: 'products', component:ProductListComponent},
   {path: 'search/:keyword', component: ProductListComponent},
-  { path: '', redirectTo: '/products', pathMatch:'full'},
+  // { path: '', redirectTo: '/products', pathMatch:'full'},
   { path: '**', redirectTo: '/products', pathMatch:'full'}
 
     

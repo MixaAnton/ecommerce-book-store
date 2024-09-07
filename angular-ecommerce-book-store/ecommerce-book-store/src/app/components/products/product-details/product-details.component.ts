@@ -27,9 +27,9 @@ export class ProductDetailsComponent {
 
   handleProductDetails() {
 
-    const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
+    const productId: number = +this.route.snapshot.paramMap.get('id')!;
 
-    this.productService.getProduct(theProductId).subscribe(
+    this.productService.getProduct(productId).subscribe(
       data => {
         this.product = data;
       }
