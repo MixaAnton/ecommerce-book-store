@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { faCartShopping,faEye,faPen } from '@fortawesome/free-solid-svg-icons';
 import { Product } from '../../../common/product';
+import { CartItem } from '../../../common/cart-item';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +19,7 @@ export class ProductComponent {
   product!:Product;
  
 
-  constructor(private router:Router){
+  constructor(private router:Router,private cartService:CartService){
   }
  
   goToEdit(){
@@ -25,6 +27,9 @@ export class ProductComponent {
   }
 
   addToCart(){
-    
+
+    const cartItem = new CartItem(this.product);
+
+    this.cartService.addToCart(cartItem);
   }
 }

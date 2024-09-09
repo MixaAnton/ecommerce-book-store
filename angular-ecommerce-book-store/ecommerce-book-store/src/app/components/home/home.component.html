@@ -63,9 +63,9 @@
 	<div class="text-center mb-4">
 		<h2 class="section-title px-5"><span class="px-2">Last Products</span></h2>
 	</div>
-	<div class="row pb-3" style="padding: 50px !important;">
-		<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1"></app-product>
-		<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1"></app-product>
-		<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1"></app-product>
+	<div class="row pb-3" style="padding: 50px !important;" *ngIf="lastThreeProducts.length>0">
+		<ng-container *ngFor="let product of lastThreeProducts">
+			<app-product class="col-lg-4 col-md-6 col-sm-12 pb-1" [product]="product"></app-product>
+		</ng-container>
 	</div>
 </section>

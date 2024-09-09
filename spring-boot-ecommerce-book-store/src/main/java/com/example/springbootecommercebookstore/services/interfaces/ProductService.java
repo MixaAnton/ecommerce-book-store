@@ -14,5 +14,5 @@ public interface ProductService {
     Page<Product> getProductsByCategory(Long categoryId,Pageable pageable);
     Page<Product> getProductsByCategories(List<Long> categoryIds, Pageable pageable);
     Page<Product> findProductsByName(String name,Pageable pageable);
-    
+    List<Product> getLastThreeProducts();
 }

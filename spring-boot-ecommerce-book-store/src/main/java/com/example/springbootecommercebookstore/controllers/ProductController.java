@@ -49,4 +49,9 @@ public class ProductController {
         return productService.findProductsByName(name,pageable);
     }
 
+    @GetMapping("/last-three-products")
+    public List<Product> getLastThreeProducts(){
+        return productService.getLastThreeProducts();
+    }
+
 }

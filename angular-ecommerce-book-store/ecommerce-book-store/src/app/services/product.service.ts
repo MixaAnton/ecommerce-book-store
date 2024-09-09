@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Product } from '../common/product';
+import { Author, Language, Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
 import { environment } from '../../environments/environment';
 import { Page } from '../common/page';
@@ -15,6 +15,8 @@ export class ProductService {
 
   private productUrl = `${this.baseUrl}/products`;
   private categoryUrl = `${this.baseUrl}/product-category`;
+  private authorUrl = `${this.baseUrl}/author`
+  private languageUrl = `${this.baseUrl}/language`
 
   constructor(private httpClient: HttpClient) { }
 
@@ -39,6 +41,14 @@ export class ProductService {
     return this.httpClient.get<any>(this.categoryUrl+'/all').pipe()
   }
 
+  getProductAuthors():Observable<Author[]>{
+    return this.httpClient.get<any>(this.authorUrl+'/all').pipe();
+  }
+
+  getProductLanguages():Observable<Language[]>{
+    return this.httpClient.get<any>(this.languageUrl+'/all').pipe();
+  }
+
   getProductListByCategories(page:number,pageSize:number,categories:Array<number>): Observable<Product[]> {
 
     
@@ -47,24 +57,17 @@ export class ProductService {
     return this.httpClient.get<any>(searchUrl).pipe();
   }
 
+  getLastThreeProducts():Observable<Product[]>{
+    const url = `${this.productUrl}/last-three-products`;
+
+    return this.httpClient.get<any>(url).pipe();
+  }
+
   searchProducts(page:number,pageSize:number,keyword: string): Observable<Page<Product>> {
 
     const searchUrl = `${this.productUrl}/find-by-name?name=${keyword}`
                       +`&page=${page}&size=${pageSize}`;
 
     return this.httpClient.get<any>(searchUrl).pipe();
-  }
-}
-
-
-interface GetResponse {
-  _embedded: {
-    products: Product[];
-  }
-}
-
-interface GetResponseProductCategory {
-  _embedded: {
-    productCategory: ProductCategory[];
   }
 }

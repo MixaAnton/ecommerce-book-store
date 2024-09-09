@@ -17,7 +17,7 @@ import { ProductComponent } from './components/products/product/product.componen
 import { ProductDetailsComponent } from './components/products/product-details/product-details.component';
 import { ProductEditComponent } from './components/products/product-edit/product-edit.component';
 import { ProductCreateComponent } from './components/products/product-create/product-create.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSelectModule } from 'ngx-select-ex';
 import { UserInfoComponent } from './components/user/user-info/user-info.component';
 import { UserEditComponent } from './components/user/user-edit/user-edit.component';
@@ -70,7 +70,8 @@ import { ProductPriceFilterComponent } from './components/products/product-price
     NgbModule,
     FontAwesomeModule,
     FormsModule,
-    NgxSelectModule
+    NgxSelectModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

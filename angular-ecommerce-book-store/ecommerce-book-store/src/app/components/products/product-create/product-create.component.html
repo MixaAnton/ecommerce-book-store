@@ -1,76 +1,93 @@
 <section>
-    <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
-        <div class="d-flex flex-column align-items-center justify-content-center">
-            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Product Creation</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a routerLink="/home">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">New Product</p>
-            </div>
-        </div>
-    </div>
+   <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
+       <div class="d-flex flex-column align-items-center justify-content-center">
+           <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Product Creation</h1>
+           <div class="d-inline-flex">
+               <p class="m-0"><a routerLink="/home">Home</a></p>
+               <p class="m-0 px-2">-</p>
+               <p class="m-0">New Product</p>
+           </div>
+       </div>
+   </div>
 </section>
 <section class="create_section layout_padding">
-    <div class="container">
-       <div class="row">
-        <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">Add New Product</span></h2>
-        </div>
-                <form >
-                     <div>
-                        <label>Title:</label>
-                        <input type="text" placeholder="Enter title" name="title" required>
-                     </div> 
-                      <div>
-                        <label>Author:</label>
-                        <input type="text" placeholder="Enter author name" name="author" required>
-                      </div>
-                     <div>
-                        <label>Price:</label>
-                        <input type="number" placeholder="Enter price" name="price" required>
-                     </div>
-                     <div>
-                        <label>ISBN:</label>
-                        <input type="text" placeholder="Enter ISBN" name="isbn" required>
-                     </div>
-                     <div>
-                        <label>Category:</label>
-                        <ngx-select [allowClear]="true"
-                                    [items]="categories"
-                                    optionValueField="id"
-                                    optionTextField="name"
-                                    placeholder="Choose category"
-                                     [(ngModel)]="selectedOption">
-                        </ngx-select>
-                     </div>
-                     <div>
-                        <label>Number of pages:</label>
-                        <input type="number" placeholder="Enter number of pages" name="pages" required>
-                     </div>
-                     <div>
-                        <label>Year of publication:</label>
-                        <input type="number" placeholder="Enter year of publication" name="year" required>
-                     </div>
-                     <div>
-                        <label>Language:</label>
-                        <input type="text" placeholder="Enter Language" name="language" required>
-                     </div>
-                     <div>
-                        <label>Description:</label>
-                        <textarea placeholder="Enter description" required></textarea>
-                     </div>
-                     <div>
-                        <label>Cover Image:</label>
-                        <input class="file-input"
-                                type="file"
-                                accept=".jpg, .jpeg, .png"
-                                /> 
-                     </div>
-                     
-                     <div>
-                        <button type="submit" >Create Product</button>
-                     </div>
-                </form>
+   <div class="container">
+      <div class="row">
+       <div class="text-center mb-4">
+           <h2 class="section-title px-5"><span class="px-2">Add New Product</span></h2>
        </div>
-    </div>
- </section>
+               <form>
+                    <div>
+                       <label>Title:</label>
+                       <input type="text" placeholder="Enter title" name="title" required [(ngModel)]="product.name">
+                    </div> 
+                     <div>
+                       <label>Author:</label>
+                       <ngx-select [allowClear]="true"
+                                   [items]="authorOptions"
+                                   optionValueField="id"
+                                   optionTextField="fullName"
+                                   placeholder="Choose author"
+                                   [(ngModel)]="product.authorId"
+                                   name="author">
+                       </ngx-select>
+                     </div>
+                    <div>
+                       <label>Price:</label>
+                       <input type="number" placeholder="Enter price" name="price" required [(ngModel)]="product.unitPrice">
+                    </div>
+                    <div>
+                       <label>ISBN:</label>
+                       <input type="text" placeholder="Enter ISBN" name="isbn" required [(ngModel)]="product.isbn">
+                    </div>
+                    <div>
+                       <label>Category:</label>
+                       <ngx-select [allowClear]="true"
+                                   [items]="categories"
+                                   optionValueField="id"
+                                   optionTextField="categoryName"
+                                   placeholder="Choose category"
+                                   [(ngModel)]="product.categoryId"
+                                   name="category">
+                       </ngx-select>
+                    </div>
+                    <div>
+                       <label>Number of pages:</label>
+                       <input type="number" placeholder="Enter number of pages" name="pages" required [(ngModel)]="product.numOfPages">
+                    </div>
+                    <div>
+                       <label>Year of publication:</label>
+                       <input type="number" placeholder="Enter year of publication" name="year" required [(ngModel)]="product.yearOfPublication">
+                    </div>
+                    <div>
+                       <label>Language:</label>
+                       <ngx-select [allowClear]="true"
+                                   [items]="languages"
+                                   optionValueField="id"
+                                   optionTextField="name"
+                                   placeholder="Choose language"
+                                    [(ngModel)]="product.languageId"
+                                    name="language">
+                       </ngx-select>
+                    </div>
+                    <div>
+                       <label>Description:</label>
+                       <textarea placeholder="Enter description" required [(ngModel)]="product.description" name="description"></textarea>
+                    </div>
+                    <div>
+                       <label>Cover Image:</label>
+                       <input class="file-input"
+                               type="file"
+                               accept=".jpg, .jpeg, .png"
+                               name="image"
+                               [(ngModel)]="product.image"
+                               >
+                    </div>
+                    
+                    <div>
+                       <button type="submit">Create Product</button>
+                    </div>
+               </form>
+      </div>
+   </div>
+</section>

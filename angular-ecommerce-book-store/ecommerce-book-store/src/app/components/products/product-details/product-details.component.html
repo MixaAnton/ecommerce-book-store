@@ -21,9 +21,9 @@
             </div>
 
             <div class="col-lg-7 pb-5">
-                <h3 class="font-weight-semi-bold">{{product?.name}}</h3>
-                <h5 class="font-weight-semi-bold mb-4">Author: <span class="text-primary">{{product?.author?.firstName}} {{product?.author?.lastName}}</span></h5>
-                <h5 class="font-weight-semi-bold mb-4">Price: <span class="text-primary">{{product?.unitPrice}}</span></h5>
+                <h3 class="font-weight-semi-bold">{{product.name}}</h3>
+                <h5 class="font-weight-semi-bold mb-4">Author: <span class="text-primary">{{product.author.firstName}} {{product.author.lastName}}</span></h5>
+                <h5 class="font-weight-semi-bold mb-4">Price: <span class="text-primary">{{product.unitPrice}}</span></h5>
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
@@ -38,25 +38,25 @@
                             </button>
                         </div>
                     </div>
-                    <button class="btn btn-primary px-3"><fa-icon [icon]="faCart" class=" mr-1"></fa-icon> Add To Cart</button>
+                    <button (click)="addToCart()" class="btn btn-primary px-3"><fa-icon [icon]="faCart" class=" mr-1"></fa-icon> Add To Cart</button>
                 </div>
                 <div class="mb-2">
-                    In stock: <span class="font-weight-semi-bold">{{product?.unitsInStock}}</span>
+                    In stock: <span class="font-weight-semi-bold">{{product.unitsInStock}}</span>
                 </div>
                 <div class="mb-2">
-                    ISBN: <span class="font-weight-semi-bold">{{product?.isbn}}</span>
+                    ISBN: <span class="font-weight-semi-bold">{{product.isbn}}</span>
                 </div>
                 <div class="mb-2">
-                    Category: <span class="font-weight-semi-bold">{{product?.category?.categoryName}}</span>
+                    Category: <span class="font-weight-semi-bold">{{product.category.categoryName}}</span>
                 </div>
                 <div class="mb-2">
-                    Language: <span class="font-weight-semi-bold">{{product?.language?.name}}</span>
+                    Language: <span class="font-weight-semi-bold">{{product.language.name}}</span>
                 </div>
                 <div class="mb-2">
-                    Number of pages:<span class="font-weight-semi-bold">{{product?.numOfPages}}</span>
+                    Number of pages:<span class="font-weight-semi-bold">{{product.numOfPages}}</span>
                 </div>
                 <div class="mb-2">
-                    Year of publication: <span class="font-weight-semi-bold">{{product?.yearOfPublication}}</span>
+                    Year of publication: <span class="font-weight-semi-bold">{{product.yearOfPublication}}</span>
                 </div>
             </div>
             
@@ -69,7 +69,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="tab-pane-1">
                         <h4 class="mb-3">Product Description</h4>
-                        <p>{{product?.description}}</p>
+                        <p>{{product.description}}</p>
                     </div>
                 </div>
             </div>

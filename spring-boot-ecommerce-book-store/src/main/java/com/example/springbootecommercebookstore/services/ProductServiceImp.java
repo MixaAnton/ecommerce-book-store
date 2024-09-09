@@ -53,4 +53,9 @@ public class ProductServiceImp implements ProductService {
     public Page<Product> findProductsByName(String name, Pageable pageable) {
         return productRepository.findByNameContainingIgnoreCase(name,pageable);
     }
+
+    @Override
+    public List<Product> getLastThreeProducts() {
+        return productRepository.findTop3ByOrderByDateCreatedDesc();
+    }
 }

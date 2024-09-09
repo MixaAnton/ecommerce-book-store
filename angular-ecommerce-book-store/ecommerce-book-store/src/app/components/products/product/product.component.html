@@ -4,13 +4,13 @@
             <img class="img-fluid w-100" src="../../../../assets/images/about-us.jpg" alt="">
         </div>
         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-            <h6 class="text-truncate mb-3">{{product.name}}</h6>
+            <h6 class="text-truncate mb-3">{{product!.name}}</h6>
             <div class="d-flex justify-content-center">
-                <h6>{{product.unitPrice | currency:'USD'}}</h6>
+                <h6>{{product!.unitPrice | currency:'USD'}}</h6>
             </div>
         </div>
         <div class="card-footer d-flex justify-content-between bg-light border">
-            <a routerLink="/products/{{product.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faEye" class="text-primary mr-1"></fa-icon>View Detail</a>
+            <a routerLink="/products/{{product!.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faEye" class="text-primary mr-1"></fa-icon>View Detail</a>
             <a (click)="goToEdit()" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faPen" class="text-primary mr-1"></fa-icon>Edit</a>
             <a (click)="addToCart()" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faCart" class="text-primary mr-1"></fa-icon>Add To Cart</a>
         </div>

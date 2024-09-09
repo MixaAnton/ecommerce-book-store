@@ -7,7 +7,7 @@ export interface Product {
     name: string;
     description: string;
     unitPrice: number;
-    image: string | null;  // `null` is possible, so we add it as a type
+    image: string | null;
     active: boolean;
     unitsInStock: number;
     dateCreated: Date;
@@ -16,6 +16,24 @@ export interface Product {
     yearOfPublication: number;
   }
 
+export interface ProductCreate{
+
+    id: number;
+    categoryId: number;
+    authorId: number;
+    languageId: number;
+    isbn: string;
+    name: string;
+    description: string;
+    unitPrice: number;
+    image: string | null;
+    active: boolean;
+    unitsInStock: number;
+    dateCreated: Date;
+    lastUpdated: Date;
+    numOfPages: number;
+    yearOfPublication: number;
+}
   export interface Category {
     id: number;
     categoryName: string;
