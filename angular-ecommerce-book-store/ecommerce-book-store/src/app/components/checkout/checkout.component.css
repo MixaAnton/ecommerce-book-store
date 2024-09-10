@@ -109,3 +109,6 @@ select{
  .border-primary{
     border: 2px solid var(--primary) !important;
  }
+ .border-secondary{
+    border: 2px solid var(--secondary) !important;
+ }

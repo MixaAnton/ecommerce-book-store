@@ -25,7 +25,7 @@
                 </thead>
                 <tbody class="align-middle">
                     <tr *ngFor="let tempCartItem of cartItems">
-                        <td class="align-middle"><img src="../../../../assets/images/about-us.jpg" alt="" style="width: 50px;"> {{ tempCartItem.name }}</td>
+                        <td style="text-align: left;"><img src="../../../../assets/images/about-us.jpg" alt="" style="width: 50px;"> {{ tempCartItem.name }}</td>
                         <td class="align-middle">{{ tempCartItem.unitPrice | currency: 'USD' }}</td>
                         <td class="align-middle">
                             <div style="display: flex; flex-wrap: wrap; justify-content: center;">
@@ -46,7 +46,7 @@
                         </td>
                         <td class="align-middle">{{ tempCartItem.quantity * tempCartItem.unitPrice | currency: 'USD' }}</td>
                         <td class="align-middle">
-                            <button class="btn btn-sm btn-primary">
+                            <button class="btn btn-sm btn-primary" (click)="remove(tempCartItem)">
                                 <fa-icon [icon]="faTimes"></fa-icon>
                             </button>
                         </td>

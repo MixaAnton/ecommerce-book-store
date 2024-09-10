@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -57,5 +58,28 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> getLastThreeProducts() {
         return productRepository.findTop3ByOrderByDateCreatedDesc();
+    }
+
+    public static String generateRandomISBN13() {
+        Random random = new Random();
+
+        StringBuilder isbn = new StringBuilder("978");
+
+        for (int i = 0; i < 9; i++) {
+            isbn.append(random.nextInt(10));
+        }
+
+        int checksum = 0;
+        for (int i = 0; i < isbn.length(); i++) {
+            int digit = Character.getNumericValue(isbn.charAt(i));
+            checksum += (i % 2 == 0) ? digit : digit * 3;
+        }
+        int checkDigit = 10 - (checksum % 10);
+        if (checkDigit == 10) {
+            checkDigit = 0;
+        }
+
+        isbn.append(checkDigit);
+        return isbn.toString();
     }
 }

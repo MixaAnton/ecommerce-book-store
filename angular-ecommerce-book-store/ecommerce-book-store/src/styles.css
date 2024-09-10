@@ -9630,3 +9630,7 @@
   border-radius: 0 !important;
   border-color: #ccc !important;
 }
+
+ngx-select .ngx-select__toggle{
+  border-radius: 0 !important;
+}

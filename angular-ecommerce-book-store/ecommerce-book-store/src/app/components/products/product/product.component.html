@@ -11,7 +11,7 @@
         </div>
         <div class="card-footer d-flex justify-content-between bg-light border">
             <a routerLink="/products/{{product!.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faEye" class="text-primary mr-1"></fa-icon>View Detail</a>
-            <a (click)="goToEdit()" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faPen" class="text-primary mr-1"></fa-icon>Edit</a>
+            <a routerLink="/product-edit/{{product!.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faPen" class="text-primary mr-1"></fa-icon>Edit</a>
             <a (click)="addToCart()" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faCart" class="text-primary mr-1"></fa-icon>Add To Cart</a>
         </div>
  </div>

@@ -6,6 +6,7 @@ import { CheckoutService } from '../../services/checkout.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CustomeValidators } from '../../validators/custome-validators';
+import { ShopFormService } from '../../services/shop-form.service';
 
 @Component({
   selector: 'app-checkout',
@@ -41,17 +42,44 @@ export class CheckoutComponent {
   constructor(private formBuilder: FormBuilder,
               private cartService: CartService,
               private checkoutService: CheckoutService,
-              private router: Router) { }
+              private router: Router,
+              private shopFormService:ShopFormService) { }
 
   ngOnInit(): void {
 
     // setup Stripe payment form
     //this.setupStripePaymentForm();
     
-    //this.reviewCartDetails();
+    this.reviewCartDetails();
 
     // read the user's email address from browser storage
     const email = JSON.parse(this.storage.getItem('userEmail')!);
+
+     // populate credit card months
+    const startMonth: number = new Date().getMonth() + 1;
+
+    this.shopFormService.getCreditCardMonths(startMonth).subscribe(
+      data => {
+        console.log("Retrieved credit card months: " + JSON.stringify(data));
+        this.creditCardMonths = data;
+      }
+    );
+
+    // populate credit card years
+    this.shopFormService.getCreditCardYears().subscribe(
+      data => {
+        console.log("Retrieved credit card years: " + JSON.stringify(data));
+        this.creditCardYears = data;
+      }
+    );
+    
+   // populate countries
+    this.shopFormService.getCountries().subscribe(
+      data => {
+        this.countries = data;
+      }
+    );
+
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -101,37 +129,6 @@ export class CheckoutComponent {
       })
     });
 
-    /*
-    // populate credit card months
-
-    const startMonth: number = new Date().getMonth() + 1;
-    console.log("startMonth: " + startMonth);
-
-    this.luv2ShopFormService.getCreditCardMonths(startMonth).subscribe(
-      data => {
-        console.log("Retrieved credit card months: " + JSON.stringify(data));
-        this.creditCardMonths = data;
-      }
-    );
-
-    // populate credit card years
-
-    this.luv2ShopFormService.getCreditCardYears().subscribe(
-      data => {
-        console.log("Retrieved credit card years: " + JSON.stringify(data));
-        this.creditCardYears = data;
-      }
-    );
-    */
-
-    // populate countries
-
-  //   this.luv2ShopFormService.getCountries().subscribe(
-  //     data => {
-  //       console.log("Retrieved countries: " + JSON.stringify(data));
-  //       this.countries = data;
-  //     }
-  //   );
   }
 
   // setupStripePaymentForm() {
@@ -205,14 +202,12 @@ export class CheckoutComponent {
       this.checkoutFormGroup.controls['billingAddress']
             .setValue(this.checkoutFormGroup.controls['shippingAddress'].value);
 
-      // bug fix for states
       this.billingAddressStates = this.shippingAddressStates;
 
     }
     else {
       this.checkoutFormGroup.controls['billingAddress'].reset();
 
-      // bug fix for states
       this.billingAddressStates = [];
     }
     
@@ -221,10 +216,10 @@ export class CheckoutComponent {
   onSubmit() {
     console.log("Handling the submit button");
 
-    // if (this.checkoutFormGroup.invalid) {
-    //   this.checkoutFormGroup.markAllAsTouched();
-    //   return;
-    // }
+    if (this.checkoutFormGroup.invalid) {
+      this.checkoutFormGroup.markAllAsTouched();
+      return;
+    }
 
     // // set up order
     // let order = new Order();
@@ -367,7 +362,7 @@ export class CheckoutComponent {
       startMonth = 1;
     }
 
-    this.luv2ShopFormService.getCreditCardMonths(startMonth).subscribe(
+    this.shopFormService.getCreditCardMonths(startMonth).subscribe(
       data => {
         console.log("Retrieved credit card months: " + JSON.stringify(data));
         this.creditCardMonths = data;
@@ -383,19 +378,19 @@ export class CheckoutComponent {
     const countryCode = formGroup!.value.country.code;
     const countryName = formGroup!.value.country.name;
 
-    // this.luv2ShopFormService.getStates(countryCode).subscribe(
-    //   data => {
+    this.shopFormService.getStates(countryCode).subscribe(
+      data => {
 
-    //     if (formGroupName === 'shippingAddress') {
-    //       this.shippingAddressStates = data; 
-    //     }
-    //     else {
-    //       this.billingAddressStates = data;
-    //     }
+        if (formGroupName === 'shippingAddress') {
+          this.shippingAddressStates = data; 
+        }
+        else {
+          this.billingAddressStates = data;
+        }
 
-    //     // select first item by default
-    //     formGroup.get('state').setValue(data[0]);
-    //   }
-    // );
+        // select first item by default
+        formGroup!.get('state')!.setValue(data[0]);
+      }
+    );
   }
 }

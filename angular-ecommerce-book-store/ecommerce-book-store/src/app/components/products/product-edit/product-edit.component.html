@@ -12,11 +12,11 @@
 </section>
 <section class="create_section layout_padding">
     <div class="container">
-       <div class="row">
+       <div class="row" *ngIf="editProduct">
         <div class="text-center mb-4">
             <h2 class="section-title px-5"><span class="px-2">Edit Existing Product</span></h2>
         </div>
-                <form >
+                <form [formGroup]="editFormGroup" (ngSubmit)="edit()">
                      <div class="d-flex-c">
                         <div>
                             <label>Cover Image:</label>
@@ -28,49 +28,74 @@
                         <input class="file-input"
                                 type="file"
                                 accept=".jpg, .jpeg, .png"
+                                name="image"
                                 /> 
                      </div>
                      <div>
                         <label>Title:</label>
-                        <input type="text" placeholder="Enter title" name="title" required>
+                        <input formControlName="title" type="text" placeholder="Enter title" name="title" [disabled]="true" [value]="product.name">
+                        <div *ngIf="title!.invalid && (title!.dirty || title!.touched)" class="alert alert-danger mt-1">
+                           <div *ngIf="title!.errors?.['required'] || title!.errors?.['notOnlyWhitespace']">
+                               First Name is required
+                           </div>
+
+                       </div>
                      </div> 
                       <div>
                         <label>Author:</label>
-                        <input type="text" placeholder="Enter author name" name="author" required>
+                        <ngx-select [allowClear]="true"
+                           [items]="authorOptions"
+                           optionValueField="id"
+                           optionTextField="fullName"
+                           placeholder="Choose author"
+                           name="author"
+                           [(ngModel)]="editProduct.authorId"
+                           [disabled]="true">
+                        </ngx-select>
                       </div>
                      <div>
                         <label>Price:</label>
-                        <input type="number" placeholder="Enter price" name="price" required>
+                        <input type="number" placeholder="Enter price" name="price" required [(ngModel)]="editProduct.unitPrice">
                      </div>
                      <div>
                         <label>ISBN:</label>
-                        <input type="text" placeholder="Enter ISBN" name="isbn" required>
+                        <input type="text" placeholder="Enter ISBN" name="isbn" disabled [value]="editProduct.isbn">
                      </div>
                      <div>
                         <label>Category:</label>
                         <ngx-select [allowClear]="true"
                                     [items]="categories"
                                     optionValueField="id"
-                                    optionTextField="name"
+                                    optionTextField="categoryName"
                                     placeholder="Choose category"
-                                     [(ngModel)]="selectedOption">
+                                    [(ngModel)]="editProduct.categoryId"
+                                    name="category"
+                                    [disabled]="true"
+                                    >
                         </ngx-select>
                      </div>
                      <div>
                         <label>Number of pages:</label>
-                        <input type="number" placeholder="Enter number of pages" name="pages" required>
+                        <input type="number" placeholder="Enter number of pages" name="pages" required [(ngModel)]="editProduct.numOfPages">
                      </div>
                      <div>
                         <label>Year of publication:</label>
-                        <input type="number" placeholder="Enter year of publication" name="year" required>
+                        <input type="number" placeholder="Enter year of publication" name="year" required [(ngModel)]="editProduct.yearOfPublication">
                      </div>
                      <div>
                         <label>Language:</label>
-                        <input type="text" placeholder="Enter Language" name="language" required>
+                        <ngx-select [allowClear]="true"
+                                   [items]="languages"
+                                   optionValueField="id"
+                                   optionTextField="name"
+                                   placeholder="Choose language"
+                                   name="language"
+                                   [(ngModel)]="editProduct.languageId">
+                       </ngx-select>
                      </div>
                      <div>
                         <label>Description:</label>
-                        <textarea placeholder="Enter description" required></textarea>
+                        <textarea placeholder="Enter description" required name="description" [(ngModel)]="editProduct.description"></textarea>
                      </div>
                      <div>
                         <button type="submit" >Edit Product</button>

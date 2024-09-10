@@ -17,12 +17,12 @@ export class ShopFormService {
 
   getCountries(): Observable<Country[]> {
 
-    return this.httpClient.get<any>(this.countriesUrl).pipe();
+    return this.httpClient.get<any>(this.countriesUrl+'/all').pipe();
   }
 
   getStates(countryCode: string): Observable<State[]> {
 
-    const searchStatesUrl = `${this.statesUrl}/search/findByCountryCode?code=${countryCode}`;
+    const searchStatesUrl = `${this.statesUrl}/by-country-code?code=${countryCode}`;
 
     return this.httpClient.get<any>(searchStatesUrl).pipe();
   }
