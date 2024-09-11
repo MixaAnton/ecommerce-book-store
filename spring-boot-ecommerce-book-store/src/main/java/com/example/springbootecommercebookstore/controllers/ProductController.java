@@ -1,7 +1,7 @@
 package com.example.springbootecommercebookstore.controllers;
 
 import com.example.springbootecommercebookstore.entity.Product;
-import com.example.springbootecommercebookstore.services.ProductServiceImp;
+import com.example.springbootecommercebookstore.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,14 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
     @Autowired
-    ProductServiceImp productService;
+    ProductServiceImpl productService;
 
     @GetMapping("/all")
     public Page<Product> getAllProducts(Pageable pageable){

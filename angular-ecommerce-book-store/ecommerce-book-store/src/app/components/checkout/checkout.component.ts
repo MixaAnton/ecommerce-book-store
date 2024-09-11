@@ -7,6 +7,10 @@ import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CustomeValidators } from '../../validators/custome-validators';
 import { ShopFormService } from '../../services/shop-form.service';
+import { Order } from '../../common/order';
+import { OrderItem } from '../../common/order-item';
+import { Purchase } from '../../common/purchase-info';
+
 
 @Component({
   selector: 'app-checkout',
@@ -46,6 +50,11 @@ export class CheckoutComponent {
               private shopFormService:ShopFormService) { }
 
   ngOnInit(): void {
+  
+
+    this.checkoutService.getOrders().subscribe((response)=>{
+      console.log(response);
+    });
 
     // setup Stripe payment form
     //this.setupStripePaymentForm();
@@ -221,49 +230,47 @@ export class CheckoutComponent {
       return;
     }
 
-    // // set up order
-    // let order = new Order();
-    // order.totalPrice = this.totalPrice;
-    // order.totalQuantity = this.totalQuantity;
+     // set up order
+    let order = new Order();
+    order.totalPrice = this.totalPrice;
+    order.totalQuantity = this.totalQuantity;
 
-    // // get cart items
-    // const cartItems = this.cartService.cartItems;
+     // get cart items
+    const cartItems = this.cartService.cartItems;
 
-    // // create orderItems from cartItems
-    // // - long way
-    // /*
-    // let orderItems: OrderItem[] = [];
-    // for (let i=0; i < cartItems.length; i++) {
-    //   orderItems[i] = new OrderItem(cartItems[i]);
-    // }
-    // */
+     // create orderItems from cartItems
+    let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
 
-    // // - short way of doing the same thingy
-    // let orderItems: OrderItem[] = cartItems.map(tempCartItem => new OrderItem(tempCartItem));
-
-    // // set up purchase
-    // let purchase = new Purchase();
+    // set up purchase
+    let purchase = new Purchase();
     
-    // // populate purchase - customer
-    // purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+    // populate purchase - customer
+    purchase.customer = this.checkoutFormGroup.controls['customer'].value;
     
-    // // populate purchase - shipping address
-    // purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
-    // const shippingState: State = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
-    // const shippingCountry: Country = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
-    // purchase.shippingAddress.state = shippingState.name;
-    // purchase.shippingAddress.country = shippingCountry.name;
+    // populate purchase - shipping address
+    purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+    const shippingState: State = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
+    const shippingCountry: Country = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
+    purchase.shippingAddress.state = shippingState.name;
+    purchase.shippingAddress.country = shippingCountry.name;
 
-    // // populate purchase - billing address
-    // purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
-    // const billingState: State = JSON.parse(JSON.stringify(purchase.billingAddress.state));
-    // const billingCountry: Country = JSON.parse(JSON.stringify(purchase.billingAddress.country));
-    // purchase.billingAddress.state = billingState.name;
-    // purchase.billingAddress.country = billingCountry.name;
+    // populate purchase - billing address
+    purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+    const billingState: State = JSON.parse(JSON.stringify(purchase.billingAddress.state));
+    const billingCountry: Country = JSON.parse(JSON.stringify(purchase.billingAddress.country));
+    purchase.billingAddress.state = billingState.name;
+    purchase.billingAddress.country = billingCountry.name;
   
-    // // populate purchase - order and orderItems
-    // purchase.order = order;
-    // purchase.orderItems = orderItems;
+    // populate purchase - order and orderItems
+    purchase.order = order;
+    purchase.orderItems = orderItems;
+
+    this.checkoutService.placeOrder(purchase).subscribe((response)=>{
+      console.log(response);
+      this.checkoutService.getOrders().subscribe((response)=>{
+        console.log(response);
+      })
+    })
 
     // // compute payment info
     // this.paymentInfo.amount = Math.round(this.totalPrice * 100);

@@ -40,14 +40,15 @@ export class ProductEditComponent {
     })
 
     this.editFormGroup = this.formBuilder.group({
-        title: new FormControl('', [Validators.required,CustomeValidators.notOnlyWhitespace]),
-        author:  new FormControl('', [Validators.required]),
+        image:new FormControl(null),
+        title: new FormControl({value:'',disabled:true}, [Validators.required,CustomeValidators.notOnlyWhitespace]),
+        author:  new FormControl({value:'',disabled:true}, [Validators.required]),
         price:  new FormControl('', [Validators.required,Validators.min(1)]),
-        category:  new FormControl('',[Validators.required]),
-        numOfPages: new FormControl('',[Validators.required,Validators.minLength(10)]),
+        category:  new FormControl({value:'',disabled:true},[Validators.required]),
+        numOfPages: new FormControl('',[Validators.required,Validators.min(10)]),
         yearOfPublication: new FormControl('',[Validators.required,Validators.min(1900)]),
         language:new FormControl('',[Validators.required]),
-        description:new FormControl('',[Validators.required,Validators.min(10)]),                        
+        description:new FormControl('',[Validators.required,Validators.minLength(10)]),                        
     });
   }
 
@@ -62,6 +63,16 @@ export class ProductEditComponent {
       data => {
         this.product = data;
         this.editProduct = new ProductEdit(this.product);
+        this.editFormGroup.patchValue({
+          title: this.editProduct.name,
+          author: this.editProduct.authorId,
+          price: this.editProduct.unitPrice,
+          category: this.editProduct.categoryId,
+          numOfPages: this.editProduct.numOfPages,
+          yearOfPublication: this.editProduct.yearOfPublication,
+          language: this.editProduct.languageId,
+          description: this.editProduct.description
+        });
       }
     )
   }
@@ -96,6 +107,7 @@ export class ProductEditComponent {
     });
   }
 
+   get image() { return this.editFormGroup.get('image');}  
    get title() { return this.editFormGroup.get('title'); }
    get author() { return this.editFormGroup.get('author'); }
    get price() { return this.editFormGroup.get('price'); }
@@ -106,6 +118,10 @@ export class ProductEditComponent {
    get description() { return this.editFormGroup.get('description');}  
 
   edit(){
-
+      console.log(this.language?.value);
+      if (this.editFormGroup.invalid) {
+        this.editFormGroup.markAllAsTouched();
+        return;
+      }
   }
 }

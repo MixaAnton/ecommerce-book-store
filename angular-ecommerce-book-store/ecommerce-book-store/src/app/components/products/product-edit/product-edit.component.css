@@ -117,3 +117,6 @@ input:disabled{
     opacity: .6;
 }  
 
+.alert{
+    margin-top: -19px !important;
+}

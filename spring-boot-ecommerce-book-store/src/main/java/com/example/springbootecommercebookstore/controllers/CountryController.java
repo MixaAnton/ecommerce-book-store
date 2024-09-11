@@ -1,7 +1,7 @@
 package com.example.springbootecommercebookstore.controllers;
 
 import com.example.springbootecommercebookstore.entity.Country;
-import com.example.springbootecommercebookstore.services.CountryServiceImp;
+import com.example.springbootecommercebookstore.services.CountryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 public class CountryController {
 
     @Autowired
-    CountryServiceImp countryServiceImp;
+    CountryServiceImpl countryService;
 
     @GetMapping("/all")
     public List<Country> getAllCountries(){
-        return countryServiceImp.getAllCountries();
+        return countryService.getAllCountries();
     }
 }

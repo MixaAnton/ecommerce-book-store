@@ -9634,3 +9634,7 @@
 ngx-select .ngx-select__toggle{
   border-radius: 0 !important;
 }
+
+.ngx-select__toggle:hover{
+  background-color: transparent !important;
+}

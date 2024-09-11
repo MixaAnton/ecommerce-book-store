@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class ProductServiceImp implements ProductService {
+public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 

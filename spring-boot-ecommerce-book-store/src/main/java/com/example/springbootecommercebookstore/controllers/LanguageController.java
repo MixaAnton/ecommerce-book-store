@@ -1,7 +1,7 @@
 package com.example.springbootecommercebookstore.controllers;
 
 import com.example.springbootecommercebookstore.entity.Language;
-import com.example.springbootecommercebookstore.services.LanguageServiceImp;
+import com.example.springbootecommercebookstore.services.LanguageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 public class LanguageController {
 
     @Autowired
-    LanguageServiceImp languageServiceImp;
+    LanguageServiceImpl languageService;
 
     @GetMapping("/all")
     List<Language> getAllLanguages(){
-        return languageServiceImp.getAllLanguages();
+        return languageService.getAllLanguages();
     }
 }

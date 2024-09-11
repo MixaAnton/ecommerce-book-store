@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CountryServiceImp implements CountryService {
+public class CountryServiceImpl implements CountryService {
 
     @Autowired
     CountryRepository countryRepository;

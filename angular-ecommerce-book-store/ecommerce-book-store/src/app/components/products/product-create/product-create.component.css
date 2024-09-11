@@ -107,3 +107,6 @@ button:hover{
     color: var(--primary);
   }
   
+  .alert{
+    margin-top: -19px !important;
+  }

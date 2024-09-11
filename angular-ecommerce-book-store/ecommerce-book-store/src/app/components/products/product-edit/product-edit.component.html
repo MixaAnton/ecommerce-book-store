@@ -29,17 +29,12 @@
                                 type="file"
                                 accept=".jpg, .jpeg, .png"
                                 name="image"
+                                formControlName="image"
                                 /> 
                      </div>
                      <div>
                         <label>Title:</label>
-                        <input formControlName="title" type="text" placeholder="Enter title" name="title" [disabled]="true" [value]="product.name">
-                        <div *ngIf="title!.invalid && (title!.dirty || title!.touched)" class="alert alert-danger mt-1">
-                           <div *ngIf="title!.errors?.['required'] || title!.errors?.['notOnlyWhitespace']">
-                               First Name is required
-                           </div>
-
-                       </div>
+                        <input type="text" formControlName="title" placeholder="Enter title">
                      </div> 
                       <div>
                         <label>Author:</label>
@@ -48,14 +43,21 @@
                            optionValueField="id"
                            optionTextField="fullName"
                            placeholder="Choose author"
-                           name="author"
-                           [(ngModel)]="editProduct.authorId"
-                           [disabled]="true">
+                           formControlName="author"
+                           >
                         </ngx-select>
                       </div>
                      <div>
                         <label>Price:</label>
-                        <input type="number" placeholder="Enter price" name="price" required [(ngModel)]="editProduct.unitPrice">
+                        <input type="number" formControlName="price" [min]="1" placeholder="Enter price">
+                        <div *ngIf="price!.invalid && (price!.dirty || price!.touched)" class="alert alert-danger mt-1">
+                           <div *ngIf="price!.errors?.['required']">
+                               Price is required
+                           </div>
+                           <div *ngIf="price!.errors?.['min']">
+                              Price can not be less than $1
+                          </div>
+                       </div>
                      </div>
                      <div>
                         <label>ISBN:</label>
@@ -68,19 +70,34 @@
                                     optionValueField="id"
                                     optionTextField="categoryName"
                                     placeholder="Choose category"
-                                    [(ngModel)]="editProduct.categoryId"
                                     name="category"
-                                    [disabled]="true"
+                                    formControlName="category"
                                     >
                         </ngx-select>
                      </div>
                      <div>
                         <label>Number of pages:</label>
-                        <input type="number" placeholder="Enter number of pages" name="pages" required [(ngModel)]="editProduct.numOfPages">
+                        <input type="number" formControlName="numOfPages" placeholder="Enter number of pages">
+                        <div *ngIf="numOfPages!.invalid && (numOfPages!.dirty || numOfPages!.touched)" class="alert alert-danger mt-1">
+                           <div *ngIf="numOfPages!.errors?.['required']">
+                               Number of pages is required
+                           </div>
+                           <div *ngIf="numOfPages!.errors?.['min']">
+                              Number of pages can not be less than 10
+                          </div>
+                       </div>
                      </div>
                      <div>
                         <label>Year of publication:</label>
-                        <input type="number" placeholder="Enter year of publication" name="year" required [(ngModel)]="editProduct.yearOfPublication">
+                        <input type="number" placeholder="Enter year of publication" formControlName="yearOfPublication">
+                        <div *ngIf="yearOfPublication!.invalid && (yearOfPublication!.dirty || yearOfPublication!.touched)" class="alert alert-danger mt-1">
+                           <div *ngIf="yearOfPublication!.errors?.['required']">
+                               Year of publication is required
+                           </div>
+                           <div *ngIf="yearOfPublication!.errors?.['min']">
+                              Year of publication can not be older than 1900
+                          </div>
+                       </div>
                      </div>
                      <div>
                         <label>Language:</label>
@@ -89,13 +106,26 @@
                                    optionValueField="id"
                                    optionTextField="name"
                                    placeholder="Choose language"
-                                   name="language"
-                                   [(ngModel)]="editProduct.languageId">
+                                   formControlName="language"
+                                   >
                        </ngx-select>
+                       <div *ngIf="language!.invalid && (language!.dirty || language!.touched)" class="alert alert-danger mt-1">
+                        <div *ngIf="language!.errors?.['required']">
+                            Language is required
+                        </div>
+                    </div>
                      </div>
                      <div>
                         <label>Description:</label>
-                        <textarea placeholder="Enter description" required name="description" [(ngModel)]="editProduct.description"></textarea>
+                        <textarea placeholder="Enter description" formControlName="description"></textarea>
+                        <div *ngIf="description!.invalid && (description!.dirty || description!.touched)" class="alert alert-danger mt-1">
+                           <div *ngIf="description!.errors?.['required']">
+                               Description is required
+                           </div>
+                           <div *ngIf="description!.errors?.['minlength']">
+                              Description must be at least 10 characters long
+                          </div>
+                       </div>
                      </div>
                      <div>
                         <button type="submit" >Edit Product</button>
