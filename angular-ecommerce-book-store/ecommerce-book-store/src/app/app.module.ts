@@ -25,9 +25,7 @@ import { UserListComponent } from './components/user/user-list/user-list.compone
 import { OrderListComponent } from './components/orders/order-list/order-list.component';
 import { OrderItemComponent } from './components/orders/order-item/order-item.component';
 import { CartComponent } from './components/shoping-cart/cart/cart.component';
-import { CartItemComponent } from './components/shoping-cart/cart-item/cart-item.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { BillComponent } from './components/checkout/bill/bill.component';
 import { ProdcutCategoryFiltersComponent } from './components/products/prodcut-category-filters/prodcut-category-filters.component';
 import { SearchComponent } from './components/layout/search/search.component';
 import { CartStatusComponent } from './components/shoping-cart/cart-status/cart-status.component';
@@ -57,9 +55,7 @@ import { OrderApproveRejectComponent } from './components/orders/order-approve-r
     OrderListComponent,
     OrderItemComponent,
     CartComponent,
-    CartItemComponent,
     CheckoutComponent,
-    BillComponent,
     ProdcutCategoryFiltersComponent,
     SearchComponent,
     CartStatusComponent,
