@@ -34,9 +34,9 @@
                         <td class="align-middle">{{ orderItem.customer.firstName}} {{orderItem.customer.lastName}}</td>
                         <td class="align-middle">{{orderItem!.status?.name }}</td>
                         <td>
-                            <a ><fa-icon [icon]="faCheck"  style="color: var(--success) !important;font-size: 24px;" [ngbTooltip]="'Approve'"></fa-icon></a>
-                            <a><fa-icon [icon]="faEye" style="color: var(--primary) !important" [ngbTooltip]="'See details'"></fa-icon></a>
-                            <a><fa-icon [icon]="faTimes" style="color: var(--danger) !important" [ngbTooltip]="'Reject'"></fa-icon></a>
+                            <a (click)="approveOrder(orderItem.id)"><fa-icon [icon]="faCheck"  style="color: var(--success) !important;font-size: 24px;" [ngbTooltip]="'Approve'"></fa-icon></a>
+                            <a routerLink="/order/{{orderItem.id}}"><fa-icon [icon]="faEye" style="color: var(--primary) !important" [ngbTooltip]="'See details'"></fa-icon></a>
+                            <a (click)="rejectOrder(orderItem.id)"><fa-icon [icon]="faTimes" style="color: var(--danger) !important" [ngbTooltip]="'Reject'"></fa-icon></a>
                         </td>
                     </tr> 
                 </tbody>

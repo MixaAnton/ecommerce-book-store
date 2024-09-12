@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { OrderService } from '../../../services/order.service';
 import { OrderHistory } from '../../../common/order-history';
 import { faCheck, faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { OrderApproveRejectComponent } from '../order-approve-reject/order-approve-reject.component';
+import { StatusEnum } from '../../../enums/status-enum';
 
 @Component({
   selector: 'app-order-history',
@@ -16,7 +19,7 @@ export class OrderHistoryComponent {
   faTimes = faTimes;
   faEye = faEye;
 
-  constructor(private orderService:OrderService ) { }
+  constructor(private orderService:OrderService,private modalService:NgbModal ) { }
 
   ngOnInit(): void {
     this.handleOrderHistory();
@@ -37,5 +40,26 @@ export class OrderHistoryComponent {
     this.orderService.getOrders().subscribe(res=>{
       console.log(res);
     })
+  }
+
+  approveOrder(orderId:any){
+   let modal= this.modalService.open(OrderApproveRejectComponent, {
+      scrollable: true,
+      centered: true,
+      animation: true,
+      size: 'sm',
+    })
+    modal.componentInstance.orderId = orderId;
+    modal.componentInstance.status = StatusEnum.Approved;
+  }
+  rejectOrder(orderId:any){
+    let modal= this.modalService.open(OrderApproveRejectComponent, {
+      scrollable: true,
+      centered: true,
+      animation: true,
+      size: 'md',
+    })
+    modal.componentInstance.orderId = orderId;
+    modal.componentInstance.status = StatusEnum.Rejected;
   }
 }

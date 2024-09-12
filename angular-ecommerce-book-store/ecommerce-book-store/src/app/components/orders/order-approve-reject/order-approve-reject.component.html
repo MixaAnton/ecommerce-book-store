@@ -1,1 +1,11 @@
-<p>order-approve-reject works!</p>
+<div class="p-4" style="z-index: 150;">
+    <h5 class="font-weight-bold text-dark text-right" style="cursor: pointer;" (click)="close($event)">X</h5>
+    <div>
+        
+        Are you sure you want to approve?
+    </div>
+    <div class="d-flex">
+        <button class="btn btn-primary" >Yes</button>
+        <button class="btn btn-primary" (click)="close($event)">No</button>
+    </div>
+</div>
