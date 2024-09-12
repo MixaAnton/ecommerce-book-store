@@ -34,6 +34,7 @@ import { CartStatusComponent } from './components/shoping-cart/cart-status/cart-
 import { ProductPriceFilterComponent } from './components/products/product-price-filter/product-price-filter.component';
 import { OrderHistoryComponent } from './components/orders/order-history/order-history.component';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
+import { OrderApproveRejectComponent } from './components/orders/order-approve-reject/order-approve-reject.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { OrderDetailsComponent } from './components/orders/order-details/order-d
     CartStatusComponent,
     ProductPriceFilterComponent,
     OrderHistoryComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    OrderApproveRejectComponent
   ],
   imports: [
     BrowserModule,
