@@ -31,9 +31,6 @@ public class Order {
     @Column(name="total_price")
     private BigDecimal totalPrice;
 
-    @Column(name="status")
-    private String status;
-
     @Column(name="date_created")
     @CreationTimestamp
     private Date dateCreated;
@@ -58,15 +55,7 @@ public class Order {
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
     private Address billingAddress;
 
-    /*public void add(OrderItem item) {
-
-        if (item != null) {
-            if (orderItems == null) {
-                orderItems = new HashSet<>();
-            }
-
-            orderItems.add(item);
-            item.setOrder(this);
-        }
-    }*/
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_id")
+    private Status status;
 }

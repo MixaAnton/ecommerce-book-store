@@ -19,5 +19,5 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
             "JOIN FETCH o.shippingAddress " +
             "JOIN FETCH o.billingAddress " +
             "JOIN FETCH o.orderItems")
-    List<Order> findAllOrdersWithDetails();
+    Page<Order> findAllOrdersWithDetailsOrderByDateCreatedDesc(Pageable pageable);
 }

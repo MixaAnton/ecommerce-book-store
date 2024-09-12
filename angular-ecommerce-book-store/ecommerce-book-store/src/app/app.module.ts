@@ -32,6 +32,8 @@ import { ProdcutCategoryFiltersComponent } from './components/products/prodcut-c
 import { SearchComponent } from './components/layout/search/search.component';
 import { CartStatusComponent } from './components/shoping-cart/cart-status/cart-status.component';
 import { ProductPriceFilterComponent } from './components/products/product-price-filter/product-price-filter.component';
+import { OrderHistoryComponent } from './components/orders/order-history/order-history.component';
+import { OrderDetailsComponent } from './src/app/components/orders/order-details/order-details.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { ProductPriceFilterComponent } from './components/products/product-price
     ProdcutCategoryFiltersComponent,
     SearchComponent,
     CartStatusComponent,
-    ProductPriceFilterComponent
+    ProductPriceFilterComponent,
+    OrderHistoryComponent,
+    OrderDetailsComponent
   ],
   imports: [
     BrowserModule,

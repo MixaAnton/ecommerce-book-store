@@ -1,0 +1,49 @@
+<section>
+    <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Order list</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a routerLink="/home">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Orders</p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-12 table-responsive mb-5"  *ngIf="orderHistoryList.length > 0">
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Order Tracking Number</th>
+                        <th>Total Price</th>
+                        <th>Total Quantity</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <tr *ngFor="let orderItem of orderHistoryList">
+                        <td class="align-middle">{{orderItem.orderTrackingNumber }}</td>
+                        <td class="align-middle">{{ orderItem.totalPrice| currency: 'USD' }}</td>
+                        <td class="align-middle">{{ orderItem.totalQuantity}}</td>
+                        <td class="align-middle">{{ orderItem.dateCreated | date : 'yyyy-dd-mm'}}</td>
+                        <td class="align-middle">{{ orderItem.customer.firstName}} {{orderItem.customer.lastName}}</td>
+                        <td class="align-middle">{{orderItem!.status?.name }}</td>
+                        <td>
+                            <a ><fa-icon [icon]="faCheck"  style="color: var(--success) !important;font-size: 24px;" [ngbTooltip]="'Approve'"></fa-icon></a>
+                            <a><fa-icon [icon]="faEye" style="color: var(--primary) !important" [ngbTooltip]="'See details'"></fa-icon></a>
+                            <a><fa-icon [icon]="faTimes" style="color: var(--danger) !important" [ngbTooltip]="'Reject'"></fa-icon></a>
+                        </td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="orderHistoryList.length == 0" class="alert alert-warning col-md-12" style="text-align: center;">
+            No orders found. 
+        </div>
+    </div>
+</div>

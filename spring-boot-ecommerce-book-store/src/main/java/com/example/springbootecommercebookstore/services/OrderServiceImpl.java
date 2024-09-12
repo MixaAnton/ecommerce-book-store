@@ -7,10 +7,13 @@ import com.example.springbootecommercebookstore.dto.PurchaseResponse;
 import com.example.springbootecommercebookstore.entity.Customer;
 import com.example.springbootecommercebookstore.entity.Order;
 import com.example.springbootecommercebookstore.entity.OrderItem;
-import com.example.springbootecommercebookstore.services.interfaces.CheckoutService;
-import com.example.springbootecommercebookstore.services.interfaces.OrderItemService;
+import com.example.springbootecommercebookstore.entity.Status;
+import com.example.springbootecommercebookstore.enums.StatusEnum;
+import com.example.springbootecommercebookstore.services.interfaces.OrderService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class CheckoutServiceImpl implements CheckoutService {
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -29,51 +32,54 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Autowired
     private OrderItemServiceImpl orderItemService;
 
+    @Autowired
+    private StatusServiceImpl statusService;
+
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
 
         Order order = purchase.getOrder();
 
+        Status status = statusService.getStatusByName(StatusEnum.CREATED.getDisplayName());
+        order.setStatus(status);
+
         String orderTrackingNumber = generateOrderTrackingNumber();
         order.setOrderTrackingNumber(orderTrackingNumber);
 
-        Set<OrderItem> orderItems = purchase.getOrderItems();
-       //orderItems.forEach(item -> item.setOrder(order));
-        //order.setOrderItems(orderItems);
-        // populate order with billingAddress and shippingAddress
         order.setBillingAddress(purchase.getBillingAddress());
         order.setShippingAddress(purchase.getShippingAddress());
+
+        Set<OrderItem> orderItems = purchase.getOrderItems();
         order.setOrderItems(orderItems);
-        // populate customer with order
+
         Customer customer = purchase.getCustomer();
 
-        // check if this is an existing customer
         String theEmail = customer.getEmail();
 
         Customer customerFromDB = customerRepository.findByEmail(theEmail);
 
         if (customerFromDB != null) {
-            // we found them ... let's assign them accordingly
             customer = customerFromDB;
         }
         else{
             customerRepository.save(customer);
         }
         order.setCustomer(customer);
-        //customer.add(order);
 
-        //customerRepository.save(customer);
         Order newOrder = orderRepository.save(order);
-
-        //orderItemService.saveAll(purchase.getOrderItems(),newOrder);
 
         return new PurchaseResponse(orderTrackingNumber);
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        return orderRepository.findAllOrdersWithDetails();
+    public Page<Order> getAllOrders(Pageable pageable) {
+        return orderRepository.findAllOrdersWithDetailsOrderByDateCreatedDesc(pageable);
+    }
+
+    @Override
+    public Page<Order> getOrderHistoryByEmail(String email, Pageable pageable) {
+        return orderRepository.findByCustomerEmailOrderByDateCreatedDesc(email,pageable);
     }
 
     private String generateOrderTrackingNumber() {

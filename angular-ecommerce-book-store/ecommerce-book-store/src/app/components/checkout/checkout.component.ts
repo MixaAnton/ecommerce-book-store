@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
-import { CheckoutService } from '../../services/checkout.service';
+import { OrderService } from '../../services/order.service';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
 import { CustomeValidators } from '../../validators/custome-validators';
@@ -10,6 +10,7 @@ import { ShopFormService } from '../../services/shop-form.service';
 import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase-info';
+import { NotificationService } from '../../services/notification/notification.service';
 
 
 @Component({
@@ -45,17 +46,13 @@ export class CheckoutComponent {
 
   constructor(private formBuilder: FormBuilder,
               private cartService: CartService,
-              private checkoutService: CheckoutService,
+              private orderService: OrderService,
               private router: Router,
-              private shopFormService:ShopFormService) { }
+              private shopFormService:ShopFormService,
+              private notificationService:NotificationService) { }
 
   ngOnInit(): void {
   
-
-    this.checkoutService.getOrders().subscribe((response)=>{
-      console.log(response);
-    });
-
     // setup Stripe payment form
     //this.setupStripePaymentForm();
     
@@ -69,7 +66,6 @@ export class CheckoutComponent {
 
     this.shopFormService.getCreditCardMonths(startMonth).subscribe(
       data => {
-        console.log("Retrieved credit card months: " + JSON.stringify(data));
         this.creditCardMonths = data;
       }
     );
@@ -77,7 +73,6 @@ export class CheckoutComponent {
     // populate credit card years
     this.shopFormService.getCreditCardYears().subscribe(
       data => {
-        console.log("Retrieved credit card years: " + JSON.stringify(data));
         this.creditCardYears = data;
       }
     );
@@ -223,8 +218,7 @@ export class CheckoutComponent {
   }
 
   onSubmit() {
-    console.log("Handling the submit button");
-
+    
     if (this.checkoutFormGroup.invalid) {
       this.checkoutFormGroup.markAllAsTouched();
       return;
@@ -265,12 +259,18 @@ export class CheckoutComponent {
     purchase.order = order;
     purchase.orderItems = orderItems;
 
-    this.checkoutService.placeOrder(purchase).subscribe((response)=>{
-      console.log(response);
-      this.checkoutService.getOrders().subscribe((response)=>{
-        console.log(response);
-      })
-    })
+    this.orderService.placeOrder(purchase).subscribe({
+    next: response => {
+      this.notificationService.showSuccess(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`,'Successfully')
+      // reset cart
+      this.resetCart();
+      this.isDisabled = false;
+    },
+    error: err => {
+      this.notificationService.showError(`There was an error: ${err.message}`,'Error')
+      this.isDisabled = false;
+    }
+  })
 
     // // compute payment info
     // this.paymentInfo.amount = Math.round(this.totalPrice * 100);

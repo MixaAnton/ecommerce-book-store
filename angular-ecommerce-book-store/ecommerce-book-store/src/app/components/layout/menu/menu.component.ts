@@ -23,6 +23,9 @@ export class MenuComponent {
   @ViewChild('navbarVertical') 
   navBarVertical!:ElementRef;
 
+  @ViewChild('navbarCoders') 
+  navBarCoders!:ElementRef;
+
   @ViewChild('navbarCollapse') 
   navbarCollapse!:ElementRef;
   
@@ -39,6 +42,14 @@ export class MenuComponent {
 
   showNavBarVertical(){
     let element = this.navBarVertical.nativeElement;
+    if(element.classList.contains('show'))
+        this.renderer2.removeClass(element,'show');
+    else
+      this.renderer2.addClass(element,'show');
+  }
+
+  showNavBarCoders(){
+    let element = this.navBarCoders.nativeElement;
     if(element.classList.contains('show'))
         this.renderer2.removeClass(element,'show');
     else
