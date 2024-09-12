@@ -12,6 +12,7 @@ import { UserInfoComponent } from './components/user/user-info/user-info.compone
 import { CartComponent } from './components/shoping-cart/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrderHistoryComponent } from './components/orders/order-history/order-history.component';
+import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 
 const routes: Routes = [
   {path: '', redirectTo:'/home',pathMatch:'full'},
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path: 'cart-details', component: CartComponent},
   {path: 'checkout', component: CheckoutComponent},
   {path: 'order-history', component: OrderHistoryComponent},
+  {path: 'order/:id', component:OrderDetailsComponent},
   // { path: '', redirectTo: '/products', pathMatch:'full'},
   { path: '**', redirectTo: '/products', pathMatch:'full'}
 
