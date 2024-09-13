@@ -1,11 +1,21 @@
-<div class="p-4" style="z-index: 150;">
-    <h5 class="font-weight-bold text-dark text-right" style="cursor: pointer;" (click)="close($event)">X</h5>
-    <div>
-        
-        Are you sure you want to approve?
+<div class="card">
+    <div class="delete-modal-header">
+      <span class="action-form-title">{{ status === approveStatus?'Approval':'Rejection'}}</span>
+      <fa-icon [icon]="faTimes" style="cursor:pointer" (click)="closeModal($event)"></fa-icon>
     </div>
-    <div class="d-flex">
-        <button class="btn btn-primary" >Yes</button>
-        <button class="btn btn-primary" (click)="close($event)">No</button>
+  
+    <div class="card-body">
+      <label class="form-control-label text-center">
+        Are you sure you want to  {{ status === approveStatus?'approve':'reject'}} order?
+      </label>
     </div>
-</div>
+  
+    <div class="modal-footer modal-form-button-container">
+      <button class="btn btn-primary"  (click)="closeModal($event)">
+        No
+      </button>
+      <button class="btn btn-primary" (click)="approveOrReject()" >
+        Yes
+      </button>
+    </div>
+  </div>

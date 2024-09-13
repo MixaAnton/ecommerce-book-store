@@ -1,0 +1,19 @@
+.delete-modal-header {
+    display: flex;
+    border: none !important;
+    padding: 18px 30px 18px 18px !important;
+    justify-content: space-between;
+    color: var(--dark);
+    font-weight: bold;
+  }
+  
+  button {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .card{
+    border-radius: 0 !important;
+  }
+  

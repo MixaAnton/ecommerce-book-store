@@ -8,3 +8,19 @@ td a{
 th{
     background-color: var(--secondary);
 }
+.display-none{
+    display: none;
+}
+.show{
+    display: inline-block;
+}
+
+.created{
+    color: var(--primary) !important;
+}
+.approved{
+    color: var(--success) !important;
+}
+.rejected{
+    color: var(--danger) !important;
+}

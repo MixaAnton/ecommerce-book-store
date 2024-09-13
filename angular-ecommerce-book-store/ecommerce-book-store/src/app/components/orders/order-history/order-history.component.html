@@ -32,15 +32,25 @@
                         <td class="align-middle">{{ orderItem.totalQuantity}}</td>
                         <td class="align-middle">{{ orderItem.dateCreated | date : 'yyyy-dd-mm'}}</td>
                         <td class="align-middle">{{ orderItem.customer.firstName}} {{orderItem.customer.lastName}}</td>
-                        <td class="align-middle">{{orderItem!.status?.name }}</td>
+                        <td class="align-middle"  [ngClass]="orderItem.status.name == statsuCreated?'created': orderItem.status.name == statusApproved?'approved':'rejected'" >{{ orderItem!.status?.name}}</td>
                         <td>
-                            <a (click)="approveOrder(orderItem.id)"><fa-icon [icon]="faCheck"  style="color: var(--success) !important;font-size: 24px;" [ngbTooltip]="'Approve'"></fa-icon></a>
+                            <a (click)="approveOrder(orderItem.id)" class="display-none" [ngClass]="orderItem!.status?.name == statsuCreated?'show':''"><fa-icon [icon]="faCheck"  style="color: var(--success) !important;font-size: 24px;" [ngbTooltip]="'Approve'"></fa-icon></a>
                             <a routerLink="/order/{{orderItem.id}}"><fa-icon [icon]="faEye" style="color: var(--primary) !important" [ngbTooltip]="'See details'"></fa-icon></a>
-                            <a (click)="rejectOrder(orderItem.id)"><fa-icon [icon]="faTimes" style="color: var(--danger) !important" [ngbTooltip]="'Reject'"></fa-icon></a>
+                            <a (click)="rejectOrder(orderItem.id)"  class="display-none" [ngClass]="orderItem.status.name == statsuCreated?'show':''"><fa-icon [icon]="faTimes" style="color: var(--danger) !important" [ngbTooltip]="'Reject'"></fa-icon></a>
                         </td>
                     </tr> 
                 </tbody>
             </table>
+            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                <ngb-pagination
+                    [(page)]="pageNumber"
+                    [pageSize]="pageSize"
+                    [collectionSize]="totalElements"
+                    
+                    [boundaryLinks]="true"
+                    (pageChange)="handleOrderHistory()">
+                </ngb-pagination>
+            </div>
         </div>
         <div *ngIf="orderHistoryList.length == 0" class="alert alert-warning col-md-12" style="text-align: center;">
             No orders found. 

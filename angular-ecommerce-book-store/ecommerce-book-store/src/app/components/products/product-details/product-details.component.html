@@ -25,15 +25,15 @@
                 <h5 class="font-weight-semi-bold mb-4">Author: <span class="text-primary">{{product.author.firstName}} {{product.author.lastName}}</span></h5>
                 <h5 class="font-weight-semi-bold mb-4">Price: <span class="text-primary">{{product.unitPrice}}</span></h5>
                 <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
+                    <div class="input-group quantity mr-3" style="width: 140px;">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus">
+                            <button class="btn btn-primary btn-minus" (click)="decrementQuantity()">
                                 <fa-icon [icon]="faMinus" class=" mr-1"></fa-icon>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value='1'>
+                        <input type="text" class="form-control bg-secondary text-center" value='1' disabled [(ngModel)]="quantity" [max]="product.unitsInStock" min="1">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
+                            <button class="btn btn-primary btn-plus" (click)="incrementQuantity()">
                                 <fa-icon [icon]="faPlus" class=" mr-1"></fa-icon>
                             </button>
                         </div>

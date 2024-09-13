@@ -36,4 +36,9 @@ public class OrderController {
     public Page<Order> getOrderHistoryByUserEmail(@RequestParam String email, Pageable pageable){
         return orderService.getOrderHistoryByEmail(email,pageable);
     }
+
+    @GetMapping("/change-status")
+    public Order changeOrderStatus(@RequestParam Long orderId,@RequestParam String status){
+        return orderService.changeOrderStatus(orderId,status);
+    }
 }

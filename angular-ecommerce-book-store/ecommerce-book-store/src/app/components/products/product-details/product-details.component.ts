@@ -15,8 +15,9 @@ export class ProductDetailsComponent {
   faCart = faCartShopping;
   faPlus = faPlus;
   faMinus = faMinus;
-
+  cartItem!:CartItem;
   product!: Product;
+  quantity:number = 1;
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
@@ -35,14 +36,22 @@ export class ProductDetailsComponent {
     this.productService.getProduct(productId).subscribe(
       data => {
         this.product = data;
+        this.cartItem = new CartItem(this.product)
       }
     )
   }
 
-  addToCart() {
+  incrementQuantity() {
+    if(this.quantity<this.product.unitsInStock)
+    this.quantity++;
+  }
 
-    const cartItem = new CartItem(this.product);
-    this.cartService.addToCart(cartItem);
-    
+  decrementQuantity() {
+    if(this.quantity>2)
+      this.quantity--;
+  }
+
+  addToCart() {
+    this.cartService.addToCart(this.cartItem,this.quantity);
   }
 }

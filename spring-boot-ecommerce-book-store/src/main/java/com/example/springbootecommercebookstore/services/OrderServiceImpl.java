@@ -82,6 +82,14 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByCustomerEmailOrderByDateCreatedDesc(email,pageable);
     }
 
+    @Override
+    public Order changeOrderStatus(Long orderId, String statusName) {
+        Status status = statusService.getStatusByName(statusName);
+        Order order = orderRepository.findOrderById(orderId);
+        order.setStatus(status);
+        return orderRepository.save(order);
+    }
+
     private String generateOrderTrackingNumber() {
 
         return UUID.randomUUID().toString();
