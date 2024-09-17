@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-product-price-filter',
@@ -7,7 +7,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class ProductPriceFilterComponent {
 
+  @Input()
   startPrice: number = 0;
+  @Input()
   endPrice: number = 0;
   isInputFilled = false;
   minValue = 0;

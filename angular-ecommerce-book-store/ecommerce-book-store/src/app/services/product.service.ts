@@ -5,6 +5,7 @@ import { Author, Language, Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
 import { environment } from '../../environments/environment';
 import { Page } from '../common/page';
+import { Sorting } from '../common/sort';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,11 @@ export class ProductService {
     return this.httpClient.get<Product>(productUrl);
   }
 
-  getProductListByCategory(page:number,pageSize:number,categoryId:number): Observable<Product[]> {
+  getProductListByCategory(page:number,pageSize:number,categoryId:number,sort:Sorting): Observable<Product[]> {
 
     const searchUrl = categoryId === 0? 
-    this.productUrl+`/all?&page=${page}&size=${pageSize}` 
-    : `${this.productUrl}/by-category?categoryId=${categoryId}&page=${page}&size=${pageSize}`
+    this.productUrl+`/all?&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}` 
+    : `${this.productUrl}/by-category?categoryId=${categoryId}&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}`
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }
@@ -49,10 +50,10 @@ export class ProductService {
     return this.httpClient.get<any>(this.languageUrl+'/all').pipe();
   }
 
-  getProductListByCategories(page:number,pageSize:number,categories:Array<number>): Observable<Product[]> {
+  getProductListByCategories(page:number,pageSize:number,categories:Array<number>,sort:Sorting): Observable<Product[]> {
 
     
-    const searchUrl = `${this.productUrl}/by-categories?categoryIds=${categories}&page=${page}&size=${pageSize}`;
+    const searchUrl = `${this.productUrl}/by-categories?categoryIds=${categories}&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}`;
 
     return this.httpClient.get<any>(searchUrl).pipe();
   }
@@ -63,11 +64,24 @@ export class ProductService {
     return this.httpClient.get<any>(url).pipe();
   }
 
-  searchProducts(page:number,pageSize:number,keyword: string): Observable<Page<Product>> {
+  searchProducts(page:number,pageSize:number,keyword: string,sort:Sorting): Observable<Page<Product>> {
 
     const searchUrl = `${this.productUrl}/find-by-name?name=${keyword}`
-                      +`&page=${page}&size=${pageSize}`;
+                      +`&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}`;
 
     return this.httpClient.get<any>(searchUrl).pipe();
+  }
+
+  searchByProductsOrAuthor(page:number,pageSize:number,searchTerm: string,categories:Array<number>,sort:Sorting):Observable<Page<Product>>{
+    const searchUrl = `${this.productUrl}/find-by-name-or-author?searchTerm=${searchTerm}&categoryIds=${categories}`
+                      +`&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}`;
+
+    return this.httpClient.get<any>(searchUrl).pipe();
+  }
+
+  filterProductsByPrice(startPrice:number,endPrice:number,categories:Array<number>,page:number,pageSize:number,sort:Sorting):Observable<Page<Product>>{
+    const searchUrl = `${this.productUrl}/filter-by-price?startPrice=${startPrice}&endPrice=${endPrice}&categoryIds=${categories}`
+    +`&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}`;
+      return this.httpClient.get<any>(searchUrl).pipe();
   }
 }

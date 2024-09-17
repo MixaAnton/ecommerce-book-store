@@ -34,6 +34,10 @@ export class OrderService {
 
   }
 
+  getOrderDetails(orderId:number):Observable<any>{
+    return this.httpClient.get<any>(this.orderUrl+`/order-details?orderId=${orderId}`).pipe();
+  }
+
   changeOrderStatus(orderId:any,status:any):Observable<any>{
 
     return this.httpClient.get<any>(this.orderUrl+`/change-status?orderId=${orderId}&status=${status}`).pipe();

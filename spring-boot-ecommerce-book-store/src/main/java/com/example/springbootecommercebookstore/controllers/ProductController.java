@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -47,10 +48,19 @@ public class ProductController {
     public Page<Product> getProductsByName(@RequestParam String name,Pageable pageable){
         return productService.findProductsByName(name,pageable);
     }
+    @GetMapping("/find-by-name-or-author")
+    public Page<Product> getProductsByProductOrAuthor(@RequestParam String searchTerm,@RequestParam List<Long> categoryIds,Pageable pageable){
+        return productService.findProductsByProductNameOrAuthor(searchTerm,categoryIds,pageable);
+    }
 
     @GetMapping("/last-three-products")
     public List<Product> getLastThreeProducts(){
         return productService.getLastThreeProducts();
+    }
+
+    @GetMapping("/filter-by-price")
+    public Page<Product> getProductsByPriceRange(@RequestParam BigDecimal startPrice, @RequestParam BigDecimal endPrice,@RequestParam List<Long> categoryIds , Pageable pageable){
+        return productService.getAllProductsByPriceRange(startPrice,endPrice,categoryIds,pageable);
     }
 
 }

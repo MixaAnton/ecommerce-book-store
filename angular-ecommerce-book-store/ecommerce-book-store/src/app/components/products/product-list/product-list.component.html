@@ -19,11 +19,11 @@
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-12">
                 <!-- Category Start -->
-                    <app-prodcut-category-filters></app-prodcut-category-filters>
+                    <app-prodcut-category-filters ></app-prodcut-category-filters>
                 <!-- Category End -->
 
                 <!-- Price Start -->
-                    <app-product-price-filter (prices)="filterByPrice($event)"></app-product-price-filter>
+                    <app-product-price-filter (prices)="filterByPrice($event)" [endPrice]="endPrice" [startPrice]="startPrice"></app-product-price-filter>
                 <!-- Price End -->
             </div>
             <!-- Shop Sidebar End -->
@@ -35,8 +35,8 @@
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <form>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search by name">
-                                    <div class="input-group-append">
+                                    <input type="text" class="form-control" placeholder="Search by name or author" name="search" [(ngModel)]="searchTerm" >
+                                    <div class="input-group-append" (click)="searchByNameAndAuthor()">
                                         <span class="input-group-text bg-transparent text-primary">
                                             <fa-icon [icon]="faSearch" class="text-primary "></fa-icon>
                                         </span>
@@ -44,12 +44,14 @@
                                 </div>
                             </form>
                             <div class="dropdown ml-4"> 
-                                <ngx-select [allowClear]="true"
+                                <ngx-select 
                                     [items]="sortOptions"
                                     optionValueField="id"
                                     optionTextField="name"
-                                     placeholder="Sort by"
-                                     [(ngModel)]="selectedOption">
+                                    placeholder="Sort by"
+                                    (select)="sortProducts($event)"
+                                    [(ngModel)]="selectedOption"
+                                    >
                                 </ngx-select>
                             </div>
                         </div>

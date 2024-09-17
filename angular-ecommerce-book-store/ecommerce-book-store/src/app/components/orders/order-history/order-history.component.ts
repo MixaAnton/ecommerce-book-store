@@ -49,7 +49,6 @@ export class OrderHistoryComponent {
     else
       this.orderService.getOrders(this.pageNumber-1,this.pageSize).subscribe(data=>{
         this.processResult(data);
-        console.log(data);
       })
   }
 

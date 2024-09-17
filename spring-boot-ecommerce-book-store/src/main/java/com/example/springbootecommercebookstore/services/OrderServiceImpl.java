@@ -2,12 +2,11 @@ package com.example.springbootecommercebookstore.services;
 
 import com.example.springbootecommercebookstore.dao.CustomerRepository;
 import com.example.springbootecommercebookstore.dao.OrderRepository;
+import com.example.springbootecommercebookstore.dto.OrderDetails;
+import com.example.springbootecommercebookstore.dto.OrderItemDTO;
 import com.example.springbootecommercebookstore.dto.Purchase;
 import com.example.springbootecommercebookstore.dto.PurchaseResponse;
-import com.example.springbootecommercebookstore.entity.Customer;
-import com.example.springbootecommercebookstore.entity.Order;
-import com.example.springbootecommercebookstore.entity.OrderItem;
-import com.example.springbootecommercebookstore.entity.Status;
+import com.example.springbootecommercebookstore.entity.*;
 import com.example.springbootecommercebookstore.enums.StatusEnum;
 import com.example.springbootecommercebookstore.services.interfaces.OrderService;
 import jakarta.transaction.Transactional;
@@ -16,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -34,6 +35,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private StatusServiceImpl statusService;
+
+    @Autowired
+    private ProductServiceImpl productService;
 
     @Override
     @Transactional
@@ -74,6 +78,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getAllOrders(Pageable pageable) {
+
         return orderRepository.findAllOrdersWithDetailsOrderByDateCreatedDesc(pageable);
     }
 
@@ -85,9 +90,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order changeOrderStatus(Long orderId, String statusName) {
         Status status = statusService.getStatusByName(statusName);
-        Order order = orderRepository.findOrderById(orderId);
+        Order order = orderRepository.findOrderByOrderId(orderId);
         order.setStatus(status);
         return orderRepository.save(order);
+    }
+
+    @Override
+    public OrderDetails getOrderDetails(Long orderId) {
+        Order order = orderRepository.findOrderByOrderId(orderId);
+        OrderDetails orderDetails= new OrderDetails();
+        orderDetails.setTotalOrderPrice(order.getTotalPrice());
+        orderDetails.setTotalQuantity(order.getTotalQuantity());
+
+        Set<OrderItemDTO> orderItemDTO = new HashSet<>();
+
+        Set<OrderItem> orderItems = order.getOrderItems();
+
+        orderItems.forEach(x -> {
+            Product product = productService.getProductById(x.getProductId());
+            BigDecimal totlaPrice = x.getUnitPrice().multiply(BigDecimal.valueOf(x.getQuantity()));
+            orderItemDTO.add(new OrderItemDTO(product.getName(),x.getQuantity(),x.getUnitPrice(),totlaPrice));
+        } );
+
+        orderDetails.setOrderItems(orderItemDTO);
+
+        return  orderDetails;
     }
 
     private String generateOrderTrackingNumber() {

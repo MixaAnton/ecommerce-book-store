@@ -1,1 +1,67 @@
-<p>order-details works!</p>
+<section>
+    <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Order details</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a routerLink="/home">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Order details</p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container-fluid pt-5" *ngIf="order">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive mb-5" >
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Products</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <tr *ngFor="let tempItem of order!.orderItems">
+                        <td style="text-align: left;"><img src="../../../../assets/images/about-us.jpg" alt="" style="width: 50px;"> {{ tempItem.productName }}</td>
+                        <td class="align-middle">{{ tempItem.unitPrice | currency: 'USD' }}</td>
+                        <td class="align-middle">{{ tempItem.quantity}}</td>
+                        <td class="align-middle">{{ tempItem.totalPrice | currency: 'USD' }}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                    <tr>
+                        <th>Order Summary</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <tr>
+                        <td class="align-middle" style="display: flex; justify-content: space-between;">
+                            <h6>
+                                Total quantity
+                            </h6>
+                            <h6>
+                                {{ order.totalQuantity }}
+                            </h6> 
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="align-middle" style="display: flex; justify-content: space-between; ">
+                            <h5>
+                                Total price
+                            </h5>
+                            <h5>
+                                {{ order.totalOrderPrice | currency: 'USD' }}
+                            </h5> 
+                        </td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

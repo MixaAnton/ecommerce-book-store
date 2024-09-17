@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { ProductService } from '../../../services/product.service';
-import { Product } from '../../../common/product';
-import { ProductCategory, ProductCategoryCheck } from '../../../common/product-category';
+import { ProductCategoryCheck } from '../../../common/product-category';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -33,6 +32,7 @@ export class ProdcutCategoryFiltersComponent {
       this.updateCategorySelection();
     });
   }
+ 
 
   listProductCategories() {
     this.productService.getProductCategories().subscribe((response) => {

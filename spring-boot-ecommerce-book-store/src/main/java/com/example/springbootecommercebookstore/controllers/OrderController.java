@@ -1,5 +1,6 @@
 package com.example.springbootecommercebookstore.controllers;
 
+import com.example.springbootecommercebookstore.dto.OrderDetails;
 import com.example.springbootecommercebookstore.dto.Purchase;
 import com.example.springbootecommercebookstore.dto.PurchaseResponse;
 import com.example.springbootecommercebookstore.entity.Order;
@@ -40,5 +41,10 @@ public class OrderController {
     @GetMapping("/change-status")
     public Order changeOrderStatus(@RequestParam Long orderId,@RequestParam String status){
         return orderService.changeOrderStatus(orderId,status);
+    }
+
+    @GetMapping("/order-details")
+    public OrderDetails getOrderDetails(@RequestParam Long orderId){
+        return  orderService.getOrderDetails(orderId);
     }
 }

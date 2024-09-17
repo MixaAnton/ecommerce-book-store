@@ -5,9 +5,12 @@ import com.example.springbootecommercebookstore.entity.Product;
 import com.example.springbootecommercebookstore.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -53,6 +56,54 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findProductsByName(String name, Pageable pageable) {
         return productRepository.findByNameContainingIgnoreCase(name,pageable);
+    }
+
+    @Override
+    public Page<Product> findProductsByProductNameOrAuthor(String searchTerm,List<Long> categoryIds, Pageable pageable) {
+
+        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
+
+        String sortColumn = "date_created";
+        Sort.Direction sortDirection = Sort.Direction.DESC;
+
+        if (order != null) {
+            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
+            sortDirection = order.getDirection();
+        }
+
+        Pageable pageableNative = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(sortDirection, sortColumn)
+        );
+        if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
+            return productRepository.findByProductNameOrAuthorName(searchTerm,pageableNative);
+        return productRepository.findByProductNameOrAuthorNameIncludeCategories(searchTerm,categoryIds,pageableNative);
+
+    }
+
+    @Override
+    public Page<Product> getAllProductsByPriceRange(BigDecimal startPrice, BigDecimal endPrice, List<Long> categoryIds, Pageable pageable) {
+
+        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
+
+        String sortColumn = "date_created";
+        Sort.Direction sortDirection = Sort.Direction.DESC;
+
+        if (order != null) {
+            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
+            sortDirection = order.getDirection();
+        }
+
+        Pageable pageableNative = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(sortDirection, sortColumn)
+        );
+
+        if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
+            return productRepository.filterByPrice(startPrice,endPrice,pageableNative);
+        return productRepository.filterByPriceIncludeCategories(startPrice,endPrice,categoryIds,pageableNative);
     }
 
     @Override
