@@ -7,7 +7,8 @@ export interface Product {
     name: string;
     description: string;
     unitPrice: number;
-    image: string | null;
+    image:any;
+    imageExtension:string | null;
     active: boolean;
     unitsInStock: number;
     dateCreated: Date;
@@ -27,6 +28,7 @@ export interface ProductCreate{
     description: string;
     unitPrice: number;
     image: string | null;
+    imageExtension: string | null;
     active: boolean;
     unitsInStock: number;
     dateCreated: Date;
@@ -45,7 +47,8 @@ export class ProductEdit{
   name: string;
   description: string;
   unitPrice: number;
-  image: string | null;
+  image: any;
+  imageExtension:string | null;
   active: boolean;
   unitsInStock: number;
   dateCreated: Date;
@@ -63,6 +66,7 @@ export class ProductEdit{
       this.description = product.description;
       this.unitPrice = product.unitPrice;
       this.image = product.image;
+      this.imageExtension = product.imageExtension;
       this.active = product.active;
       this.unitsInStock = product.unitsInStock;
       this.dateCreated = product.dateCreated;

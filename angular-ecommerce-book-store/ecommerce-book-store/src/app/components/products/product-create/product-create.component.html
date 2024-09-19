@@ -94,6 +94,18 @@
                     </div>
                     </div>
                     <div>
+                     <label>Units in stock:</label>
+                     <input type="number" placeholder="Enter number of units in stock" formControlName="unitsInStock">
+                     <div *ngIf="unitsInStock!.invalid && (unitsInStock!.dirty || unitsInStock!.touched)" class="alert alert-danger mt-1">
+                      <div *ngIf="unitsInStock!.errors?.['required']">
+                          Number of units in stock is required
+                      </div>
+                      <div *ngIf="unitsInStock!.errors?.['min']">
+                        Number of units in stock can not be less than 1
+                     </div>
+                  </div>
+                  </div>
+                    <div>
                        <label>Language:</label>
                        <ngx-select [allowClear]="true"
                                    [items]="languages"
@@ -124,9 +136,10 @@
                        <label>Cover Image:</label>
                        <input class="file-input"
                                type="file"
-                               accept=".jpg, .jpeg, .png"
                                name="image"
+                               [accept]="allowedExtensions"
                                formControlName="image"
+                               (change)="onFileSelected($event)"
                                >
                     </div>
                     <div>

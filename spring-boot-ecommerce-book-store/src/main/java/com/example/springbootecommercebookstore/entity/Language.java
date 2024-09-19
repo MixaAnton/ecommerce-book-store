@@ -23,6 +23,4 @@ public class Language {
     @Column(name = "designation",length = 3)
     private String designation;
 
-   // @OneToMany(cascade = CascadeType.ALL, mappedBy = "language")
-    //private Set<Product> products;
 }

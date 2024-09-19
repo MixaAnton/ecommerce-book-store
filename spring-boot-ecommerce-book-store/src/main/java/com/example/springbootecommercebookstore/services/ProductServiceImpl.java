@@ -1,7 +1,14 @@
 package com.example.springbootecommercebookstore.services;
 
 import com.example.springbootecommercebookstore.dao.ProductRepository;
+import com.example.springbootecommercebookstore.dto.ProductCreate;
+import com.example.springbootecommercebookstore.entity.Author;
+import com.example.springbootecommercebookstore.entity.Language;
 import com.example.springbootecommercebookstore.entity.Product;
+import com.example.springbootecommercebookstore.entity.ProductCategory;
+import com.example.springbootecommercebookstore.services.interfaces.AuthorService;
+import com.example.springbootecommercebookstore.services.interfaces.LanguageService;
+import com.example.springbootecommercebookstore.services.interfaces.ProductCategoryService;
 import com.example.springbootecommercebookstore.services.interfaces.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +27,15 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    AuthorService authorService;
+
+    @Autowired
+    LanguageService languageService;
+
+    @Autowired
+    ProductCategoryService productCategoryService;
+
     public Product getProductById(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
@@ -31,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getAllProducts(Pageable pageable) {
+
         return productRepository.findAll(pageable);
     }
 
@@ -61,21 +78,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> findProductsByProductNameOrAuthor(String searchTerm,List<Long> categoryIds, Pageable pageable) {
 
-        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
+//        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
+//
+//        String sortColumn = "date_created";
+//        Sort.Direction sortDirection = Sort.Direction.DESC;
+//
+//        if (order != null) {
+//            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
+//            sortDirection = order.getDirection();
+//        }
+//
+//        Pageable pageableNative = PageRequest.of(
+//                pageable.getPageNumber(),
+//                pageable.getPageSize(),
+//                Sort.by(sortDirection, sortColumn)
+//        );
+        Pageable pageableNative = createPageableWithCustomSort(pageable);
 
-        String sortColumn = "date_created";
-        Sort.Direction sortDirection = Sort.Direction.DESC;
-
-        if (order != null) {
-            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
-            sortDirection = order.getDirection();
-        }
-
-        Pageable pageableNative = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                Sort.by(sortDirection, sortColumn)
-        );
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
             return productRepository.findByProductNameOrAuthorName(searchTerm,pageableNative);
         return productRepository.findByProductNameOrAuthorNameIncludeCategories(searchTerm,categoryIds,pageableNative);
@@ -85,21 +104,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getAllProductsByPriceRange(BigDecimal startPrice, BigDecimal endPrice, List<Long> categoryIds, Pageable pageable) {
 
-        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
-
-        String sortColumn = "date_created";
-        Sort.Direction sortDirection = Sort.Direction.DESC;
-
-        if (order != null) {
-            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
-            sortDirection = order.getDirection();
-        }
-
-        Pageable pageableNative = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                Sort.by(sortDirection, sortColumn)
-        );
+//        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
+//
+//        String sortColumn = "date_created";
+//        Sort.Direction sortDirection = Sort.Direction.DESC;
+//
+//        if (order != null) {
+//            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
+//            sortDirection = order.getDirection();
+//        }
+//
+//        Pageable pageableNative = PageRequest.of(
+//                pageable.getPageNumber(),
+//                pageable.getPageSize(),
+//                Sort.by(sortDirection, sortColumn)
+//        );
+        Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
             return productRepository.filterByPrice(startPrice,endPrice,pageableNative);
@@ -109,6 +129,32 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getLastThreeProducts() {
         return productRepository.findTop3ByOrderByDateCreatedDesc();
+    }
+
+    @Override
+    public Product createNewProduct(ProductCreate productCreate) {
+        Product product = new Product();
+        product.setUnitPrice(productCreate.getUnitPrice());
+        product.setActive(productCreate.getUnitsInStock()>1);
+        product.setIsbn(generateRandomISBN13());
+        product.setName(productCreate.getName());
+        product.setNumOfPages(productCreate.getNumOfPages());
+        product.setDescription(productCreate.getDescription());
+        product.setYearOfPublication(productCreate.getYearOfPublication());
+        product.setImageExtension(productCreate.getImageExtension());
+
+        if(productCreate.getImage()!=null)
+            product.setImage(productCreate.getImage().getBytes());
+
+        Author author = authorService.getAuthorById(productCreate.getAuthorId());
+        Language language = languageService.getLanguageById(productCreate.getLanguageId());
+        ProductCategory category = productCategoryService.getCategoryById(productCreate.getCategoryId());
+
+        product.setAuthor(author);
+        product.setLanguage(language);
+        product.setCategory(category);
+
+        return productRepository.save(product);
     }
 
     public static String generateRandomISBN13() {
@@ -132,5 +178,24 @@ public class ProductServiceImpl implements ProductService {
 
         isbn.append(checkDigit);
         return isbn.toString();
+    }
+
+    public Pageable createPageableWithCustomSort(Pageable pageable) {
+
+        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
+
+        String sortColumn = "date_created";
+        Sort.Direction sortDirection = Sort.Direction.DESC;
+
+        if (order != null) {
+            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
+            sortDirection = order.getDirection();
+        }
+
+        return PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(sortDirection, sortColumn)
+        );
     }
 }

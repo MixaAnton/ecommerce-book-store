@@ -18,8 +18,12 @@ public class OrderItem {
     @Column(name="id")
     private Long id;
 
-    @Column(name="image_url")
-    private String imageUrl;
+    @Lob
+    @Column(name="image")
+    private byte[] image;
+
+    @Column(name = "image_extension")
+    private String imageExtension;
 
     @Column(name="unit_price")
     private BigDecimal unitPrice;

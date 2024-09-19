@@ -22,6 +22,4 @@ public class Author {
     @Column(name = "last_name")
     private String lastName;
 
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-    //private Set<Product> products;
 }

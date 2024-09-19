@@ -33,6 +33,7 @@ import { ProductPriceFilterComponent } from './components/products/product-price
 import { OrderHistoryComponent } from './components/orders/order-history/order-history.component';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 import { OrderApproveRejectComponent } from './components/orders/order-approve-reject/order-approve-reject.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { OrderApproveRejectComponent } from './components/orders/order-approve-r
     FontAwesomeModule,
     FormsModule,
     NgxSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

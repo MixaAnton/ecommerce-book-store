@@ -84,4 +84,9 @@ export class ProductService {
     +`&page=${page}&size=${pageSize}&sort=${sort.columnName},${sort.order}`;
       return this.httpClient.get<any>(searchUrl).pipe();
   }
+
+  create(product:any):Observable<any>{
+    const url = `${this.productUrl}/create`
+   return this.httpClient.post<any>(url,product).pipe();
+  }
 }

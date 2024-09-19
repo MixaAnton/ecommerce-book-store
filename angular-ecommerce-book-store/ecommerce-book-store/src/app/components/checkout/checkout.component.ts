@@ -49,7 +49,7 @@ export class CheckoutComponent {
               private orderService: OrderService,
               private router: Router,
               private shopFormService:ShopFormService,
-              //private notificationService:NotificationService
+              private notificationService:NotificationService
             ) { }
 
   ngOnInit(): void {
@@ -262,13 +262,13 @@ export class CheckoutComponent {
 
     this.orderService.placeOrder(purchase).subscribe({
     next: response => {
-     // this.notificationService.showSuccess(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`,'Successfully')
+     this.notificationService.showSuccess(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`,'Successfully')
       // reset cart
       this.resetCart();
       this.isDisabled = false;
     },
     error: err => {
-      //this.notificationService.showError(`There was an error: ${err.message}`,'Error')
+      this.notificationService.showError(`There was an error: ${err.message}`,'Error')
       this.isDisabled = false;
     }
   })

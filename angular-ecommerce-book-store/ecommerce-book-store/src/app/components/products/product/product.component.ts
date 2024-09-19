@@ -4,6 +4,7 @@ import { faCartShopping,faEye,faPen } from '@fortawesome/free-solid-svg-icons';
 import { Product } from '../../../common/product';
 import { CartItem } from '../../../common/cart-item';
 import { CartService } from '../../../services/cart.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product',
@@ -17,9 +18,13 @@ export class ProductComponent {
   faPen = faPen;
   @Input()
   product!:Product;
- 
+  imageToShow:any;
+  src = "../../../../assets/images/about-us.jpg";
 
-  constructor(private router:Router,private cartService:CartService){
+  constructor(private router:Router,private cartService:CartService,private sanitizer: DomSanitizer){
+  }
+  ngOnInit(){
+      this.imageToShow = this.product.image? `data:image/jpeg;base64,${atob(this.product.image)}` : this.src;
   }
  
   goToEdit(){
@@ -32,4 +37,5 @@ export class ProductComponent {
 
     this.cartService.addToCart(cartItem);
   }
+
 }

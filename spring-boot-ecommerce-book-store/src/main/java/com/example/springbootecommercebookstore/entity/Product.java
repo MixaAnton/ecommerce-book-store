@@ -50,7 +50,10 @@ public class Product {
 
     @Lob
     @Column(name = "image")
-    private Blob image;
+    private byte[] image;
+
+    @Column(name = "image_extension")
+    private String imageExtension;
 
     @Column(name = "active")
     private boolean active;

@@ -1,5 +1,6 @@
 package com.example.springbootecommercebookstore.controllers;
 
+import com.example.springbootecommercebookstore.dto.ProductCreate;
 import com.example.springbootecommercebookstore.entity.Product;
 import com.example.springbootecommercebookstore.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -61,6 +63,13 @@ public class ProductController {
     @GetMapping("/filter-by-price")
     public Page<Product> getProductsByPriceRange(@RequestParam BigDecimal startPrice, @RequestParam BigDecimal endPrice,@RequestParam List<Long> categoryIds , Pageable pageable){
         return productService.getAllProductsByPriceRange(startPrice,endPrice,categoryIds,pageable);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Product> createProduct(@RequestBody ProductCreate productCreate) throws IOException {
+
+        Product product  = productService.createNewProduct(productCreate);
+        return ResponseEntity.ok(product);
     }
 
 }
