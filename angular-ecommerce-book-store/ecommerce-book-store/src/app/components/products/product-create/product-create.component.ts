@@ -41,12 +41,12 @@ export class ProductCreateComponent {
         title: new FormControl('', [Validators.required,CustomeValidators.notOnlyWhitespace]),
         author:  new FormControl('', [Validators.required]),
         price:  new FormControl('', [Validators.required,Validators.min(1)]),
-        unitsInStock:new FormControl('',[Validators.required,Validators.min(1)]),
+        unitsInStock:new FormControl(''),
         category:  new FormControl('',[Validators.required]),
         numOfPages: new FormControl('',[Validators.required,Validators.minLength(10)]),
         yearOfPublication: new FormControl('',[Validators.required,Validators.min(1900)]),
         language:new FormControl('',[Validators.required]),
-        description:new FormControl('',[Validators.required,Validators.min(10)]),
+        description:new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(1000)]),
         image: new FormControl('')                        
     });
   }
@@ -102,7 +102,9 @@ export class ProductCreateComponent {
         languageId: this.language?.value,
         numOfPages: this.numOfPages?.value,
         yearOfPublication: this.yearOfPublication?.value,
-        image: this.selectedFile ? this.selectedFile : null 
+        unitsInStock:this.unitsInStock?.value??0,
+        image: this.selectedFile ? this.selectedFile : null,
+        imageExtension:this.extension? this.extension : null 
       };
      
        this.productService.create(productData).subscribe({

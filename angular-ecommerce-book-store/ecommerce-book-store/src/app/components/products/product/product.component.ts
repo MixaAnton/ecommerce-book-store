@@ -20,11 +20,12 @@ export class ProductComponent {
   product!:Product;
   imageToShow:any;
   src = "../../../../assets/images/about-us.jpg";
+  isDisabled = false;
 
   constructor(private router:Router,private cartService:CartService,private sanitizer: DomSanitizer){
   }
   ngOnInit(){
-      this.imageToShow = this.product.image? `data:image/jpeg;base64,${atob(this.product.image)}` : this.src;
+      this.imageToShow = this.product.image? `data:image/${this.product.imageExtension};base64,${atob(this.product.image)}` : this.src;
   }
  
   goToEdit(){
@@ -34,8 +35,20 @@ export class ProductComponent {
   addToCart(){
 
     const cartItem = new CartItem(this.product);
+    let existingItem = this.cartService.cartItems.find(item => item.id === cartItem.id);
 
-    this.cartService.addToCart(cartItem);
+    let quantityToAdd = existingItem ? existingItem.quantity + 1 : 1;
+    if (quantityToAdd <= this.product.unitsInStock) {
+      this.cartService.addToCart(cartItem, 1);
+      this.checkCartStock();
+    }
+  }
+
+  checkCartStock() {
+    const existingItem = this.cartService.cartItems.find(item => item.id === this.product.id);
+    const cartQuantity = existingItem ? existingItem.quantity : 0;
+
+    this.isDisabled = cartQuantity >= this.product.unitsInStock;
   }
 
 }

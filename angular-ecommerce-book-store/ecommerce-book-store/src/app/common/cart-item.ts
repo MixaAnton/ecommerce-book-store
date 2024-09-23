@@ -7,6 +7,7 @@ export class CartItem {
     imageExtension: string | null;
     unitPrice: number;
     quantity: number;
+    unitsInStock:number;
 
     constructor(product: Product) {
         this.id= product.id;
@@ -15,5 +16,6 @@ export class CartItem {
         this.imageExtension = product.imageExtension;
         this.unitPrice = product.unitPrice;
         this.quantity = 1;
+        this.unitsInStock = product.unitsInStock;
     }
 }

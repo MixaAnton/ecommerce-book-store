@@ -146,6 +146,9 @@ export class ProductListComponent {
         this.processResult(res);
       })
     }
+    else{
+      this.listProducts();
+    }
     [this.previousStartPrice,this.previousEndPrice] = [this.startPrice,this.endPrice];
   }
 
@@ -208,9 +211,14 @@ export class ProductListComponent {
       if(this.previousSearchTerm != this.searchTerm)
         this.pageNumber = 1;
       this.previousSearchTerm = this.searchTerm;
-      this.productService.searchByProductsOrAuthor(this.pageNumber-1,this.pageSize,this.searchTerm,this.previosCategoryIds,this.sort).subscribe(res=>{
+      this.productService.searchByProductsOrAuthor(this.pageNumber-1,this.pageSize,this.searchTerm,this.previosCategoryIds,this.sort)
+      .subscribe(res=>{
         this.processResult(res);
       })
+    }
+    else{
+      this.pageNumber = 1;
+      this.listProducts();
     }
     
   }

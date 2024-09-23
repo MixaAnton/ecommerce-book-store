@@ -21,14 +21,15 @@
                         <div>
                             <label>Cover Image:</label>
                             <div class="text-center">
-                                <img src="../../../../assets/images/about-us.jpg">
+                                <img [src]="imageToShow" style="max-height: 350px;max-width: 915px">
                             </div>
                             
                         </div>
                         <input class="file-input"
                                 type="file"
-                                accept=".jpg, .jpeg, .png"
+                                [accept]="allowedExtensions"
                                 name="image"
+                                (change)="onFileSelected($event)"
                                 formControlName="image"
                                 /> 
                      </div>
@@ -100,6 +101,10 @@
                        </div>
                      </div>
                      <div>
+                        <label>Units in stock:</label>
+                        <input type="number" placeholder="Enter number of units in stock" formControlName="unitsInStock" [min]="0">
+                     </div>
+                     <div>
                         <label>Language:</label>
                         <ngx-select [allowClear]="true"
                                    [items]="languages"
@@ -125,6 +130,9 @@
                            <div *ngIf="description!.errors?.['minlength']">
                               Description must be at least 10 characters long
                           </div>
+                          <div *ngIf="description!.errors?.['maxlength']">
+                           Description can have a maximum of 1000 characters
+                       </div>
                        </div>
                      </div>
                      <div>

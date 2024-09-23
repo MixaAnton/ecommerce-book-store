@@ -24,7 +24,7 @@
                 </thead>
                 <tbody class="align-middle">
                     <tr *ngFor="let tempItem of order!.orderItems">
-                        <td style="text-align: left;"><img src="../../../../assets/images/about-us.jpg" alt="" style="width: 50px;"> {{ tempItem.productName }}</td>
+                        <td style="text-align: left;"><img [src]="convertImage(tempItem.image,tempItem.imageExtension)" alt="" style="width: 50px;"> {{ tempItem.productName }}</td>
                         <td class="align-middle">{{ tempItem.unitPrice | currency: 'USD' }}</td>
                         <td class="align-middle">{{ tempItem.quantity}}</td>
                         <td class="align-middle">{{ tempItem.totalPrice | currency: 'USD' }}</td>

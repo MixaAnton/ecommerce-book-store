@@ -1,0 +1,6 @@
+.text-danger{
+    color:var(--danger) !important;
+}
+.btn:disabled{
+    border: none !important;
+}

@@ -10,7 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 export class OrderDetailsComponent {
 
   order:any;
-
+  src="../../../../assets/images/about-us.jpg"
+  
   constructor(private orderService:OrderService,private route:ActivatedRoute){}
 
   ngOnInit(){
@@ -20,5 +21,10 @@ export class OrderDetailsComponent {
       this.order = res;
     }
     );
+  }
+
+  convertImage(image:any,imageExtension:any)
+  {
+     return image?`data:image/${imageExtension};base64,${atob(image)}` : this.src;
   }
 }

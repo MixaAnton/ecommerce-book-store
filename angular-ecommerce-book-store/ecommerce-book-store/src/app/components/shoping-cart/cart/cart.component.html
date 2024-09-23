@@ -25,7 +25,7 @@
                 </thead>
                 <tbody class="align-middle">
                     <tr *ngFor="let tempCartItem of cartItems">
-                        <td style="text-align: left;"><img src="../../../../assets/images/about-us.jpg" alt="" style="width: 50px;"> {{ tempCartItem.name }}</td>
+                        <td style="text-align: left;"><img  alt="" [src]="convertImage(tempCartItem.image,tempCartItem.imageExtension)" style="width: 50px;"> {{ tempCartItem.name }}</td>
                         <td class="align-middle">{{ tempCartItem.unitPrice | currency: 'USD' }}</td>
                         <td class="align-middle">
                             <div style="display: flex; flex-wrap: wrap; justify-content: center;">
@@ -38,7 +38,7 @@
                                     {{ tempCartItem.quantity }}
                                 </div>
                                 <div  style="flex-basis: 0; max-width: 100%;">
-                                    <button class="btn btn-sm btn-primary btn-plus" (click)="incrementQuantity(tempCartItem)">
+                                    <button class="btn btn-sm btn-primary btn-plus" [disabled]="tempCartItem.quantity>= tempCartItem.unitsInStock" (click)="incrementQuantity(tempCartItem)">
                                         <fa-icon [icon]="faPlus"></fa-icon>
                                     </button>
                                 </div>
@@ -46,7 +46,7 @@
                         </td>
                         <td class="align-middle">{{ tempCartItem.quantity * tempCartItem.unitPrice | currency: 'USD' }}</td>
                         <td class="align-middle">
-                            <button class="btn btn-sm btn-primary" (click)="remove(tempCartItem)">
+                            <button class="btn btn-sm btn-primary"  (click)="remove(tempCartItem)">
                                 <fa-icon [icon]="faTimes"></fa-icon>
                             </button>
                         </td>

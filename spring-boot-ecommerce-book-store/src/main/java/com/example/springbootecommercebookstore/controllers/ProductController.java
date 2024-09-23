@@ -1,6 +1,7 @@
 package com.example.springbootecommercebookstore.controllers;
 
 import com.example.springbootecommercebookstore.dto.ProductCreate;
+import com.example.springbootecommercebookstore.dto.ProductUpdate;
 import com.example.springbootecommercebookstore.entity.Product;
 import com.example.springbootecommercebookstore.services.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,4 +73,17 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<Product> updateProduct(
+            @PathVariable Long productId,
+            @RequestBody ProductUpdate productUpdate) {
+        Product updatedProduct = productService.editProduct(productId, productUpdate);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    @DeleteMapping("/delete/{productId}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.noContent().build();
+    }
 }

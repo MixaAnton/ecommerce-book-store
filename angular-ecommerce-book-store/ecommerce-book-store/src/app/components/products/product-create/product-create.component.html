@@ -95,15 +95,7 @@
                     </div>
                     <div>
                      <label>Units in stock:</label>
-                     <input type="number" placeholder="Enter number of units in stock" formControlName="unitsInStock">
-                     <div *ngIf="unitsInStock!.invalid && (unitsInStock!.dirty || unitsInStock!.touched)" class="alert alert-danger mt-1">
-                      <div *ngIf="unitsInStock!.errors?.['required']">
-                          Number of units in stock is required
-                      </div>
-                      <div *ngIf="unitsInStock!.errors?.['min']">
-                        Number of units in stock can not be less than 1
-                     </div>
-                  </div>
+                     <input type="number" placeholder="Enter number of units in stock" formControlName="unitsInStock" [min]="0">
                   </div>
                     <div>
                        <label>Language:</label>
@@ -130,6 +122,9 @@
                            <div *ngIf="description!.errors?.['minlength']">
                               Description must be at least 10 characters long
                            </div>
+                           <div *ngIf="description!.errors?.['maxlength']">
+                              Description can have a maximum of 1000 characters
+                          </div>
                        </div>
                     </div>
                     <div>

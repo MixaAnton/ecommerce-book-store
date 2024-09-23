@@ -89,4 +89,12 @@ export class ProductService {
     const url = `${this.productUrl}/create`
    return this.httpClient.post<any>(url,product).pipe();
   }
+  editProduct(product:any,productId:any):Observable<any>{
+    const url = `${this.productUrl}/update/${productId}`;
+    return this.httpClient.put<any>(url,product).pipe();
+  }
+  deleteProduct(productId:any):Observable<any>{
+    const url = `${this.productUrl}/delete/${productId}`;
+    return this.httpClient.delete<any>(url).pipe();
+  }
 }

@@ -33,7 +33,10 @@ import { ProductPriceFilterComponent } from './components/products/product-price
 import { OrderHistoryComponent } from './components/orders/order-history/order-history.component';
 import { OrderDetailsComponent } from './components/orders/order-details/order-details.component';
 import { OrderApproveRejectComponent } from './components/orders/order-approve-reject/order-approve-reject.component';
+import { DeleteComponent } from './components/delete/delete.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NotificationService } from './services/notification/notification.service';
 
 @NgModule({
   declarations: [
@@ -63,10 +66,12 @@ import { ToastrModule } from 'ngx-toastr';
     ProductPriceFilterComponent,
     OrderHistoryComponent,
     OrderDetailsComponent,
-    OrderApproveRejectComponent
+    OrderApproveRejectComponent,
+    DeleteComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
@@ -74,9 +79,11 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     NgxSelectModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    NotificationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

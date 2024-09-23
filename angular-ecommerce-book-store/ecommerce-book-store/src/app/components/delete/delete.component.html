@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="delete-modal-header">
+      <span class="action-form-title">Deletion</span>
+      <fa-icon [icon]="faTimes" style="cursor:pointer" (click)="closeModal($event)"></fa-icon>
+    </div>
+  
+    <div class="card-body">
+      <label class="form-control-label text-center">
+        Are you sure you want to  delete product?
+      </label>
+    </div>
+  
+    <div class="modal-footer modal-form-button-container">
+      <button class="btn btn-primary"  (click)="closeModal($event)">
+        No
+      </button>
+      <button class="btn btn-primary" (click)="deleteProduct()" >
+        Yes
+      </button>
+    </div>
+</div>

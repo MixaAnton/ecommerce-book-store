@@ -1,6 +1,7 @@
 package com.example.springbootecommercebookstore.services.interfaces;
 
 import com.example.springbootecommercebookstore.dto.ProductCreate;
+import com.example.springbootecommercebookstore.dto.ProductUpdate;
 import com.example.springbootecommercebookstore.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,7 @@ public interface ProductService {
     Page<Product> getAllProductsByPriceRange(BigDecimal startPrice, BigDecimal endPrice,List<Long> categoryIds,Pageable pageable);
     List<Product> getLastThreeProducts();
     Product createNewProduct(ProductCreate productCreate);
+    Product editProduct(Long id, ProductUpdate productUpdate);
+    void deleteProduct(Long productId);
 
 }

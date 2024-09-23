@@ -18,7 +18,8 @@ export class CartComponent {
   faMinus = faMinus;
   faTimes = faTimes;
   shipping: number = 0;
-
+  src="../../../../assets/images/about-us.jpg"
+  
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
@@ -28,7 +29,6 @@ export class CartComponent {
   listCartDetails() {
 
     this.cartItems = this.cartService.cartItems;
-
     this.cartService.totalPrice.subscribe(
       data => {
         this.totalPrice = data
@@ -58,4 +58,8 @@ export class CartComponent {
     this.cartService.remove(cartItem);
   }
 
+  convertImage(image:any,imageExtension:any)
+  {
+     return image?`data:image/${imageExtension};base64,${atob(image)}` : this.src;
+  }
 }

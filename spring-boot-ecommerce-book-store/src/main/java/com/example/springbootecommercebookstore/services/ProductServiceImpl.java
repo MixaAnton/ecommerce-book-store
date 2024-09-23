@@ -2,6 +2,7 @@ package com.example.springbootecommercebookstore.services;
 
 import com.example.springbootecommercebookstore.dao.ProductRepository;
 import com.example.springbootecommercebookstore.dto.ProductCreate;
+import com.example.springbootecommercebookstore.dto.ProductUpdate;
 import com.example.springbootecommercebookstore.entity.Author;
 import com.example.springbootecommercebookstore.entity.Language;
 import com.example.springbootecommercebookstore.entity.Product;
@@ -10,11 +11,13 @@ import com.example.springbootecommercebookstore.services.interfaces.AuthorServic
 import com.example.springbootecommercebookstore.services.interfaces.LanguageService;
 import com.example.springbootecommercebookstore.services.interfaces.ProductCategoryService;
 import com.example.springbootecommercebookstore.services.interfaces.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -48,90 +51,77 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getAllProducts(Pageable pageable) {
 
-        return productRepository.findAll(pageable);
+        //dodati uslov ako je korisnik prolsijedi true ako je admin null
+        Boolean active = null;
+        Pageable pageableNative = createPageableWithCustomSort(pageable);
+
+        return  productRepository.findAllWithActive(active,pageableNative);
     }
 
     @Override
     public Page<Product> getProductsByCategory(Long categoryId, Pageable pageable) {
 
+        //dodati uslov ako je korisnik prolsijedi true ako je admin null
+        Boolean active = null;
+        Pageable pageableNative = createPageableWithCustomSort(pageable);
+
         if(categoryId == 0)
-            return  productRepository.findAll(pageable);
-        return  productRepository.findByCategoryId(categoryId,pageable);
+            return  productRepository.findAllWithActive(active,pageableNative);
+        return  productRepository.findByCategoryId(categoryId,active,pageableNative);
     }
 
     @Override
     public Page<Product> getProductsByCategories(List<Long> categoryIds, Pageable pageable) {
 
+        //dodati uslov ako je korisnik prolsijedi true ako je admin null
+        Boolean active = null;
+        Pageable pageableNative = createPageableWithCustomSort(pageable);
+
         if (categoryIds == null || categoryIds.isEmpty() || (categoryIds.contains(0L) && categoryIds.size()==1)) {
-            return productRepository.findAll(pageable);
+            return productRepository.findAllWithActive(active,pageableNative);
         } else {
 
-            return productRepository.findByCategoryIdIn(categoryIds, pageable);
+            return productRepository.findByCategoryIdIn(categoryIds,active,pageableNative);
         }
     }
 
     @Override
     public Page<Product> findProductsByName(String name, Pageable pageable) {
-        return productRepository.findByNameContainingIgnoreCase(name,pageable);
+        Boolean active = null;
+        Pageable pageableNative = createPageableWithCustomSort(pageable);
+        return productRepository.findByNameContainingIgnoreCase(name,active,pageableNative);
     }
 
     @Override
     public Page<Product> findProductsByProductNameOrAuthor(String searchTerm,List<Long> categoryIds, Pageable pageable) {
 
-//        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
-//
-//        String sortColumn = "date_created";
-//        Sort.Direction sortDirection = Sort.Direction.DESC;
-//
-//        if (order != null) {
-//            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
-//            sortDirection = order.getDirection();
-//        }
-//
-//        Pageable pageableNative = PageRequest.of(
-//                pageable.getPageNumber(),
-//                pageable.getPageSize(),
-//                Sort.by(sortDirection, sortColumn)
-//        );
+        Boolean active = null;
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
-            return productRepository.findByProductNameOrAuthorName(searchTerm,pageableNative);
-        return productRepository.findByProductNameOrAuthorNameIncludeCategories(searchTerm,categoryIds,pageableNative);
+            return productRepository.findByProductNameOrAuthorName(searchTerm,active,pageableNative);
+        return productRepository.findByProductNameOrAuthorNameIncludeCategories(searchTerm,categoryIds,active,pageableNative);
 
     }
 
     @Override
     public Page<Product> getAllProductsByPriceRange(BigDecimal startPrice, BigDecimal endPrice, List<Long> categoryIds, Pageable pageable) {
 
-//        Sort.Order order = pageable.getSort().stream().findFirst().orElse(null);
-//
-//        String sortColumn = "date_created";
-//        Sort.Direction sortDirection = Sort.Direction.DESC;
-//
-//        if (order != null) {
-//            sortColumn = order.getProperty().equals("dateCreated") ? "date_created" : "unit_price";
-//            sortDirection = order.getDirection();
-//        }
-//
-//        Pageable pageableNative = PageRequest.of(
-//                pageable.getPageNumber(),
-//                pageable.getPageSize(),
-//                Sort.by(sortDirection, sortColumn)
-//        );
+        Boolean active = null;
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
-            return productRepository.filterByPrice(startPrice,endPrice,pageableNative);
-        return productRepository.filterByPriceIncludeCategories(startPrice,endPrice,categoryIds,pageableNative);
+            return productRepository.filterByPrice(startPrice,endPrice,active,pageableNative);
+        return productRepository.filterByPriceIncludeCategories(startPrice,endPrice,categoryIds,active,pageableNative);
     }
 
     @Override
     public List<Product> getLastThreeProducts() {
-        return productRepository.findTop3ByOrderByDateCreatedDesc();
+        return productRepository.findTop3ByActiveTrueOrderByDateCreatedDesc();
     }
 
     @Override
+    @Transactional
     public Product createNewProduct(ProductCreate productCreate) {
         Product product = new Product();
         product.setUnitPrice(productCreate.getUnitPrice());
@@ -155,6 +145,45 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
 
         return productRepository.save(product);
+    }
+
+    @Override
+    @Transactional
+    public Product editProduct(Long id, ProductUpdate productUpdate) {
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+
+        existingProduct.setUnitPrice(productUpdate.getUnitPrice());
+        existingProduct.setActive(productUpdate.getUnitsInStock() > 1);
+        existingProduct.setNumOfPages(productUpdate.getNumOfPages());
+        existingProduct.setDescription(productUpdate.getDescription());
+        existingProduct.setYearOfPublication(productUpdate.getYearOfPublication());
+        existingProduct.setImageExtension(productUpdate.getImageExtension());
+        existingProduct.setUnitsInStock(productUpdate.getUnitsInStock());
+
+        if (productUpdate.getImage() != null) {
+            existingProduct.setImage(productUpdate.getImage().getBytes());
+        }
+
+        if (productUpdate.getLanguageId() != existingProduct.getLanguage().getId()) {
+            Language language = languageService.getLanguageById(productUpdate.getLanguageId());
+            existingProduct.setLanguage(language);
+        }
+
+        return productRepository.save(existingProduct);
+    }
+
+    @Override
+    @Transactional
+    public void deleteProduct(Long productId) {
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
+
+        product.setActive(false);
+        product.setUnitsInStock(0);
+
+        productRepository.save(product);
     }
 
     public static String generateRandomISBN13() {
