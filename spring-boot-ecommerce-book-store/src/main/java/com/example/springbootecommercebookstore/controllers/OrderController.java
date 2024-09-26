@@ -9,6 +9,9 @@ import com.example.springbootecommercebookstore.services.interfaces.OrderService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +26,7 @@ public class OrderController {
     @PostMapping("/purchase")
     public PurchaseResponse placeOrder(@RequestBody Purchase purchase) {
 
-        PurchaseResponse purchaseResponse = orderService.placeOrder(purchase);
-
-        return purchaseResponse;
+        return orderService.placeOrder(purchase);
     }
 
     @GetMapping("/all")
@@ -35,7 +36,9 @@ public class OrderController {
 
     @GetMapping("/history")
     public Page<Order> getOrderHistoryByUserEmail(@RequestParam String email, Pageable pageable){
+
         return orderService.getOrderHistoryByEmail(email,pageable);
+
     }
 
     @GetMapping("/change-status")

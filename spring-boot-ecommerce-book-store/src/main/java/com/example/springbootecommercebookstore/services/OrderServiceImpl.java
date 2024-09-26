@@ -13,6 +13,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -84,7 +87,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getOrderHistoryByEmail(String email, Pageable pageable) {
-        return orderRepository.findByCustomerEmailOrderByDateCreatedDesc(email,pageable);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication!= null && authentication.isAuthenticated())
+        {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+
+            boolean isUSer = userDetails.getAuthorities()
+                    .stream()
+                    .anyMatch(role -> role.getAuthority().equals("ROLE_USER"));
+            if(isUSer)
+                return orderRepository.findByCustomerEmailOrderByDateCreatedDesc(email,pageable);
+            return orderRepository.findAllOrdersWithDetailsOrderByDateCreatedDesc(pageable);
+
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override

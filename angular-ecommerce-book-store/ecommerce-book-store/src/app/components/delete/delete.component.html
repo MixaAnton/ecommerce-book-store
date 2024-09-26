@@ -5,8 +5,11 @@
     </div>
   
     <div class="card-body">
-      <label class="form-control-label text-center">
-        Are you sure you want to  delete product?
+      <label class="form-control-label text-center" *ngIf="productId">
+        Are you sure you want to delete product?
+      </label>
+      <label class="form-control-label text-center" *ngIf="userId">
+        Are you sure you want to {{active?'deactivate':'activate'}} user?
       </label>
     </div>
   
@@ -14,7 +17,7 @@
       <button class="btn btn-primary"  (click)="closeModal($event)">
         No
       </button>
-      <button class="btn btn-primary" (click)="deleteProduct()" >
+      <button class="btn btn-primary" (click)="deletionOrActivation()" >
         Yes
       </button>
     </div>

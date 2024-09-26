@@ -1,0 +1,6 @@
+.active{
+    color: var(--success) !important;
+}
+.inactive{
+    color: var(--danger) !important;
+}

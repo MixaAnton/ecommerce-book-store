@@ -140,7 +140,7 @@ export class ProductEditComponent {
         image: this.selectedFile ? this.selectedFile : null,
         imageExtension: this.extension ? this.extension : null, 
       };
-     
+     console.log(productData);
        this.productService.editProduct(productData,this.product.id).subscribe({
            next:(response)=>{
 

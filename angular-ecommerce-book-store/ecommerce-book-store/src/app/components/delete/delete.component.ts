@@ -4,6 +4,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from '../../services/product.service';
 import { NotificationService } from '../../services/notification/notification.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-delete',
@@ -13,12 +14,15 @@ import { NotificationService } from '../../services/notification/notification.se
 export class DeleteComponent {
 
   productId!:number;
+  userId!:any;
+  active!:boolean;
   status!:String;
   faTimes = faTimes;
   
   
   constructor(private ngbActiveModal:NgbActiveModal,
     private productService:ProductService,
+    private userService:UserService,
     private router:Router,
     private notificationService:NotificationService){}
 
@@ -30,20 +34,40 @@ export class DeleteComponent {
     this.ngbActiveModal.close();
   }
 
-  deleteProduct(){
+  deletionOrActivation(){
 
-    this.productService.deleteProduct(this.productId).subscribe({
+    if(this.productId){
+      this.productService.deleteProduct(this.productId).subscribe({
       
-      next:(response)=>{
-        this.notificationService.showSuccess("The product has been successfully deleted.","Success")
-        this.ngbActiveModal.close();
-        this.router.navigate(['/products']);
+        next:(response)=>{
+          this.notificationService.showSuccess("The product has been successfully deleted.","Success")
+          this.ngbActiveModal.close();
+          this.router.navigate(['/products']);
+          
+       },
+       error:(error)=>{
+          this.notificationService.showError("Error deleting product!","Error");
+       }
         
-     },
-     error:(error)=>{
-        this.notificationService.showError("Error deleting product!","Error");
-     }
+      })
+    }
+    else if(this.userId)
+    {
+      this.userService.changeUsersStatus(this.userId).subscribe({
       
-    })
+        next:(response)=>{
+          this.notificationService.showSuccess("The user's status has been successfully changed.",
+            "Success")
+          this.ngbActiveModal.close();
+          
+       },
+       error:(error)=>{
+          this.notificationService.showError("An error occurred!","Error");
+       }
+        
+      })
+
+    }
+   
   }
 }

@@ -37,6 +37,8 @@ import { DeleteComponent } from './components/delete/delete.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NotificationService } from './services/notification/notification.service';
+import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
+import { ChangeRoleComponent } from './components/user/change-role/change-role.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { NotificationService } from './services/notification/notification.servic
     OrderHistoryComponent,
     OrderDetailsComponent,
     OrderApproveRejectComponent,
-    DeleteComponent
+    DeleteComponent,
+    ChangePasswordComponent,
+    ChangeRoleComponent
   ],
   imports: [
     BrowserModule,
