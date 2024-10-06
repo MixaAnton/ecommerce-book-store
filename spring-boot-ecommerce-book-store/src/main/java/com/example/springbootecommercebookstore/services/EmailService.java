@@ -15,13 +15,14 @@ public class EmailService {
     @Value("${email.to.address}")
     private String toEmail;
 
-    public void sendEmail(String name,String from,String subject, String body) {
+    public void sendEmail(String name,String fromOrTo,String subject, String body) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
+
+        message.setFrom(fromOrTo);
         message.setTo(toEmail);
         message.setSubject(subject);
-        message.setText("Message from: " +name+ " (" + from + ")\n\n" + body);
+        message.setText("Message from: " +name+ " (" + fromOrTo + ")\n\n" + body);
 
         mailSender.send(message);
     }

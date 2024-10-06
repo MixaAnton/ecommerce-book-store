@@ -1,11 +1,11 @@
 <section>
     <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
         <div class="d-flex flex-column align-items-center justify-content-center">
-            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Order list</h1>
+            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">Users list</h1>
             <div class="d-inline-flex">
                 <p class="m-0"><a routerLink="/home">Home</a></p>
                 <p class="m-0 px-2">-</p>
-                <p class="m-0">Orders</p>
+                <p class="m-0">Users</p>
             </div>
         </div>
     </div>
@@ -21,6 +21,7 @@
                         <th>Username</th>
                         <th>Email</th>
                         <th>Status</th>
+                        <th>Role</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -30,10 +31,11 @@
                         <td class="align-middle">{{ item.lastName}}</td>
                         <td class="align-middle">{{ item.userName}}</td>
                         <td class="align-middle">{{ item.email}}</td>
+                        <td class="align-middle">{{ item.roles[0].name}}</td>
                         <td class="align-middle" [ngClass]="item.active?'active':'inactive'">{{ item.active?"Active":"Inactive"}}</td>
                         <td>
-                            <a (click)="setActivity(item.id,item.active)" ><fa-icon [icon]="faActive"  style="font-size: 24px;" [ngbTooltip]="'Set user activity'"></fa-icon></a>
-                            <a (click)="addRole(item.id)" ><fa-icon [icon]="faRoles" style="font-size: 24px;" [ngbTooltip]="'Add role to user'"></fa-icon></a>
+                            <a (click)="setActivity(item.id,item.active)" style="margin-right: 10px; cursor: pointer;"><fa-icon [icon]="faActive"  style="font-size: 24px;" [ngbTooltip]="'Set user activity'"></fa-icon></a>
+                            <a (click)="addRole(item.id,item.roles[0].id)" style="cursor:pointer" ><fa-icon [icon]="faRoles" style="font-size: 24px;" [ngbTooltip]="'Add role to user'"></fa-icon></a>
                         </td>
                     </tr> 
                 </tbody>
@@ -43,7 +45,6 @@
                     [(page)]="pageNumber"
                     [pageSize]="pageSize"
                     [collectionSize]="totalElements"
-                    
                     [boundaryLinks]="true"
                     (pageChange)="handleUsersList()">
                 </ngb-pagination>

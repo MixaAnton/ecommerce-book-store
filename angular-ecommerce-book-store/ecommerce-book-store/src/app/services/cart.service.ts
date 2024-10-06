@@ -14,7 +14,14 @@ export class CartService {
 
   storage: Storage = sessionStorage;
 
-  constructor() { }
+  constructor() {
+    let data = JSON.parse(this.storage.getItem('cartItems')!);
+    if(data != null)
+    {
+      this.cartItems = data;
+      this.computeCartTotals();
+    }
+   }
 
   addToCart(theCartItem: CartItem, quantity: number = 1) {
 

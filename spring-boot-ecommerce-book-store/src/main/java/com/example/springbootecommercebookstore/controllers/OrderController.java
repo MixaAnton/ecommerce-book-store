@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -24,9 +25,9 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/purchase")
-    public PurchaseResponse placeOrder(@RequestBody Purchase purchase) {
+    public PurchaseResponse placeOrder(@RequestBody Purchase purchase, Principal principal) {
 
-        return orderService.placeOrder(purchase);
+        return orderService.placeOrder(purchase,principal);
     }
 
     @GetMapping("/all")

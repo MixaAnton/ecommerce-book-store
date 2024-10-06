@@ -4,3 +4,10 @@
 .inactive{
     color: var(--danger) !important;
 }
+th{
+    background-color: var(--secondary);
+}
+
+fa-icon{
+    color: var(--primary);
+}

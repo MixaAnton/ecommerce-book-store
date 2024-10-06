@@ -53,12 +53,14 @@ export class DeleteComponent {
     }
     else if(this.userId)
     {
+      
       this.userService.changeUsersStatus(this.userId).subscribe({
       
         next:(response)=>{
           this.notificationService.showSuccess("The user's status has been successfully changed.",
             "Success")
           this.ngbActiveModal.close();
+          this.userService.setStatusChanged(true);
           
        },
        error:(error)=>{

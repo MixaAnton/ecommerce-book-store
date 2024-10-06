@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
@@ -39,6 +39,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NotificationService } from './services/notification/notification.service';
 import { ChangePasswordComponent } from './components/user/change-password/change-password.component';
 import { ChangeRoleComponent } from './components/user/change-role/change-role.component';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { ChangeRoleComponent } from './components/user/change-role/change-role.c
     ToastrModule.forRoot(),
   ],
   providers: [
-    NotificationService
+    NotificationService,
+    provideHttpClient(withInterceptors([authInterceptor]))
   ],
   bootstrap: [AppComponent]
 })

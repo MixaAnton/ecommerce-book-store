@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -22,11 +23,10 @@ public class ProductController {
     @Autowired
     ProductServiceImpl productService;
 
-    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     @GetMapping("/all")
-    public Page<Product> getAllProducts(Pageable pageable){
+    public Page<Product> getAllProducts(Pageable pageable, Principal principal){
 
-        return productService.getAllProducts(pageable);
+        return productService.getAllProducts(pageable,principal);
     }
 
     @GetMapping("/single")
@@ -38,24 +38,24 @@ public class ProductController {
     @GetMapping("/by-category")
     public Page<Product> getProductsByCategory(
             @RequestParam Long categoryId,
-            Pageable pageable) {
-        return productService.getProductsByCategory(categoryId, pageable);
+            Pageable pageable,Principal currentUser) {
+        return productService.getProductsByCategory(categoryId, pageable,currentUser);
     }
 
     @GetMapping("/by-categories")
     public Page<Product> getProductsByCategories(
             @RequestParam List<Long> categoryIds,
-            Pageable pageable) {
-        return productService.getProductsByCategories(categoryIds, pageable);
+            Pageable pageable,Principal currentUser) {
+        return productService.getProductsByCategories(categoryIds, pageable,currentUser);
     }
 
     @GetMapping("/find-by-name")
-    public Page<Product> getProductsByName(@RequestParam String name,Pageable pageable){
-        return productService.findProductsByName(name,pageable);
+    public Page<Product> getProductsByName(@RequestParam String name,Pageable pageable,Principal currentUser){
+        return productService.findProductsByName(name,pageable,currentUser);
     }
     @GetMapping("/find-by-name-or-author")
-    public Page<Product> getProductsByProductOrAuthor(@RequestParam String searchTerm,@RequestParam List<Long> categoryIds,Pageable pageable){
-        return productService.findProductsByProductNameOrAuthor(searchTerm,categoryIds,pageable);
+    public Page<Product> getProductsByProductOrAuthor(@RequestParam String searchTerm,@RequestParam List<Long> categoryIds,Pageable pageable,Principal currentUser){
+        return productService.findProductsByProductNameOrAuthor(searchTerm,categoryIds,pageable,currentUser);
     }
 
     @GetMapping("/last-three-products")
@@ -64,8 +64,9 @@ public class ProductController {
     }
 
     @GetMapping("/filter-by-price")
-    public Page<Product> getProductsByPriceRange(@RequestParam BigDecimal startPrice, @RequestParam BigDecimal endPrice,@RequestParam List<Long> categoryIds , Pageable pageable){
-        return productService.getAllProductsByPriceRange(startPrice,endPrice,categoryIds,pageable);
+    public Page<Product> getProductsByPriceRange(@RequestParam BigDecimal startPrice, @RequestParam BigDecimal endPrice,
+                                                 @RequestParam List<Long> categoryIds , Pageable pageable,Principal currentUser){
+        return productService.getAllProductsByPriceRange(startPrice,endPrice,categoryIds,pageable,currentUser);
     }
 
     @PostMapping("/create")

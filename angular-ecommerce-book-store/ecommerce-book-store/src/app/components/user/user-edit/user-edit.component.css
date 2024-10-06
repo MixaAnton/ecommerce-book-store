@@ -24,3 +24,9 @@ button{
     width: 50%;
     margin: auto;
 }
+input{
+    height: 50px !important;
+}
+.alert{
+    margin-bottom: 0 !important;
+}

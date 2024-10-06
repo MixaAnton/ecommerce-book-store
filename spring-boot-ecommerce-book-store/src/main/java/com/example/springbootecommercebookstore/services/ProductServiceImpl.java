@@ -3,10 +3,8 @@ package com.example.springbootecommercebookstore.services;
 import com.example.springbootecommercebookstore.dao.ProductRepository;
 import com.example.springbootecommercebookstore.dto.ProductCreate;
 import com.example.springbootecommercebookstore.dto.ProductUpdate;
-import com.example.springbootecommercebookstore.entity.Author;
-import com.example.springbootecommercebookstore.entity.Language;
-import com.example.springbootecommercebookstore.entity.Product;
-import com.example.springbootecommercebookstore.entity.ProductCategory;
+import com.example.springbootecommercebookstore.entity.*;
+import com.example.springbootecommercebookstore.enums.RoleEnum;
 import com.example.springbootecommercebookstore.services.interfaces.AuthorService;
 import com.example.springbootecommercebookstore.services.interfaces.LanguageService;
 import com.example.springbootecommercebookstore.services.interfaces.ProductCategoryService;
@@ -18,9 +16,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -49,20 +49,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllProducts(Pageable pageable) {
+    public Page<Product> getAllProducts(Pageable pageable, Principal currentUser) {
 
-        //dodati uslov ako je korisnik prolsijedi true ako je admin null
-        Boolean active = null;
+        Boolean active = hasRoleUser(currentUser);
+       // Boolean active = null;
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         return  productRepository.findAllWithActive(active,pageableNative);
     }
 
     @Override
-    public Page<Product> getProductsByCategory(Long categoryId, Pageable pageable) {
+    public Page<Product> getProductsByCategory(Long categoryId, Pageable pageable,Principal currentUser) {
 
-        //dodati uslov ako je korisnik prolsijedi true ako je admin null
-        Boolean active = null;
+
+        Boolean active = hasRoleUser(currentUser);
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if(categoryId == 0)
@@ -71,10 +71,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProductsByCategories(List<Long> categoryIds, Pageable pageable) {
+    public Page<Product> getProductsByCategories(List<Long> categoryIds, Pageable pageable,Principal currentUser) {
 
-        //dodati uslov ako je korisnik prolsijedi true ako je admin null
-        Boolean active = null;
+
+        Boolean active = hasRoleUser(currentUser);
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if (categoryIds == null || categoryIds.isEmpty() || (categoryIds.contains(0L) && categoryIds.size()==1)) {
@@ -86,16 +86,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findProductsByName(String name, Pageable pageable) {
-        Boolean active = null;
+    public Page<Product> findProductsByName(String name, Pageable pageable,Principal currentUser) {
+
+        Boolean active = hasRoleUser(currentUser);
         Pageable pageableNative = createPageableWithCustomSort(pageable);
         return productRepository.findByNameContainingIgnoreCase(name,active,pageableNative);
     }
 
     @Override
-    public Page<Product> findProductsByProductNameOrAuthor(String searchTerm,List<Long> categoryIds, Pageable pageable) {
+    public Page<Product> findProductsByProductNameOrAuthor(String searchTerm,List<Long> categoryIds, Pageable pageable,Principal currentUser) {
 
-        Boolean active = null;
+        Boolean active = hasRoleUser(currentUser);
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
@@ -105,9 +106,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllProductsByPriceRange(BigDecimal startPrice, BigDecimal endPrice, List<Long> categoryIds, Pageable pageable) {
+    public Page<Product> getAllProductsByPriceRange(BigDecimal startPrice, BigDecimal endPrice, List<Long> categoryIds, Pageable pageable,Principal currentUser) {
 
-        Boolean active = null;
+        Boolean active = hasRoleUser(currentUser);
         Pageable pageableNative = createPageableWithCustomSort(pageable);
 
         if (categoryIds == null || categoryIds.isEmpty() || categoryIds.contains(0L))
@@ -186,6 +187,14 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
+    public void reduceNumberOfProductsInStock(Long productId, int numberOfUnits) {
+        var product = productRepository.findById(productId).orElseThrow();
+        product.setUnitsInStock(product.getUnitsInStock()-numberOfUnits);
+
+        productRepository.save(product);
+    }
+
     public static String generateRandomISBN13() {
         Random random = new Random();
 
@@ -226,5 +235,18 @@ public class ProductServiceImpl implements ProductService {
                 pageable.getPageSize(),
                 Sort.by(sortDirection, sortColumn)
         );
+    }
+
+    public Boolean hasRoleUser(Principal currentUser){
+
+        if(currentUser == null)
+            return true;
+
+        var existingUser = (User) ((UsernamePasswordAuthenticationToken) currentUser).getPrincipal();
+
+        var roles = existingUser.getRoles();
+
+        return roles.stream()
+                .anyMatch(role -> role.getName().equals(RoleEnum.USER.getRole())) ? true : null;
     }
 }

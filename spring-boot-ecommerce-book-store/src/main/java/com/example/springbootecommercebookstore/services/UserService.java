@@ -1,17 +1,27 @@
 package com.example.springbootecommercebookstore.services;
 
+import com.example.springbootecommercebookstore.dao.RoleRepository;
 import com.example.springbootecommercebookstore.dao.UserRepository;
 import com.example.springbootecommercebookstore.dto.ChangePasswordRequest;
+import com.example.springbootecommercebookstore.dto.UserUpdate;
+import com.example.springbootecommercebookstore.entity.Language;
+import com.example.springbootecommercebookstore.entity.Product;
+import com.example.springbootecommercebookstore.entity.Role;
 import com.example.springbootecommercebookstore.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,23 +29,26 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
+    private final RoleRepository roleRepository;
+
+    public User getUser(Long userId){
+        return repository.findById(userId).orElseThrow(()->new UsernameNotFoundException("User not found"));
+    }
+
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
-        // check if the current password is correct
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new IllegalStateException("Wrong password");
         }
-        // check if the two new passwords are the same
-        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+
+        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
             throw new IllegalStateException("Password are not the same");
         }
 
-        // update the password
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
-        // save the new password
         repository.save(user);
     }
 
@@ -48,5 +61,39 @@ public class UserService {
         User user = repository.findById(userId).orElseThrow(()->new UsernameNotFoundException("User with ${userId} not found!"));
         user.setActive(!user.isActive());
         repository.save(user);
+    }
+
+    public List<Role> getAllRoles(){
+
+        return roleRepository.findAll();
+    }
+
+    public User editUser(UserUpdate userUpdate,Principal connectedUser){
+
+        var existingUser = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        
+        if(!Objects.equals(userUpdate.getEmail(), existingUser.getEmail()))
+            existingUser.setEmail(userUpdate.getEmail());
+        if(!Objects.equals(userUpdate.getFirstName(), existingUser.getFirstName()))
+            existingUser.setFirstName(userUpdate.getFirstName());
+        if(!Objects.equals(userUpdate.getLastName(), existingUser.getLastName()))
+            existingUser.setLastName(userUpdate.getLastName());
+        if(!Objects.equals(userUpdate.getUsername(), existingUser.getUserName()))
+            existingUser.setUserName(userUpdate.getUsername());
+
+        return repository.save(existingUser);
+    }
+
+    public User changeUserRole(Long userId,Long roleId){
+        User existingUser = repository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + userId));
+        Role role = roleRepository.findById(roleId).orElseThrow();
+
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(role);
+
+        existingUser.setRoles(roleSet);
+
+        return repository.save(existingUser);
     }
 }

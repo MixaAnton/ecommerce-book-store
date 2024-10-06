@@ -12,3 +12,7 @@ a{
     color: var(--primary) !important;
     cursor: pointer !important;
 }
+.alert{
+    margin-top: 1px !important;
+    margin-bottom: -5px !important;
+  }

@@ -1,47 +1,28 @@
-<section>
-    <div class="container-fluid bg-secondary mb-5" style="padding: 30px 0;">
-        <div class="d-flex flex-column align-items-center justify-content-center">
-            <h1 class="font-weight-semi-bold mb-3" style="font-size: 42px; font-weight: 800;">User Info</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a routerLink="/home">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">User</p>
-            </div>
-        </div>
-    </div>
-</section>
-<section>
+<div class="p-4" style="z-index: 150;">
+    <h5 class="font-weight-bold text-dark text-right" style="cursor: pointer; margin-bottom: 0 !important;" (click)="closeModal()">X</h5>
     <div class="container">
        <div class="row">
             <div class="text-center mt-3">
-                <h2 class="section-title px-5"><span class="px-2">Information</span></h2>
+                <h2 class="section-title px-5"><span class="px-2">User Information</span></h2>
             </div>
         </div>
-        <div class="d-flex-c">
+        <div class="d-flex-c" *ngIf="user">
             <div>
-               <fa-icon [icon]="faUser" class="text-primary"></fa-icon> Name: <span>Mihajlo Antonic</span>
+               <fa-icon [icon]="faUser" class="text-primary"></fa-icon> Name: <span>{{user.firstName + " "+ user.lastName}}</span>
             </div>
             <div>
-                <fa-icon [icon]="faCircleUSer" class="text-primary"></fa-icon> Username: <span>mixa96</span>
+                <fa-icon [icon]="faCircleUSer" class="text-primary"></fa-icon> Username: <span>{{user.userName}}</span>
             </div>
-            <div>
-                <fa-icon [icon]="faLocation" class="text-primary"></fa-icon> Address: <span>Gavrila Principa 17</span>
-            </div> 
-            <div>
-                <fa-icon [icon]="faCity" class="text-primary"></fa-icon> City: <span>Pale,71420</span>
-            </div> 
-            <div>
-                <fa-icon [icon]="faGlobe" class="text-primary"></fa-icon> Country: <span>Bosnia & Hercegovina</span>
-            </div> 
-            <div>
-                <fa-icon [icon]="faPhone" class="text-primary"></fa-icon> Phone: <span>065/652-352</span>
+            <div style="margin-bottom: 5px;">
+                <fa-icon [icon]="faEnvelope" class="text-primary"></fa-icon> Email: <span>{{user.email}}</span>
             </div>
-            <div>
-                <fa-icon [icon]="faEnvelope" class="text-primary"></fa-icon> Email: <span>{{'mihajlo.a@yahoo.com'}}</span>
-            </div>
-            <div>
+            <div style="display: flex;gap:10px">
                 <button class="btn btn-primary" (click)="goToEdit()">Edit Info</button>
+                <button class="btn btn-primary" (click)="changePassword()">Change password</button>
             </div>
         </div>
+        <div *ngIf="!user" class="alert alert-warning col-12" role="alert">
+            <span> No user found.</span>
+         </div>
     </div>
-</section>
+</div>

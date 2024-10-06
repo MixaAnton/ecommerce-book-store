@@ -4,6 +4,9 @@ import { ProductService } from '../../../services/product.service';
 import { faSearch,faPlus} from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Sorting } from '../../../common/sort';
+import { AuthService } from '../../../services/auth.service';
+import { JwtService } from '../../../services/jwt.service';
+import { RoleEnum } from '../../../enums/role-enum';
 
 @Component({
   selector: 'app-product-list',
@@ -35,6 +38,8 @@ export class ProductListComponent {
   previousStartPrice:number = 0;
   previousEndPrice:number = 0;
   sort:Sorting = new Sorting();
+  isUser:boolean = false;
+  isAdminOrManager:boolean = false;
 
   sortOptions = [
       { id: 1, name: 'Latest',columnName:'dateCreated',order:'desc' },
@@ -43,13 +48,22 @@ export class ProductListComponent {
       { id: 4, name: 'Highest Price',columnName:'unitPrice',order:'desc' },
   ];
 
-  constructor(private productService: ProductService,private router:Router,private route:ActivatedRoute) { }
+  constructor(private productService: ProductService,private router:Router,
+    private route:ActivatedRoute,private authService:AuthService,
+    private jwtService:JwtService) { }
 
   ngOnInit(): void {
    
     this.sort.columnName =this.sortOptions[0].columnName;
     this.sort.order = this.sortOptions[0].order;
     this.selectedOption = 1;
+
+    this.authService.isLoggedInObservable.subscribe((loggedIn) => {
+      if (loggedIn) {
+        this.isUser = this.jwtService.hasRole(RoleEnum.User);
+         this.isAdminOrManager = this.jwtService.hasRole(RoleEnum.Manager) || this.jwtService.hasRole(RoleEnum.Admin);
+      }}
+    );
 
     this.route.paramMap.subscribe(() => {
       this.listProducts();

@@ -10,9 +10,10 @@
                 <h6 [ngClass]="!product.active?'text-danger':''">{{ product.active? (product!.unitPrice | currency:'USD'):'Not available'}}</h6>
             </div>
         </div>
-        <div class="card-footer d-flex justify-content-between bg-light border">
+        <div class="card-footer d-flex bg-light border justify-content-center" [ngClass]="!isAdminOrManager && !isUser?'':'g-20'">
             <a routerLink="/products/{{product!.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faEye" class="text-primary mr-1"></fa-icon>View Detail</a>
-            <a routerLink="/product-edit/{{product!.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faPen" class="text-primary mr-1"></fa-icon>Edit</a>
-            <button (click)="addToCart()" [disabled]="isDisabled" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faCart" class="text-primary mr-1"></fa-icon>Add To Cart</button>
+            <a *ngIf="isAdminOrManager" routerLink="/product-edit/{{product!.id}}" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faPen" class="text-primary mr-1"></fa-icon>Edit</a>
+            <button *ngIf="isUser" (click)="addToCart()" [disabled]="isDisabled" class="btn btn-sm text-dark p-0"><fa-icon [icon]="faCart" class="text-primary mr-1"></fa-icon>Add To Cart</button>
         </div>
+        
  </div>

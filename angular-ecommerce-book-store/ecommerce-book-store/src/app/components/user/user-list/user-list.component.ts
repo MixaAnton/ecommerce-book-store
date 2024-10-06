@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../common/user';
 import { faPeopleArrows, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { DeleteComponent } from '../../delete/delete.component';
+import { ChangeRoleComponent } from '../change-role/change-role.component';
 
 @Component({
   selector: 'app-user-list',
@@ -13,7 +14,6 @@ import { DeleteComponent } from '../../delete/delete.component';
 export class UserListComponent {
 
   usersList: User[] = [];
-  storage: Storage = sessionStorage;
   faActive = faToggleOff;
   faRoles = faPeopleArrows;
   
@@ -29,12 +29,23 @@ export class UserListComponent {
       if(res !=0)
         this.handleUsersList();
     })
+
+    this.userService.statusChangedObservable.subscribe((res)=>{
+      if(res)
+        this.handleUsersList();
+    });
+
+    this.userService.roleChangedObservable.subscribe((res)=>{
+      if(res)
+        this.handleUsersList();
+    })
   }
 
   handleUsersList() {
 
       this.userService.getUsers(this.pageNumber-1,this.pageSize).subscribe(data=>{
         this.processResult(data);
+
       })
   }
 
@@ -48,14 +59,16 @@ export class UserListComponent {
     modal.componentInstance.userId = userId;
     modal.componentInstance.active = active;
   }
-  addRole(userId:any){
-    let modal= this.modalService.open('', {
+
+  addRole(userId:any,roleId:any){
+    let modal= this.modalService.open(ChangeRoleComponent, {
       scrollable: true,
       centered: true,
       animation: true,
       size: 'md',
     })
     modal.componentInstance.userId = userId;
+    modal.componentInstance.roleId = roleId;
   }
 
   processResult(data:any) {

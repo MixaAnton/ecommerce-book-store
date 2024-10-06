@@ -9,7 +9,7 @@
     <div class="col-lg-6 col-6 text-left">
         <app-search></app-search>
     </div>
-    <div class="col-lg-3 col-6 text-right" style="padding-right: 0 !important;">
+    <div class="col-lg-3 col-6 text-right" style="padding-right: 0 !important;" *ngIf="isUser">
         <app-cart-status></app-cart-status>
     </div>
 </div>
@@ -45,13 +45,15 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a  routerLink="/home" routerLinkActive="active" class="nav-item nav-link ">Home</a>
                         <a  routerLink="/products" routerLinkActive="active" class="nav-item nav-link">Products</a>
-                        <a  routerLink="/contact" routerLinkActive="active" class="nav-item nav-link">Contact</a>
+                        <a  routerLink="/contact" routerLinkActive="active" class="nav-item nav-link" *ngIf="!isManager">Contact</a>
                         <a  routerLink="/about-us" routerLinkActive="active" class="nav-item nav-link">About</a>
-                        <a  routerLink="/order-history" routerLinkActive="active" class="nav-item nav-link">Orders</a>
+                        <a  routerLink="/order-history" routerLinkActive="active" class="nav-item nav-link" *ngIf="user">Orders</a>
+                        <a  routerLink="/users" routerLinkActive="active" class="nav-item nav-link" *ngIf="isManager">Users</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0" >
-                        <a class="nav-item nav-link login" (click)="login()"><fa-icon [icon]="faUser" class="text-primary"></fa-icon>Login</a>
-                        <a class="nav-item nav-link login" routerLink="/register" style="padding-right: 0 !important;"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
+                        <a class="nav-item nav-link login" *ngIf="!user" (click)="login()"><fa-icon [icon]="faUser" class="text-primary"></fa-icon>Login</a>
+                        <a class="nav-item nav-link login" *ngIf="!user" routerLink="/register" style="padding-right: 0 !important;"><fa-icon [icon]="faUserPlus" class="text-primary "></fa-icon>Register</a>
+                     <div *ngIf="user" style="display: flex; align-items: center; gap: 5px; font-size: 18px !important; cursor: pointer;" (click)="viewDetails()"><span>Welcome,<b>{{user}}</b></span><fa-icon [icon]="faUser" class="text-primary"></fa-icon>  </div>   <a class="nav-item nav-link login" *ngIf="user" (click)="logout()">Logout</a>
                     </div>
                 </div>
             </nav>

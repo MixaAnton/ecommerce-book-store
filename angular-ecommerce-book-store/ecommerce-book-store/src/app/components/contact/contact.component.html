@@ -89,7 +89,7 @@
                         <textarea placeholder="Enter your message" name="message" formControlName="message" ></textarea>
                         <div *ngIf="message!.invalid && (message!.dirty || message!.touched)" class="alert alert-danger mt-1">
                             <div *ngIf="message!.errors?.['required']">
-                                Name is required
+                                Message is required
                             </div>
                             <div *ngIf="message!.errors?.['minlength']">
                                 Message must be at least 25 characters long

@@ -48,6 +48,13 @@ public class User implements UserDetails {
         return email;
     }
 
+    public String getUserName(){
+        return username;
+    }
+    public void setUserName(String username){
+        this.username = username;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //ukoliko se koristi hasRole ispred imena role se dodaje ROLE ,a ako idemo hasAutority ide samo naziv

@@ -13,12 +13,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public PurchaseResponse placeOrder(Purchase purchase) {
+    public PurchaseResponse placeOrder(Purchase purchase, Principal connectedUser) {
 
         Order order = purchase.getOrder();
 
@@ -58,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(purchase.getShippingAddress());
 
         Set<OrderItem> orderItems = purchase.getOrderItems();
+        orderItems.forEach(item-> productService.reduceNumberOfProductsInStock(item.getProductId(),item.getQuantity()));
         order.setOrderItems(orderItems);
 
         Customer customer = purchase.getCustomer();
@@ -70,11 +73,13 @@ public class OrderServiceImpl implements OrderService {
             customer = customerFromDB;
         }
         else{
+            var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+            customer.setUser(user);
             customerRepository.save(customer);
         }
         order.setCustomer(customer);
 
-        Order newOrder = orderRepository.save(order);
+        orderRepository.save(order);
 
         return new PurchaseResponse(orderTrackingNumber);
     }
@@ -126,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
         orderItems.forEach(x -> {
             Product product = productService.getProductById(x.getProductId());
             BigDecimal totlaPrice = x.getUnitPrice().multiply(BigDecimal.valueOf(x.getQuantity()));
-            orderItemDTO.add(new OrderItemDTO(product.getName(),x.getQuantity(),x.getUnitPrice(),totlaPrice));
+            orderItemDTO.add(new OrderItemDTO(product.getName(),x.getQuantity(),x.getUnitPrice(),totlaPrice,x.getImage()));
         } );
 
         orderDetails.setOrderItems(orderItemDTO);

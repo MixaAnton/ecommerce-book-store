@@ -112,3 +112,7 @@ select{
  .border-secondary{
     border: 2px solid var(--secondary) !important;
  }
+
+ input:disabled{
+    background-color: #f3f4f8 !important;
+ }

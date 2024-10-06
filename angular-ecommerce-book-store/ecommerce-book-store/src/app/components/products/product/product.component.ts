@@ -21,6 +21,10 @@ export class ProductComponent {
   imageToShow:any;
   src = "../../../../assets/images/about-us.jpg";
   isDisabled = false;
+  @Input()
+  isUser!:boolean;
+  @Input()
+  isAdminOrManager!:boolean;
 
   constructor(private router:Router,private cartService:CartService,private sanitizer: DomSanitizer){
   }

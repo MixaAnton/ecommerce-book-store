@@ -35,3 +35,10 @@ button:hover{
     background-color: #c5837c !important;
     border-color: #c17a74 !important;
 }
+
+.alert{
+    margin-bottom: -5px !important;
+}
+input{
+    height: 50px !important;
+}

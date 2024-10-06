@@ -1,6 +1,7 @@
 <div class="card">
     <div class="delete-modal-header">
-      <span class="action-form-title">Deletion</span>
+      <span class="action-form-title" *ngIf="userId">{{active?"Deactivation":"Activation"}}</span>
+      <span class="action-form-title" *ngIf="productId">Deletion</span>
       <fa-icon [icon]="faTimes" style="cursor:pointer" (click)="closeModal($event)"></fa-icon>
     </div>
   

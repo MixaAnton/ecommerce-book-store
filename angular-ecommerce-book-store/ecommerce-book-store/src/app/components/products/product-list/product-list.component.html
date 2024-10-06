@@ -13,7 +13,7 @@
 <section>
     <div class="container-fluid ">
         <div class="d-flex-end mb-3 px-xl-5" *ngIf="isAdmin">
-            <button class="btn btn-primary btn-block border-0 " (click)="goToCreateNew()">Create New</button>
+            <button class="btn btn-primary btn-block border-0 " (click)="goToCreateNew()" *ngIf="isAdminOrManager">Create New</button>
         </div>
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
@@ -59,7 +59,7 @@
                     <!-- Products -->
                     <div class="row pl-0 pb-1">
                         <ng-container *ngFor="let product of products" >
-                            <app-product  class="col-4" [product]="product" ></app-product>
+                            <app-product  class="col-4" [product]="product" [isUser]="isUser" [isAdminOrManager]="isAdminOrManager"></app-product>
                         </ng-container>
 
                         <div *ngIf="products?.length == 0" class="alert alert-warning col-12" role="alert">

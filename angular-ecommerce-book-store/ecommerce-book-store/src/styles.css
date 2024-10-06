@@ -9633,8 +9633,14 @@
 
 ngx-select .ngx-select__toggle{
   border-radius: 0 !important;
+  height: 50px !important;
+  padding: 12px 15px !important;
 }
 
 .ngx-select__toggle:hover{
   background-color: transparent !important;
+}
+
+input::placeholder{
+  font-size: 16px !important;
 }

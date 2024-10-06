@@ -32,9 +32,10 @@ public class WebSecurityConfig {
             "/api/states/**",
             "/api/product-category/**",
             "/api/language/**",
-            "/api/email/**",
+            "/api/email/send-email",
             "/api/countries/**",
-            "api/author/**",
+            "api/author/**"
+            //"/api/users/single/**"
 
     };
     private static final String[] WHITE_PRODUCT_LIST_URL = {
@@ -49,13 +50,14 @@ public class WebSecurityConfig {
     };
     private static final String[] ADMIN_MANAGER_LIST_URL = {
             "/api/products/create",
-            "/api/products/delete/**",
             "/api/products/update/**",
             "/api/orders/change-status"
     };
     private static final String[] MANAGER_LIST_URL = {
             "/api/users/all",
-            "/api/users/change-status/**"
+            "/api/users/change-status/**",
+            "/api/users/roles",
+            "/api/products/delete/**"
     };
     private static  final String[] USER_LIST_URL = {
             "/api/orders/purchase"

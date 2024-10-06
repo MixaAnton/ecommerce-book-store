@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faCartShopping,faPlus,faMinus, faTrash, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping,faPlus,faMinus, faTrash, faPencil, faL } from '@fortawesome/free-solid-svg-icons';
 import { Product } from '../../../common/product';
 import { ProductService } from '../../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +7,9 @@ import { CartItem } from '../../../common/cart-item';
 import { CartService } from '../../../services/cart.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteComponent } from '../../delete/delete.component';
+import { AuthService } from '../../../services/auth.service';
+import { JwtService } from '../../../services/jwt.service';
+import { RoleEnum } from '../../../enums/role-enum';
 
 @Component({
   selector: 'app-product-details',
@@ -25,13 +28,27 @@ export class ProductDetailsComponent {
   imageToShow:any;
   src = "../../../../assets/images/about-us.jpg";
   totalCartQuantity: number = 0;
+  isUser:boolean = false;
+  isAdmin:boolean = false;
+  isManager:boolean = false;
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private cartService:CartService,
-              private modalService:NgbModal) { }
+              private modalService:NgbModal,
+              private authService:AuthService,
+              private jwtService:JwtService) { }
 
   ngOnInit(): void {
+
+    this.authService.isLoggedInObservable.subscribe((loggedIn) => {
+      if (loggedIn) {
+        this.isUser = this.jwtService.hasRole(RoleEnum.User);
+         this.isAdmin =  this.jwtService.hasRole(RoleEnum.Admin);
+         this.isManager = this.jwtService.hasRole(RoleEnum.Manager);
+      }}
+    );
+
     this.route.paramMap.subscribe(() => {
       this.handleProductDetails();
     })

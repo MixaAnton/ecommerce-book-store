@@ -4,6 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusEnum } from '../../../enums/status-enum';
 import { OrderService } from '../../../services/order.service';
 import { Router } from '@angular/router';
+import { EmailService } from '../../../services/email.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-order-approve-reject',
@@ -17,7 +19,9 @@ export class OrderApproveRejectComponent {
   faTimes = faTimes;
   approveStatus = StatusEnum.Approved;
   
-  constructor(private ngbActiveModal:NgbActiveModal,private orderService:OrderService,private roter:Router){}
+  constructor(private ngbActiveModal:NgbActiveModal,private orderService:OrderService,
+    private roter:Router,private emailService:EmailService,
+    private notificationService:NotificationService){}
 
   ngOnInit(){
     
@@ -29,9 +33,16 @@ export class OrderApproveRejectComponent {
 
   approveOrReject(){
 
-    this.orderService.changeOrderStatus(this.orderId,this.status).subscribe((response)=>{
-      this.orderService.setOrderId(response.id);
-      this.ngbActiveModal.close();
-    })
+    this.orderService.changeOrderStatus(this.orderId,this.status).subscribe({
+        next:(response)=>{
+          this.orderService.setOrderId(response.id);
+          this.notificationService.showInfo("Order status successfully changed","Success");
+          this.ngbActiveModal.close();
+        },
+        error:()=>{
+          this.notificationService.showError("Something wrong happened","Error");
+          this.ngbActiveModal.close();
+        }
+      })
   }
 }

@@ -1,1 +1,21 @@
-<p>change-role works!</p>
+<div class="p-4" style="z-index: 150;">
+    <h5 class="font-weight-bold text-dark text-right" style="cursor: pointer;" (click)="closeModal($event)">X</h5>
+    <h5 class="font-weight-bold text-dark mb-4 title" ><fa-icon [icon]="faUser" class="text-primary mr-2"></fa-icon>Change Role</h5>
+    <form (ngSubmit)="changeRole()" class="mb-3">
+        <div class="form-group">
+            <label for="password">Pick role:</label>
+            <ngx-select [allowClear]="true"
+                                   [items]="roles"
+                                   optionValueField="id"
+                                   optionTextField="name"
+                                   placeholder="Choose role"
+                                   [(ngModel)]="roleId"
+                                   name="role"
+                                   >
+                       </ngx-select>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-block border-0 py-3" type="submit">Change</button>
+        </div>
+    </form>
+</div>

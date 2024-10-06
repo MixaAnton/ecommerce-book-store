@@ -11,6 +11,7 @@ import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase-info';
 import { NotificationService } from '../../services/notification/notification.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -34,6 +35,8 @@ export class CheckoutComponent {
   billingAddressStates: State[] = [];
     
   storage: Storage = sessionStorage;
+  shipping: number = 0;
+  disabled = true;
 
   // initialize Stripe API
   //stripe = Stripe(environment.stripePublishableKey);
@@ -49,7 +52,8 @@ export class CheckoutComponent {
               private orderService: OrderService,
               private router: Router,
               private shopFormService:ShopFormService,
-              private notificationService:NotificationService
+              private notificationService:NotificationService,
+              private userService:UserService
             ) { }
 
   ngOnInit(): void {
@@ -59,6 +63,9 @@ export class CheckoutComponent {
     
     this.reviewCartDetails();
 
+    let userId = localStorage.getItem("userId")!;
+
+    
     // read the user's email address from browser storage
     const email = JSON.parse(this.storage.getItem('userEmail')!);
 
@@ -88,17 +95,17 @@ export class CheckoutComponent {
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', 
+        firstName: new FormControl({value:'',disabled:true}, 
                               [Validators.required, 
                                Validators.minLength(2), 
                                CustomeValidators.notOnlyWhitespace]),
 
-        lastName:  new FormControl('', 
+        lastName:  new FormControl({value:'',disabled:true}, 
                               [Validators.required, 
                                Validators.minLength(2), 
                                CustomeValidators.notOnlyWhitespace]),
                                
-        email: new FormControl(email,
+        email: new FormControl({value:'',disabled:true},
                               [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
@@ -133,6 +140,16 @@ export class CheckoutComponent {
         */
       })
     });
+
+    if(userId)
+      this.userService.getUser(parseInt(userId)).subscribe((response)=>{
+
+        this.checkoutFormGroup.get('customer')?.patchValue({
+          firstName: response.firstName,
+          lastName: response.lastName,
+          email: response.email,
+        });
+    })
 
   }
 
@@ -173,7 +190,13 @@ export class CheckoutComponent {
 
     // subscribe to cartService.totalPrice
     this.cartService.totalPrice.subscribe(
-      totalPrice => this.totalPrice = totalPrice
+      data => {
+        this.totalPrice = data
+        if(this.totalPrice>=100)
+          this.shipping = 0
+        else
+          this.shipping = 10;
+      }
     );
 
   }
@@ -264,10 +287,12 @@ export class CheckoutComponent {
     next: response => {
      this.notificationService.showSuccess(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`,'Successfully')
       // reset cart
+      this.storage.removeItem('cartItems');
       this.resetCart();
       this.isDisabled = false;
     },
     error: err => {
+      this.storage.removeItem('cartItems');
       this.notificationService.showError(`There was an error: ${err.message}`,'Error')
       this.isDisabled = false;
     }

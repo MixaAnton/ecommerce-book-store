@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { faArrowRight,faEnvelope,faLocation,faMobileAndroid} from '@fortawesome/free-solid-svg-icons';
 import { faFacebook,faInstagram,faTwitter} from '@fortawesome/free-brands-svg-icons'
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-footer',
@@ -16,5 +17,16 @@ export class FooterComponent {
   faFB = faFacebook;
   faIG = faInstagram;
   faX = faTwitter;
+  
+  name:any;
+  email:any;
+
+  constructor(private notificationService:NotificationService){}
+
+  subscribe(){
+      this.notificationService.showSuccess("You have successfully subscribed","Success");
+      this.name ="";
+      this.email="";
+  }
 
 }

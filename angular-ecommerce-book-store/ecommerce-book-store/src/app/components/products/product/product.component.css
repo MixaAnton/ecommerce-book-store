@@ -4,3 +4,6 @@
 .btn:disabled{
     border: none !important;
 }
+.g-20{
+    gap: 20px;
+}
