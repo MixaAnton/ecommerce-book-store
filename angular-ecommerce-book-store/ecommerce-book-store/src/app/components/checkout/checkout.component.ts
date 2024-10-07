@@ -24,7 +24,7 @@ import { CheckoutService } from '../../services/checkout.service';
 })
 export class CheckoutComponent {
 
-  checkoutFormGroup!: FormGroup;
+  checkoutFormGroup!: FormGroup;                                        
 
   totalPrice: number = 0;
   totalQuantity: number = 0;

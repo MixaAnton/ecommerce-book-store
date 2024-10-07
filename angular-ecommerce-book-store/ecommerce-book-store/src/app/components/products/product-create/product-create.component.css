@@ -51,6 +51,7 @@ form button{
     margin: 0 auto;
     display: flex;
     background-color: var(--primary);
+    color: var(--white);
     font-weight: 600;
 }
 svg{
@@ -64,8 +65,8 @@ input{
 }
 button:hover{
     color: var(--white);
-    background-color: #c5837c !important;
-    border-color: #c17a74 !important;
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary) !important;
 }
 
 ::ng-deep ngx-select {

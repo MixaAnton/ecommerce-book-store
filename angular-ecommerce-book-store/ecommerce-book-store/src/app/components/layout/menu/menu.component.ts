@@ -57,6 +57,7 @@ export class MenuComponent {
         
       } else {
         this.user = null;
+        this.isUser = false;
         this.isManager = false;
       }
     });

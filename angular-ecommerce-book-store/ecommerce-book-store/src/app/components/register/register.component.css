@@ -18,7 +18,7 @@ label{
  button{
     width: 30%;
     margin: auto;
-    height: 41px;
+    height: 50px;
     border: none;
     padding: 20px 45px;
     text-transform: capitalize;
@@ -27,13 +27,15 @@ label{
     align-items: center;
     justify-content: center;
     background-color: var(--primary);
+    color: var(--white);
     font-weight: 600;
+    margin-top: 10px;
 }
 
 button:hover{
     color: var(--white);
-    background-color: #c5837c !important;
-    border-color: #c17a74 !important;
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary) !important;
 }
 
 .alert{
