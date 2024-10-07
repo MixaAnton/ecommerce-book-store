@@ -79,15 +79,6 @@
     margin-bottom: 1rem;
   }
   
-  /* abbr[title],
-  abbr[data-original-title] {
-    text-decoration: underline;
-    text-decoration: underline dotted;
-    cursor: help;
-    border-bottom: 0;
-    text-decoration-skip-ink: none;
-  } */
-  
   address {
     margin-bottom: 1rem;
     font-style: normal;
@@ -6252,7 +6243,7 @@
   .border-secondary {
     border-color: var(--secondary) !important;
   }
-  
+   
   .d-none {
     display: none !important;
   }
