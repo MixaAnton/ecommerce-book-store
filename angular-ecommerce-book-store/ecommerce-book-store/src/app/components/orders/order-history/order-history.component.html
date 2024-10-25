@@ -20,7 +20,7 @@
                         <th>Total Price</th>
                         <th>Total Quantity</th>
                         <th>Date</th>
-                        <th>Customer</th>
+                        <th *ngIf="!isUser">Customer</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -30,8 +30,8 @@
                         <td class="align-middle">{{orderItem.orderTrackingNumber }}</td>
                         <td class="align-middle">{{ orderItem.totalPrice| currency: 'USD' }}</td>
                         <td class="align-middle">{{ orderItem.totalQuantity}}</td>
-                        <td class="align-middle">{{ orderItem.dateCreated | date : 'yyyy-dd-mm'}}</td>
-                        <td class="align-middle">{{ orderItem.customer.firstName}} {{orderItem.customer.lastName}}</td>
+                        <td class="align-middle">{{ orderItem.dateCreated | date : 'yyyy-dd-MM'}}</td>
+                        <td class="align-middle" *ngIf="!isUser">{{ orderItem.customer.firstName}} {{orderItem.customer.lastName}}</td>
                         <td class="align-middle"  [ngClass]="orderItem.status.name == statsuCreated?'created': orderItem.status.name == statusApproved?'approved':'rejected'" >{{ orderItem!.status?.name}}</td>
                         <td>
                             <a *ngIf="!isUser" (click)="approveOrder(orderItem.id)" class="display-none" [ngClass]="orderItem!.status?.name == statsuCreated?'show':''"><fa-icon [icon]="faCheck"  style="color: var(--success) !important;font-size: 24px;" [ngbTooltip]="'Approve'"></fa-icon></a>
